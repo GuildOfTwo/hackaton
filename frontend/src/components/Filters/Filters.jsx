@@ -32,21 +32,18 @@ export const Filters = () => {
             name="date"
             id="date"
             type="date"
-            autoComplete="off"
           />
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="price" className="form-group__lable">
-            Имя
+            Цена
           </label>
           <input
             className="input"
             name="price"
             id="price"
             type="range"
-            placeholder="ФИО"
-            autoComplete="off"
           />
         </div>
 
