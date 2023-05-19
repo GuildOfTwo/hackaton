@@ -12,8 +12,8 @@ export const Header = () => {
         <header className={styles.header}>
             <div className={styles.wrapper}>
                 <img src={logo} />
-                <h1 className={styles.title}>Креативные площадки Москвы</h1>
-                <ButtonDefault lable='Войти' action={() => navigate('/')}/>
+                <h1 className={styles.title} onClick={() => navigate('/')}>Креативные площадки Москвы</h1>
+                <ButtonDefault lable='Войти' action={() => navigate('/auth')}/>
             </div>
         </header>
     )

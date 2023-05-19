@@ -20,12 +20,14 @@ export const Main = () => {
 
   return (
     <main className={styles.main}>
+      <div className={styles.main__wrapper}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route exact path="/auth" element={<AuthPage />} />
         <Route path='/*' element={<NotFoundPage/>} />
         <Route exact path="/agreement" element={<AgreementPage />} />
       </Routes>
+      </div>
     </main>
   );
 };
