@@ -23,8 +23,15 @@
     border-radius: 50%
     left: 0em
     transition: left 0.3s ease-out
-    &.knobActive
-        left: 3em
+.knobActive
+    position: relative
+    width: 1.9em
+    height: 1.9em
+    background: #26252c
+    border: 1px solid #ddd
+    border-radius: 50%
+    transition: left 0.3s ease-out
+    left: 3em
 
 .buttons
     display: flex
@@ -33,7 +40,7 @@
 
 .button
     margin: 0 20px
-    padding: 5px 10px
-    background: #26252c
-    border-radius: 4px
+    padding: 10px 42px
+    background: #17283f
+    border-radius: 7px
     box-shadow: 0 1px 2px #000000
