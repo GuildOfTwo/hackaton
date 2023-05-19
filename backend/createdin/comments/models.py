@@ -1,5 +1,7 @@
 from django.db import models
 from users.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -16,9 +18,17 @@ class Comment(models.Model):
         db_index=True,
         help_text='Дата публикации отзыва'
     )
+    score = models.IntegerField(
+        'Оценка',
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(10)
+        ],
+        help_text='Введдите оценку'
+    )
 
     class Meta:
-        verbose_name = 'Отзыва'
+        verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
         ordering = ['-pub_date']
 
