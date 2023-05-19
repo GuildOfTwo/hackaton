@@ -1,14 +1,31 @@
-import { HomePage } from '../../pages/Home/Home'
-import styles from './styles.module.sass'
-
+import { HomePage } from "../../pages/Home/Home";
+import styles from "./styles.module.sass";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { AuthPage } from "../../pages/Auth/Auth";
+import { NotFoundPage } from "../../pages/NotFound/NotFound";
+import { AgreementPage } from "../../pages/Agreement/Agreement";
 
 export const Main = () => {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [pathname]);
 
-    return (
-        <main className={styles.main}>
-
-            <HomePage />
-        </main>
-    )
-}
+  return (
+    <main className={styles.main}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route exact path="/auth" element={<AuthPage />} />
+        <Route path='/*' element={<NotFoundPage/>} />
+        <Route exact path="/agreement" element={<AgreementPage />} />
+      </Routes>
+    </main>
+  );
+};
