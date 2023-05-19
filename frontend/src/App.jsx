@@ -1,15 +1,13 @@
-
-import { Header } from './layout/Header/Header';
-import { Main } from './layout/Main/Main';
+import { Header } from "./layout/Header/Header";
+import { Main } from "./layout/Main/Main";
 
 function App() {
-
   return (
     <>
-          <Header />
+      <Header />
       <Main />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
