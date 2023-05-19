@@ -1,6 +1,6 @@
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import icon from '../../assets/icons/marker.svg'
-import styles from './styles.module.sass'
+import './yandexMap.sass'
 
 export const YandexMap = () => {
 
@@ -8,15 +8,14 @@ export const YandexMap = () => {
 
   const defaultState = {
     center: [55.76, 37.64],
-    zoom: 9,
-    width: "500px"
+    zoom: 9
   };
 
   return (
-    <section className={styles.section}>
+    <section className='section'>
     <YMaps>
       <Map defaultState={defaultState}
-      width={1000}
+      width={'100%'}
       height={600}>
         <Placemark geometry={[55.684758, 37.738521]} 
         />
