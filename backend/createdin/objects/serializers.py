@@ -1,13 +1,24 @@
 from rest_framework import serializers
-from comments.models import Comment
+from objects.models import Object, ObjectPhoto
+
+
+class ObjectPhotoSerializer(ModelSerializer):
+    class Meta:
+        model = ObjectPhoto
+        fields = ['object', 'photo']
+
 
 
 class CommentSerializer(serializers.ModelSerializer):
     owner = serializers.SlugRelatedField(
         read_only=True, slug_field='username'
     )
+    images = ObjectPhotoSerializer(
+        many=True
+    )
+
     class Meta:
-        model = Comment
+        model = Object
         fields = (
             'owner',
             'title',
@@ -23,7 +34,6 @@ class CommentSerializer(serializers.ModelSerializer):
             'additional_information',
             'capacity',
             'comments',
-            'cost'
+            'cost',
+            'photo'
         )
-
-# дописать добавление списка фото в выдачу

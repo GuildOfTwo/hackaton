@@ -115,4 +115,4 @@ class ObjectPhoto(models.Model):
         verbose_name_plural = "Фотографии площадки"
 
     def __str__(self):
-        return self.objects.title
+        return self.object.title
