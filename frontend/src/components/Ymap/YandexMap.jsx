@@ -5,7 +5,7 @@ import "./yandexMap.sass";
 export const YandexMap = () => {
   const defaultState = {
     center: [55.76, 37.64],
-    zoom: 11,
+    zoom: 12,
   };
 
   return (
@@ -18,7 +18,7 @@ export const YandexMap = () => {
  
       >
         <Placemark
-          geometry={[55.684758, 37.738521]}
+          geometry={[55.76, 37.64]}
           options={{
             iconLayout: "default#image",
             iconImageSize: [40, 40],

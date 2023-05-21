@@ -9,8 +9,29 @@
     position: relative
 
 .ymaps-2-1-79-ground-pane
-    filter: invert(100%)!important
-    -ms-filter: invert(100%)!important
-    -webkit-filter: invert(100%)!important
-    -moz-filter: invert(100%)!important
-    -o-filter: invert(100%)!important
+    // filter: invert(100%)!important
+    // -ms-filter: invert(100%)!important
+    // -webkit-filter: invert(100%)!important
+    // -moz-filter: invert(100%)!important
+    // -o-filter: invert(100%)!important
+    filter: grayscale(2)
+    // filter: grayscale(2) contrast(175%) brightness(3%)
+
+.ymaps-2-1-79-inner-panes
+    background-color: #fff
+    bottom: 0
+    content: ""
+    left: 0
+    mix-blend-mode: difference
+    // pointer-events: none
+    // position: absolute
+    right: 0
+    top: 0
+    // z-index: 999
+
+.ymaps-2-1-79-controls__toolbar_right, .ymaps-2-1-79-map-copyrights-promo, .ymaps-2-1-79-controls__toolbar, .ymaps-2-1-79-map-bg
+    display: none
+
+.ymaps-2-1-79-map ymaps, .ymaps-2-1-79-map ymaps:after, .ymaps-2-1-79-map ymaps:before
+    background-size: 1px
+
