@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthPage } from "../../pages/Auth/Auth";
 import { NotFoundPage } from "../../pages/NotFound/NotFound";
 import { AgreementPage } from "../../pages/Agreement/Agreement";
+import { SpacePage } from "../../pages/Space/Space";
 
 export const Main = () => {
   const { pathname } = useLocation();
@@ -26,6 +27,7 @@ export const Main = () => {
         <Route exact path="/auth" element={<AuthPage />} />
         <Route path='/*' element={<NotFoundPage/>} />
         <Route exact path="/agreement" element={<AgreementPage />} />
+        <Route exact path="/space/:id" element={<SpacePage />}/>
       </Routes>
       </div>
     </main>

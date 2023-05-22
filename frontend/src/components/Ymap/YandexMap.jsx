@@ -28,7 +28,7 @@ export const YandexMap = () => {
   <a href="tel:${el.tel}" class="tel">${el.tel}</a>
   </div>
   </div>
-  <a class="button" href='../spaces/space-${el.id}' >Перейти</a>
+  <a class="button" href='../space/${el.id}' >Перейти</a>
   </div>`,
     }));
     setNewData(array);
@@ -64,13 +64,13 @@ export const YandexMap = () => {
               }}
             />
           ))}
-        <ZoomControl
+        {/* <ZoomControl
           options={{
             float: "left",
             position: { right: 30, bottom: 300 },
             size: "small",
           }}
-        />
+        /> */}
       </Map>
     </section>
   );
