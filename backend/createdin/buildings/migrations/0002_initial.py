@@ -10,13 +10,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('comments', '0001_initial'),
-        ('users', '0001_initial'),
+        ('buildings', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='users.renterindividual', verbose_name='Автор'),
+            model_name='building',
+            name='comments',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='buildings', to='comments.comment', verbose_name='Отзыв'),
         ),
     ]

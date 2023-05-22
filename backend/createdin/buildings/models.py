@@ -3,11 +3,11 @@ from users.models import Landlord
 from comments.models import Comment
 
 
-class Object(models.Model):
+class Building(models.Model):
     owner = models.ForeignKey(
         Landlord,
         on_delete=models.CASCADE,
-        related_name='_objects',
+        related_name='buildings',
         verbose_name='Владелец',
         help_text='Выберите контактное лицо/владельца обьекта'
     )
@@ -52,7 +52,7 @@ class Object(models.Model):
             help_text='Введите общую площадь имущественного комплекса (кв. м)',
             blank=True
     )
-    area_rent= models.PositiveIntegerField(
+    area_rent = models.PositiveIntegerField(
             verbose_name='Свободная арендопригодная площадь (кв. м)',
             help_text='Введите свободную арендопригодную площадь (кв. м)',
             blank=True
@@ -78,11 +78,11 @@ class Object(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        related_name='object',
+        related_name='buildings',
         verbose_name='Отзыв'
     )
     # rating  нужно ли в базе? Может вычислять в сериализаторе
-    cost  = models.CharField(
+    cost = models.CharField(
             max_length=200,
             blank=True,
             verbose_name='Стоимость',
@@ -94,21 +94,20 @@ class Object(models.Model):
         verbose_name_plural = 'Обьекты'
         ordering = ['-cost']
 
-
     def __str__(self):
         return self.title
 
 
-class ObjectPhoto(models.Model):
-    object = models.ForeignKey(
-        Object,
+class BuildingPhoto(models.Model):
+    building = models.ForeignKey(
+        Building,
         on_delete=models.CASCADE,
-        related_name='object_photo'
+        related_name='building_photo'
     )
     photo = models.ImageField(
         verbose_name='Фотография',
         blank=True,
-        upload_to='objects_images/%Y/%m/%d/',
+        upload_to='building_images/%Y/%m/%d/',
         help_text='Выберите фотографию'
     )
 

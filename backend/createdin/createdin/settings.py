@@ -19,7 +19,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'comments.apps.CommentsConfig',
-    'objects.apps.ObjectsConfig',
+    'buildings.apps.BuildingsConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
