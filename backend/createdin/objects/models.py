@@ -1,13 +1,13 @@
 from django.db import models
-from users.models import User
+from users.models import Landlord
 from comments.models import Comment
 
 
 class Object(models.Model):
     owner = models.ForeignKey(
-        User,
+        Landlord,
         on_delete=models.CASCADE,
-        related_name='objects',
+        related_name='_objects',
         verbose_name='Владелец',
         help_text='Выберите контактное лицо/владельца обьекта'
     )
