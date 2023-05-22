@@ -76,6 +76,8 @@ class Object(models.Model):
     comments = models.ForeignKey(
         Comment,
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
         related_name='object',
         verbose_name='Отзыв'
     )
