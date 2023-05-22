@@ -8,6 +8,6 @@ from .serializers import ObjectSerializer
 
 class ObjectViewSet(viewsets.ModelViewSet):
     queryset = Object.objects.annotate(
-        rating=Avg('comments__score')).order_by('name')
+        rating=Avg('comments__score')).order_by('title')
     serializer_class = ObjectSerializer 
     

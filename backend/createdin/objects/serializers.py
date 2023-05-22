@@ -2,14 +2,14 @@ from rest_framework import serializers
 from objects.models import Object, ObjectPhoto
 
 
-class ObjectPhotoSerializer(ModelSerializer):
+class ObjectPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ObjectPhoto
         fields = ['object', 'photo']
 
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class ObjectSerializer(serializers.ModelSerializer):
     owner = serializers.SlugRelatedField(
         read_only=True, slug_field='username'
     )
