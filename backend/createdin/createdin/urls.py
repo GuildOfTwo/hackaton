@@ -18,16 +18,6 @@ schema_view = get_schema_view(
 )
 
 
-from rest_framework.routers import DefaultRouter
-
-from comments.views import (CommentViewSet)
-from objects.views import (ObjectViewSet)
-
-router = DefaultRouter()
-
-router.register('comments', CommentViewSet, basename='comments')
-router.register('objects', ObjectViewSet, basename='objects')
-
 
 
 urlpatterns = [
