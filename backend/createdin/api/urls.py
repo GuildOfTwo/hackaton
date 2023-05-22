@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from api.views import (CommentViewSet, ObjectViewSet,
+from api.views import (CommentViewSet, BuildingViewSet,
                        RenterIndividualProfileViewSet,
                        RenterLegalProfileViewSet,
                        LandlordProfileViewSet)
@@ -24,7 +24,7 @@ router_v1.register(
     basename='renter_individual_profile'
 )
 router_v1.register('comments', CommentViewSet, basename='comments')
-router_v1.register('objects', ObjectViewSet, basename='objects')
+router_v1.register('buildings', BuildingViewSet, basename='buildings')
 
 
 urlpatterns = [

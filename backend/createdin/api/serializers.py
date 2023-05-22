@@ -3,7 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
 from comments.models import Comment
-from objects.models import Object, ObjectPhoto
+from buildings.models import Building, BuildingPhoto
 from users.models import (RenterIndividual, RenterIndividualProfile,
                           RenterLegal, RenterLegalProfile,
                           Landlord, LandlordProfile)
@@ -48,22 +48,22 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
 
-class ObjectPhotoSerializer(serializers.ModelSerializer):
+class BuildingsPhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ObjectPhoto
-        fields = ['object', 'photo']
+        model = BuildingPhoto
+        fields = ['building', 'photo']
 
 
-class ObjectSerializer(serializers.ModelSerializer):
+class BuildingsSerializer(serializers.ModelSerializer):
     owner = serializers.SlugRelatedField(
-        read_only=True, slug_field='username'
+        read_only=True, slug_field='username'   # нужно поменят слаг - и нас нет юзернейма
     )
-    images = ObjectPhotoSerializer(
+    images = BuildingsPhotoSerializer(
         many=True
     )
 
     class Meta:
-        model = Object
+        model = Building
         fields = (
             'owner',
             'title',
