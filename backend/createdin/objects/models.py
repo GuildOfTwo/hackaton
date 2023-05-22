@@ -1,13 +1,13 @@
 from django.db import models
-from users.models import User
+from users.models import Landlord
 from comments.models import Comment
 
 
 class Object(models.Model):
     owner = models.ForeignKey(
-        User,
+        Landlord,
         on_delete=models.CASCADE,
-        related_name='objects',
+        related_name='_objects',
         verbose_name='Владелец',
         help_text='Выберите контактное лицо/владельца обьекта'
     )
@@ -19,12 +19,12 @@ class Object(models.Model):
     )
     specialization = models.TextField(
             verbose_name='Специализация',
-            help_text='Опишите специализацию обьекта'
+            help_text='Опишите специализацию обьекта',
             blank=True,
     )
     desc = models.TextField(
             verbose_name='Описание площадки',
-            help_text='Введите описание площадки'
+            help_text='Введите описание площадки',
             blank=True,
     )
     address = models.CharField(
@@ -59,7 +59,7 @@ class Object(models.Model):
     )
     features = models.TextField(
             verbose_name='Особенности',
-            help_text='Напишите объекты коллективного пользования, спец. оборудование объектов и т.д. '
+            help_text='Напишите объекты коллективного пользования, спец. оборудование объектов и т.д. ',
             blank=True
     )
     additional_information = models.TextField(
@@ -104,7 +104,7 @@ class ObjectPhoto(models.Model):
         related_name='object_photo'
     )
     photo = models.ImageField(
-        verbose_name=_('Фотография'),
+        verbose_name='Фотография',
         blank=True,
         upload_to='objects_images/%Y/%m/%d/',
         help_text='Выберите фотографию'

@@ -11,12 +11,16 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.User'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 # Application definition
 
 INSTALLED_APPS = [
-    'users.apps.UsersConfig',
     'api.apps.ApiConfig',
+    'comments.apps.CommentsConfig',
+    'objects.apps.ObjectsConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
