@@ -4,8 +4,6 @@ https://habr.com/ru/articles/677874/
 
 https://yandex.ru/dev/maps/jsapi/doc/2.1/ref/reference/templateLayoutFactory.html?lang=ru
 
-
-f546cab1-1f4a-4f9d-bf0f-22100e02ce30
-
+https://codesandbox.io/p/sandbox/github/akaguny/samarkand-guide/tree/master?file=%2Fsrc%2Fcomponents%2Fmap%2FMap.tsx%3A17%2C31
 
 https://www.npmjs.com/package/react-multi-date-picker 

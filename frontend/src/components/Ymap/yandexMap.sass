@@ -9,29 +9,58 @@
     position: relative
 
 .ymaps-2-1-79-ground-pane
-    // filter: invert(100%)!important
-    // -ms-filter: invert(100%)!important
-    // -webkit-filter: invert(100%)!important
-    // -moz-filter: invert(100%)!important
-    // -o-filter: invert(100%)!important
     filter: grayscale(2)
-    // filter: grayscale(2) contrast(175%) brightness(3%)
 
 .ymaps-2-1-79-inner-panes
-    background-color: #fff
-    bottom: 0
-    content: ""
-    left: 0
-    mix-blend-mode: difference
-    // pointer-events: none
-    // position: absolute
-    right: 0
-    top: 0
-    // z-index: 999
-
+    // mix-blend-mode: difference
+.ymaps-2-1-79-places-pane
+    // mix-blend-mode: difference
 .ymaps-2-1-79-controls__toolbar_right, .ymaps-2-1-79-map-copyrights-promo, .ymaps-2-1-79-controls__toolbar, .ymaps-2-1-79-map-bg
     display: none
 
-.ymaps-2-1-79-map ymaps, .ymaps-2-1-79-map ymaps:after, .ymaps-2-1-79-map ymaps:before
+.ymaps-2-1-79-map
     background-size: 1px
 
+.container
+    border-radius: inherit
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+    box-sizing: border-box
+    width: 100%
+.bodyTitle
+    font-size: 2em
+
+.description
+    // max-width: 600px
+    padding-top: 10px
+  
+    // margin-bottom: 20px
+
+.button
+    height: 20px
+    color: white
+    width: 200px
+    background-color: #e74362
+    align-items: center
+    border-radius: 7px
+    box-shadow: none
+    cursor: pointer
+    display: inline-flex
+    font-family: inherit
+    font-size: 17px
+    font-weight: 500
+    justify-content: center
+    line-height: 1.25
+    min-height: 56px
+    overflow: hidden
+    padding: 0 32px
+    position: relative
+    text-align: center
+    margin-left: 40px
+.contacts
+    display: flex
+    flex-direction: row
+    gap: 40px
+    padding-top: 10px
