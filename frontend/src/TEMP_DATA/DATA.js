@@ -34,6 +34,8 @@ export const data = [
     email: 'ic@artplay.ru',
     site: 'https://www.artplay.ru/',
     square: '800',
+    images: ['https://s3-eu-central-1.amazonaws.com/jazzpeople/wp-content/uploads/2016/11/27182130/flacon1.jpg', 'https://s0.rbk.ru/v6_top_pics/media/img/4/54/756221004052544.jpg', 'https://cdn.culture.ru/images/879c5f02-1fca-5da4-8d21-654b80546640/w_884,h_442,c_fill,g_center/297a73c1c2fcce406f1bec455eb99842-jpg'],
+    
     capacity: '80',
     inn: '7000000000',
     price: {day: '1000', hour: '100'},
@@ -46,7 +48,7 @@ export const data = [
   }, {
     name: "Дом моды",
     entity: 'ООО "Алаведы ИНН"',
-    id: "2",
+    id: "3",
     ownerId: '1',
     type: 'Лофт',
     adress: 'ул. Нижняя Сыромятническая, д. 10',
@@ -55,6 +57,8 @@ export const data = [
     email: 'ic@artplay.ru',
     site: 'https://www.artplay.ru/',
     square: '800',
+    images: ['https://s3-eu-central-1.amazonaws.com/jazzpeople/wp-content/uploads/2016/11/27182130/flacon1.jpg', 'https://s0.rbk.ru/v6_top_pics/media/img/4/54/756221004052544.jpg', 'https://cdn.culture.ru/images/879c5f02-1fca-5da4-8d21-654b80546640/w_884,h_442,c_fill,g_center/297a73c1c2fcce406f1bec455eb99842-jpg'],
+    
     capacity: '80',
     inn: '7000000000',
     price: {day: '1000', hour: '100'},
@@ -67,7 +71,7 @@ export const data = [
   }, {
     name: "Дом моды",
     entity: 'ООО "Алаведы ИНН"',
-    id: "2",
+    id: "4",
     ownerId: '1',
     type: 'Лофт',
     adress: 'ул. Нижняя Сыромятническая, д. 10',
@@ -76,6 +80,8 @@ export const data = [
     email: 'ic@artplay.ru',
     site: 'https://www.artplay.ru/',
     square: '800',
+    images: ['https://s3-eu-central-1.amazonaws.com/jazzpeople/wp-content/uploads/2016/11/27182130/flacon1.jpg', 'https://s0.rbk.ru/v6_top_pics/media/img/4/54/756221004052544.jpg', 'https://cdn.culture.ru/images/879c5f02-1fca-5da4-8d21-654b80546640/w_884,h_442,c_fill,g_center/297a73c1c2fcce406f1bec455eb99842-jpg'],
+    
     capacity: '80',
     inn: '7000000000',
     price: {day: '1000', hour: '100'},
@@ -84,11 +90,11 @@ export const data = [
       "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
     rating: [{ userId: "1", rating: "1", review: 'все гавно' }, { userId: "2", rating: "5", review: 'все огонь' }],
     status: {status: 'Publish', textForReject: 'Некорректно указан ИНН'}, /// Publish/Blocked, Stoped
-    coordinates: [55.767210, 32.593390]
+    coordinates: [55.710635, 37.622979]
   }, {
     name: "Дом моды",
     entity: 'ООО "Алаведы ИНН"',
-    id: "2",
+    id: "5",
     ownerId: '1',
     type: 'Лофт',
     adress: 'ул. Нижняя Сыромятническая, д. 10',
@@ -97,6 +103,8 @@ export const data = [
     email: 'ic@artplay.ru',
     site: 'https://www.artplay.ru/',
     square: '800',
+    images: ['https://s3-eu-central-1.amazonaws.com/jazzpeople/wp-content/uploads/2016/11/27182130/flacon1.jpg', 'https://s0.rbk.ru/v6_top_pics/media/img/4/54/756221004052544.jpg', 'https://cdn.culture.ru/images/879c5f02-1fca-5da4-8d21-654b80546640/w_884,h_442,c_fill,g_center/297a73c1c2fcce406f1bec455eb99842-jpg'],
+    
     capacity: '80',
     inn: '7000000000',
     price: {day: '1000', hour: '100'},
@@ -105,11 +113,11 @@ export const data = [
       "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
     rating: [{ userId: "1", rating: "1", review: 'все гавно' }, { userId: "2", rating: "5", review: 'все огонь' }],
     status: {status: 'Publish', textForReject: 'Некорректно указан ИНН'}, /// Publish/Blocked, Stoped
-    coordinates: [56.767210, 37.593390]
+    coordinates: [55.755186, 37.573384]
   }, {
     name: "Дом моды",
     entity: 'ООО "Алаведы ИНН"',
-    id: "2",
+    id: "6",
     ownerId: '1',
     type: 'Лофт',
     adress: 'ул. Нижняя Сыромятническая, д. 10',
@@ -118,6 +126,8 @@ export const data = [
     email: 'ic@artplay.ru',
     site: 'https://www.artplay.ru/',
     square: '800',
+    images: ['https://s3-eu-central-1.amazonaws.com/jazzpeople/wp-content/uploads/2016/11/27182130/flacon1.jpg', 'https://s0.rbk.ru/v6_top_pics/media/img/4/54/756221004052544.jpg', 'https://cdn.culture.ru/images/879c5f02-1fca-5da4-8d21-654b80546640/w_884,h_442,c_fill,g_center/297a73c1c2fcce406f1bec455eb99842-jpg'],
+    
     capacity: '80',
     inn: '7000000000',
     price: {day: '1000', hour: '100'},
@@ -126,29 +136,8 @@ export const data = [
       "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
     rating: [{ userId: "1", rating: "1", review: 'все гавно' }, { userId: "2", rating: "5", review: 'все огонь' }],
     status: {status: 'Publish', textForReject: 'Некорректно указан ИНН'}, /// Publish/Blocked, Stoped
-    coordinates: [53.767210, 37.593390]
-  }, {
-    name: "Дом моды",
-    entity: 'ООО "Алаведы ИНН"',
-    id: "2",
-    ownerId: '1',
-    type: 'Лофт',
-    adress: 'ул. Нижняя Сыромятническая, д. 10',
-    workTime: '10:00',
-    tel: '+7 (495) 620-08-83',
-    email: 'ic@artplay.ru',
-    site: 'https://www.artplay.ru/',
-    square: '800',
-    capacity: '80',
-    inn: '7000000000',
-    price: {day: '1000', hour: '100'},
-    equipment: ['сцена, микрофон, видеокамера'],
-    description:
-      "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
-    rating: [{ userId: "1", rating: "1", review: 'все гавно' }, { userId: "2", rating: "5", review: 'все огонь' }],
-    status: {status: 'Publish', textForReject: 'Некорректно указан ИНН'}, /// Publish/Blocked, Stoped
-    coordinates: [54.767210, 37.593390]
-  },
+    coordinates: [55.766243, 37.651960]
+  }
 ];
 
 

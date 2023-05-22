@@ -28,7 +28,7 @@ export const YandexMap = () => {
   <a href="tel:${el.tel}" class="tel">${el.tel}</a>
   </div>
   </div>
-  <a class="button" href='../space/${el.id}' >Перейти</a>
+  <a class="button" href='../space/${el.id}' target="_blank">Открыть в новом окне</a>
   </div>`,
     }));
     setNewData(array);

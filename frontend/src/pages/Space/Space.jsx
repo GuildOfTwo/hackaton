@@ -8,7 +8,11 @@ export const SpacePage = () => {
 
     const {id} = useParams()
 
-    const itemData = data.find(el => el.id = id)
+    console.log(id)
+
+    const itemData = data.find(el => el.id == id)
+
+
 
 
     return(
@@ -18,7 +22,14 @@ export const SpacePage = () => {
             <div className={styles.wrapper}>
 
                 <p className={styles.description}>{itemData.description}</p>
-        <SwiperSlider data={itemData}/>
+        {/* <SwiperSlider data={itemData}/> */}
+        <div className={styles.grid}>
+            {itemData.images?.map(el => (
+                <div className={styles.imgWrapper}>
+                    <img src={el} alt=""className={styles.img} />
+                </div>
+            ))}
+        </div>
 
             </div>
 
