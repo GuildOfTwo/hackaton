@@ -10,6 +10,7 @@ class Comment(models.Model):
         related_name='comments',
         verbose_name='Автор'
     )
+    
     text = models.TextField(verbose_name='Текст отзыва',
                             help_text='Введите текст отзыва')
     pub_date = models.DateTimeField(
@@ -34,4 +35,4 @@ class Comment(models.Model):
 
 
     def __str__(self):
-        return self.author
+        return self.author.first_name

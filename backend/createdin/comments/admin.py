@@ -12,8 +12,11 @@ class CommentsAdmin(admin.ModelAdmin):
         'score',
     )
     list_display_links = (
-        'author',
+        'id',
         'text',
+        'author',
+        'pub_date',
+        'score',
     )
 
 
