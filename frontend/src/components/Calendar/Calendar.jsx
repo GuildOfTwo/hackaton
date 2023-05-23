@@ -11,6 +11,7 @@ import {
   endOfMonth,
   startOfMonth,
   endOfWeek,
+  isBefore,
 } from "date-fns";
 import "./Calendar.css";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
@@ -117,10 +118,10 @@ export class Calendar extends React.Component {
     let day = startDate;
     let formattedDate = "";
 
+    const thisDay = new Date();
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
-
         days.push(
           <div
             className={`col cell ${
@@ -129,8 +130,13 @@ export class Calendar extends React.Component {
                 : this.isBooked(day)
                 ? "selected"
                 : ""
-            }`}
+            }
+            ${isBefore(day, thisDay) ? "disabled" : ""}`}
             key={day}
+            id={day}
+            onClick={() => {
+              console.log(day);
+            }}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>

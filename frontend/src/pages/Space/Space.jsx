@@ -10,12 +10,21 @@ import email from "../../assets/icons/email.png";
 import ruble from "../../assets/icons/ruble.png";
 import phone from "../../assets/icons/phone.png";
 import site from "../../assets/icons/site.png";
+import ratingIcon from "../../assets/icons/rating.png";
+import square from "../../assets/icons/square.png";
 import { Calendar } from "../../components/Calendar/Calendar";
+import { useMemo } from "react";
 
 export const SpacePage = () => {
   const { id } = useParams();
 
   const itemData = data.find((el) => el.id == id);
+
+  const rating = itemData.rating;
+  const averageRating = useMemo(() => {
+    const sum = rating.reduce((acc, item) => acc + parseInt(item.rating), 0);
+    return Math.round(sum / rating.length);
+  }, [rating]);
 
   return (
     <section className={styles.section}>
@@ -34,6 +43,16 @@ export const SpacePage = () => {
         <div className={styles.iconWrapper}>
           <img src={people} alt="" className={styles.iconImg} />
           <p className={styles.iconText}>{itemData.capacity}</p>
+        </div>
+
+        <div className={styles.iconWrapper}>
+          <img src={square} alt="" className={styles.iconImg} />
+          <p className={styles.iconText}>{itemData.square}</p>
+        </div>
+
+        <div className={styles.iconWrapper}>
+          <img src={ratingIcon} alt="" className={styles.iconImg} />
+          <p className={styles.iconText}>{averageRating}</p>
         </div>
 
         <div className={styles.iconWrapper}>
@@ -59,8 +78,8 @@ export const SpacePage = () => {
 
         <div className={styles.iconWrapper}>
           <img src={ruble} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>Целый день: {itemData.price.day}</p>
-          <p className={styles.iconText}>Час: {itemData.price.hour}</p>
+          <p className={styles.iconText}>Целый день: {itemData.price.day}&#8381;</p>
+          <p className={styles.iconText}>Час: {itemData.price.hour}&#8381;</p>
         </div>
       </div>
       <div className={styles.wrapper}>
