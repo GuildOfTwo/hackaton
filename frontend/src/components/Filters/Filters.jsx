@@ -16,11 +16,19 @@ export const Filters = () => {
             Тип площадки
           </label>
           <select name="select">
-            <option value="Лофт">Лофт</option>
-            <option value="Мастерская">
+            <option value="Арт">Лофт</option>
+            <option value="ПО и компьютерные игры">
             Мастерская
             </option>
-            <option value="Арт пространство">Арт пространство</option>
+            <option value="Реклама">Реклама</option>
+            <option value="Дизайн">Дизайн</option>
+            <option value="Мода">Мода</option>
+            <option value="Кино и анимация">Кино и анимация</option>
+            <option value="Телерадиовещание и новые медиа">Телерадиовещание и новые медиа</option>
+            <option value="Издательское дело">Издательское дело</option>
+            <option value="Архитектура">Архитектура</option>
+            <option value="Музыка">Музыка</option>
+            <option value="Исполнительские искусства">Исполнительские искусства</option>
           </select>
         </div>
 
