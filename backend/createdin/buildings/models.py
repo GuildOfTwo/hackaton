@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import Landlord
-from comments.models import Comment
 
 
 class Building(models.Model):
@@ -73,14 +72,14 @@ class Building(models.Model):
             verbose_name='Вместимость обьекта',
             help_text='Введите вместимость обьекта (кол. людей)'
     )
-    comments = models.ForeignKey(
-        Comment,
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name='buildings',
-        verbose_name='Отзыв'
-    )
+#     comments = models.ForeignKey(
+#         Comment,
+#         on_delete=models.CASCADE,
+#         blank=True,
+#         null=True,
+#         related_name='buildings',
+#         verbose_name='Отзыв'
+#     )
     # rating  нужно ли в базе? Может вычислять в сериализаторе
     cost = models.CharField(
             max_length=200,
@@ -116,4 +115,4 @@ class BuildingPhoto(models.Model):
         verbose_name_plural = "Фотографии площадки"
 
     def __str__(self):
-        return self.object.title
+        return self.building.title
