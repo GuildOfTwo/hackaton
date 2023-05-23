@@ -22,7 +22,7 @@ export const SpacePage = () => {
 
   const rating = itemData.rating;
   const averageRating = useMemo(() => {
-    const sum = rating.reduce((acc, item) => acc + parseInt(item.rating), 0);
+    const sum = rating?.reduce((acc, item) => acc + parseInt(item.rating), 0);
     return Math.round(sum / rating.length);
   }, [rating]);
 
