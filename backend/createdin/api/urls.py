@@ -9,17 +9,17 @@ app_name = 'api'
 
 router_v1 = DefaultRouter()
 router_v1.register(
-    ' renter individual profile',
+    'renter_individual_profile',
     RenterIndividualProfileViewSet,
     basename='renter_individual_profile'
 )
 router_v1.register(
-    ' renter legal profile',
+    'renter_legal_profile',
     RenterLegalProfileViewSet,
     basename='renter_individual_profile'
 )
 router_v1.register(
-    ' landlord profile',
+    'landlord_profile',
     LandlordProfileViewSet,
     basename='renter_individual_profile'
 )
@@ -28,5 +28,5 @@ router_v1.register('buildings', BuildingViewSet, basename='buildings')
 
 
 urlpatterns = [
-    path('v1', include(router_v1.urls))
+    path('v1/', include(router_v1.urls))
 ]
