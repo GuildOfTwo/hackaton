@@ -9,3 +9,6 @@ https://codesandbox.io/p/sandbox/github/akaguny/samarkand-guide/tree/master?file
 https://www.npmjs.com/package/react-multi-date-picker 
 
 https://codepen.io/razwanizmi/pen/pxmjMg
+
+
+///spliy names at auth

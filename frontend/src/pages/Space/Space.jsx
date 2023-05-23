@@ -79,7 +79,7 @@ export const SpacePage = () => {
         <div className={styles.iconWrapper}>
           <img src={ruble} alt="" className={styles.iconImg} />
           <p className={styles.iconText}>Целый день: {itemData.price.day}&#8381;</p>
-          <p className={styles.iconText}>Час: {itemData.price.hour}&#8381;</p>
+          {/* <p className={styles.iconText}>Час: {itemData.price.hour}&#8381;</p> */}
         </div>
       </div>
       <div className={styles.wrapper}>
