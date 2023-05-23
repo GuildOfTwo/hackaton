@@ -4,9 +4,12 @@ import App from "./App.jsx";
 import "./sass/@globals.sass";
 import { BrowserRouter } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
+import store from "./store";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <YMaps
         query={{
@@ -18,5 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
       </YMaps>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );

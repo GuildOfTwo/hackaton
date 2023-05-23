@@ -12,6 +12,7 @@ import {
   startOfMonth,
   endOfWeek,
   isBefore,
+  getDate
 } from "date-fns";
 import "./Calendar.css";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
@@ -25,7 +26,6 @@ export class Calendar extends React.Component {
   }
   state = {
     currentMonth: new Date(),
-    bookedDatess: this.props.data,
     bookedDates: [],
   };
 
@@ -34,9 +34,9 @@ export class Calendar extends React.Component {
     let bookedDates = [];
     let dates = this.props.data;
     for (let i = 0; i < dates.length; i++) {
-      const day = new Date(dates[i]).getDay();
+      const day = new Date(dates[i]).getDate()
       bookedDates.push(
-        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
       );
     }
     this.setState(() => ({ bookedDates }));
@@ -65,9 +65,6 @@ export class Calendar extends React.Component {
       <div className="buttonWrapper">
         <ButtonDefault lable="Оставить заявку" action={(e) => console.log(e)} />
       </div>
-      //   <div className="col-center">
-      //     <button onClick={this.generateRandomBooking}>Generate booking</button>
-      //   </div>
     );
   };
 

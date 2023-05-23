@@ -12,7 +12,6 @@ export const YandexMap = () => {
     behaviors: ["default", "scrollZoom"],
   };
 
-  console.log(window.location.href);
 
   const ref = window.location.href
 
