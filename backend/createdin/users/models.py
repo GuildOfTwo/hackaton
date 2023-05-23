@@ -37,6 +37,7 @@ class UserManager(BaseUserManager):
         return self._create_user(
             email=email,
             password=password,
+            role='ADMIN',
             is_staff=True,
             is_superuser=True,
             **kwargs
@@ -50,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         RENTER_LEGAL = 'RENTER_LEGAL', 'Renter_legal'
         LANDLORD = 'LANDLORD', 'Landlord'
 
-    base_role = Role.ADMIN
+    # base_role = Role.ADMIN
     role = models.CharField(max_length=30, choices=Role.choices)
     email = models.EmailField('Email', unique=True, blank=False)
     is_staff = models.BooleanField(default=False)
@@ -60,9 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            self.role = self.base_role
-            return super().save(*args, **kwargs)
+        if not self.id:
+            return super(User, self).save(*args, **kwargs)
 
 
 class RenterIndividualManager(BaseUserManager):
