@@ -1,5 +1,6 @@
 from django.db import models
-from users.models import User, RenterIndividual
+from users.models import RenterIndividual
+from buildings.models import Building
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -10,7 +11,12 @@ class Comment(models.Model):
         related_name='comments',
         verbose_name='Автор'
     )
-    
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Объект'
+    )
     text = models.TextField(verbose_name='Текст отзыва',
                             help_text='Введите текст отзыва')
     pub_date = models.DateTimeField(
@@ -35,4 +41,4 @@ class Comment(models.Model):
 
 
     def __str__(self):
-        return self.author.first_name
+        return self.author.email

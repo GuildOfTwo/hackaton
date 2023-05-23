@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
         return self._create_user(
             email=email,
             password=password,
-            role='ADMIN',
+            # role='ADMIN',
             is_staff=True,
             is_superuser=True,
             **kwargs
