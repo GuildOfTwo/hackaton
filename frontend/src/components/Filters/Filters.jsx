@@ -5,18 +5,21 @@ import DatePicker from "react-multi-date-picker";
 import gregorian_ru_lowercase from "./locale";
 
 export const Filters = () => {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState([]);
   const [price, setPrice] = useState(1000);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
+  const getDate = () => {
     let array = [];
     for (let i = 0; i < value.length; i++) {
-      array.push(new Date(i));
+      array.push(new Date(value[i]));
     }
+    return array;
+  };
+  function handleSubmit(e) {
+    e.preventDefault();
+    let date = getDate();
 
-    console.log(array);
+    console.log(date);
   }
 
   return (

@@ -7,6 +7,7 @@ import { AuthPage } from "../../pages/Auth/Auth";
 import { NotFoundPage } from "../../pages/NotFound/NotFound";
 import { AgreementPage } from "../../pages/Agreement/Agreement";
 import { SpacePage } from "../../pages/Space/Space";
+import { PersonalAreaPage } from "../../pages/Personal/PersonalArea";
 
 export const Main = () => {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ export const Main = () => {
         <Route path='/*' element={<NotFoundPage/>} />
         <Route exact path="/agreement" element={<AgreementPage />} />
         <Route exact path="/space/:id" element={<SpacePage />}/>
+        <Route exact path="lk" element={<PersonalAreaPage />}/>
       </Routes>
       </div>
     </main>

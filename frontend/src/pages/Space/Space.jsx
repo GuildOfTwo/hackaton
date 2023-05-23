@@ -14,6 +14,7 @@ import ratingIcon from "../../assets/icons/rating.png";
 import square from "../../assets/icons/square.png";
 import { Calendar } from "../../components/Calendar/Calendar";
 import { useMemo } from "react";
+import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -86,16 +87,20 @@ export const SpacePage = () => {
         <div className={styles.leftSide}>
           <p className={styles.description}>{itemData.description}</p>
           <div className={styles.calendarWrapper}>
+          <p className={styles.cta}>Выбирите дату и оставьте заявку</p>
             <Calendar data={itemData.bookedDates} />
           </div>
         </div>
         {/* <SwiperSlider data={itemData}/> */}
         <div className={styles.grid}>
+        <YandexMapSpace data={itemData.coordinates} />
           {itemData.images?.map((el, index) => (
             <div className={styles.imgWrapper} key={index}>
               <img src={el} alt="" className={styles.img} />
             </div>
           ))}
+          
+          
         </div>
       </div>
     </section>

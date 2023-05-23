@@ -21,7 +21,7 @@ export const data = [
     rating: [{ userId: "1", rating: "1", review: 'все гавно' }, { userId: "2", rating: "5", review: 'все огонь' }],
     status: {status: 'Publish', textForReject: 'Некорректно указан ИНН'}, /// Publish/Blocked, Stoped
     coordinates: [55.741759, 37.619863],
-    bookedDates: ["2023-05-27T21:00:00.000Z", "2023-05-03T21:00:00.000Z", "2023-05-25T21:00:00.000Z", "2023-05-22T21:00:00.000Z"]
+    bookedDates: ["2023-05-27T21:00:00.000Z", "2023-05-03T21:00:00.000Z", "2023-05-25T21:00:00.000Z", "2023-05-22T21:00:00.000Z", "2023-06-15T21:00:00.000Z"]
   },
   {
     name: "Дом моды",

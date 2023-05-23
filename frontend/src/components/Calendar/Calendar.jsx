@@ -12,7 +12,8 @@ import {
   startOfMonth,
   endOfWeek,
   isBefore,
-  getDate
+  getDate,
+  isThisMonth,
 } from "date-fns";
 import "./Calendar.css";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
@@ -27,17 +28,27 @@ export class Calendar extends React.Component {
   state = {
     currentMonth: new Date(),
     bookedDates: [],
+    nextMonthDates: [],
   };
 
   generateBooking = () => {
     const { currentMonth } = this.state;
     let bookedDates = [];
+    let nextMonthDates = [];
     let dates = this.props.data;
     for (let i = 0; i < dates.length; i++) {
-      const day = new Date(dates[i]).getDate()
-      bookedDates.push(
-        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
-      );
+      let date = new Date(dates[i]);
+      const day = new Date(dates[i]).getDate();
+
+      const month = isThisMonth(date);
+      if (month) {
+        bookedDates.push(
+          new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
+        );
+      } else
+        nextMonthDates.push(
+          new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
+        );
     }
     this.setState(() => ({ bookedDates }));
   };
@@ -91,7 +102,7 @@ export class Calendar extends React.Component {
     const dateFormat = "EEEE";
     const days = [];
     let startDate = startOfWeek(this.state.currentMonth);
-    for (let i = 0; i < 7; i++) {
+    for (let i = 1; i < 8; i++) {
       days.push(
         <div className="col col-center" key={i}>
           {format(addDays(startDate, i), dateFormat)}
@@ -105,7 +116,7 @@ export class Calendar extends React.Component {
     const { currentMonth } = this.state;
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
+    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
     const endDate = endOfWeek(monthEnd);
 
     const dateFormat = "d";

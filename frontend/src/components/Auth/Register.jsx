@@ -46,11 +46,11 @@ export const Register = () => {
           <h2 className={styles.title}>Регистрация</h2>
   
           <div className={styles.inputGroup}>
-            <label htmlFor="name" className={styles.lable}>
-              ФИО
+            <label htmlFor="lastName" className={styles.lable}>
+              Фамилия
             </label>
             <input
-              {...register("name", {
+              {...register("lastName", {
                 required: "Обязательное поле",
                 minLength: {
                   value: 2,
@@ -58,10 +58,61 @@ export const Register = () => {
                 },
               })}
               className={styles.input}
-              name="name"
-              id="name"
+              name="lastName"
+              id="lastName"
               type="text"
-              placeholder="ФИО"
+              placeholder="Фамилия"
+              autoComplete="off"
+            />
+            {errors.name && (
+              <p role="alert" className={styles.inputError}>
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="firstName" className={styles.lable}>
+              Имя
+            </label>
+            <input
+              {...register("firstName", {
+                required: "Обязательное поле",
+                minLength: {
+                  value: 2,
+                  message: "This input must exceed 2 characters",
+                },
+              })}
+              className={styles.input}
+              name="firstName"
+              id="firstName"
+              type="text"
+              placeholder="Имя"
+              autoComplete="off"
+            />
+            {errors.name && (
+              <p role="alert" className={styles.inputError}>
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="fatherName" className={styles.lable}>
+              Отчество
+            </label>
+            <input
+              {...register("fatherName", {
+                required: false,
+                minLength: {
+                  value: 2,
+                  message: "This input must exceed 2 characters",
+                },
+              })}
+              className={styles.input}
+              name="fatherName"
+              id="fatherName"
+              type="text"
+              placeholder="Отчество"
               autoComplete="off"
             />
             {errors.name && (
