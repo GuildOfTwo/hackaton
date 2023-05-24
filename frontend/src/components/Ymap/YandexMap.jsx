@@ -12,9 +12,6 @@ export const YandexMap = () => {
     behaviors: ["default", "scrollZoom"],
   };
 
-
-  const ref = window.location.href
-
   useEffect(() => {
     let array = data.map((el) => ({
       ...el,

@@ -11,4 +11,4 @@ https://www.npmjs.com/package/react-multi-date-picker
 https://codepen.io/razwanizmi/pen/pxmjMg
 
 
-///spliy names at auth
+Добавить инпут на выбор роли
