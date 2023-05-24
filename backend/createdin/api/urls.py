@@ -1,22 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views import (CommentViewSet, BuildingViewSet,
-                       RenterIndividualProfileViewSet,
-                       RenterLegalProfileViewSet,
+                       RenterProfileViewSet,
                        LandlordProfileViewSet)
 
 app_name = 'api'
 
 router_v1 = DefaultRouter()
 router_v1.register(
-    'renter_individual_profile',
-    RenterIndividualProfileViewSet,
-    basename='renter_individual_profile'
-)
-router_v1.register(
-    'renter_legal_profile',
-    RenterLegalProfileViewSet,
-    basename='renter_individual_profile'
+    'renter_profile',
+    RenterProfileViewSet,
+    basename='renter_profile'
 )
 router_v1.register(
     'landlord_profile',

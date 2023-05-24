@@ -4,25 +4,16 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
 from comments.models import Comment
 from buildings.models import Building, BuildingPhoto
-from users.models import (RenterIndividual, RenterIndividualProfile,
-                          RenterLegal, RenterLegalProfile,
+from users.models import (Renter, RenterProfile,
                           Landlord, LandlordProfile)
 
 
 
-class RenterIndividualProfileSerializer(serializers.ModelSerializer):
+class RenterProfileSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     class Meta:
-        model = RenterIndividualProfile
-        fields = ('__all__')
-
-
-class RenterLegalProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
-
-    class Meta:
-        model = RenterLegalProfile
+        model = RenterProfile
         fields = ('__all__')
 
 
