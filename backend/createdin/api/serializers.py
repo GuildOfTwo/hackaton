@@ -78,7 +78,23 @@ class BuildingsSerializer(serializers.ModelSerializer):
             'features',
             'additional_information',
             'capacity',
-            # 'comments',
             'cost',
             'images'
+        )
+
+
+class BookingSerializer(serializers.ModelSerializer):
+    building = serializers.SlugRelatedField(
+        read_only=True, slug_field='title'
+    )
+    renter = serializers.SlugRelatedField(
+        read_only=True, slug_field='email'
+    )
+    class Meta:
+        model = Comment
+        fields = (
+            'building',
+            'renter',
+            'check_in',
+            'check_out',
         )

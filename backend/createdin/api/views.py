@@ -1,12 +1,13 @@
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
-from buildings.models import Building
+from buildings.models import Building, Booking
 from api.serializers import (CommentSerializer,
                              BuildingsSerializer,
                              RenterIndividualProfileSerializer,
                              RenterLegalProfileSerializer,
-                             LandlordProfileSerializer)
+                             LandlordProfileSerializer,
+                             BookingSerializer)
 from comments.models import Comment
 from users.models import (RenterIndividualProfile,
                           RenterLegalProfile,
@@ -37,3 +38,8 @@ class BuildingViewSet(viewsets.ModelViewSet):
     queryset = Building.objects.annotate(
         rating=Avg('comments__score')).order_by('title')
     serializer_class = BuildingsSerializer
+
+
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer

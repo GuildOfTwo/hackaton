@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import Landlord
+from users.models import RenterIndividual
 
 
 class Building(models.Model):
@@ -41,7 +42,7 @@ class Building(models.Model):
             blank=True,
             verbose_name='Режим работы'
     )
-    site = models.CharField(
+    site = models.URLField(
             max_length=40,
             verbose_name='Сайт объекта',
             help_text='Введите сайт объекта'
@@ -72,6 +73,11 @@ class Building(models.Model):
             verbose_name='Вместимость обьекта',
             help_text='Введите вместимость обьекта (кол. людей)'
     )
+    booking = models.TextField(
+            verbose_name='Даты бронирования',
+            help_text='Даты в которые объект занят',
+            blank=True
+            )
 #     comments = models.ForeignKey(
 #         Comment,
 #         on_delete=models.CASCADE,
@@ -116,3 +122,29 @@ class BuildingPhoto(models.Model):
 
     def __str__(self):
         return self.building.title
+
+
+class Booking(models.Model):
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.CASCADE,
+        related_name='booking'
+    )
+    renter = models.ForeignKey(
+        RenterIndividual,
+        on_delete=models.CASCADE,
+        related_name='booking',
+        verbose_name='Арендатор'
+    )
+    check_in = models.DateTimeField(
+        'Дата начала аренды',
+        auto_now_add=True,
+        db_index=True,
+        help_text='Дата начала аренды'
+    )
+    check_out = models.DateTimeField(
+        'Дата окончания аренды',
+        auto_now_add=True,
+        db_index=True,
+        help_text='Дата окончания аренды'
+    )

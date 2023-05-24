@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from api.views import (CommentViewSet, BuildingViewSet,
                        RenterIndividualProfileViewSet,
                        RenterLegalProfileViewSet,
-                       LandlordProfileViewSet)
+                       LandlordProfileViewSet,
+                       BookingViewSet)
 
 app_name = 'api'
 
@@ -25,7 +26,7 @@ router_v1.register(
 )
 router_v1.register('comments', CommentViewSet, basename='comments')
 router_v1.register('buildings', BuildingViewSet, basename='buildings')
-
+router_v1.register('bookings', BookingViewSet, basename='bookings')
 
 urlpatterns = [
     path('v1/', include(router_v1.urls))
