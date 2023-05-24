@@ -118,6 +118,7 @@ class RenterProfile(models.Model):
     job_title = models.CharField(
         verbose_name='Должность',
         max_length=50,
+        blank=True
     )
     contact_email = models.EmailField(
         verbose_name='Контактный email',
@@ -137,7 +138,6 @@ class RenterProfile(models.Model):
     )
     inn = models.IntegerField(
         verbose_name='ИНН организации',
-        max_length=12,
         blank=True
     )
     organization_name = models.CharField(
@@ -147,6 +147,7 @@ class RenterProfile(models.Model):
     )
     organization_type = models.CharField(
         verbose_name='Юридический статус',
+        max_length=50,
         choices=renter_type_choices,
         default='INDIVIDUAL'
     )
@@ -179,6 +180,7 @@ def create_landlord_profile(sender, instance, created, **kwargs):
 class LandlordProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     job_title = models.CharField(
+        blank=True,
         verbose_name='Должность',
         max_length=50,
     )
@@ -200,7 +202,6 @@ class LandlordProfile(models.Model):
     )
     inn = models.IntegerField(
         verbose_name='ИНН организации',
-        max_length=12,
         blank=True
     )
     organization_name = models.CharField(
@@ -210,6 +211,8 @@ class LandlordProfile(models.Model):
     )
     organization_type = models.CharField(
         verbose_name='Юридический статус',
+        max_length=50,
+        blank=True,
         choices=landlord_type_choices,
     )
     test = models.IntegerField(null=True, blank=True)
