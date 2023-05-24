@@ -1,12 +1,12 @@
 from django.db import models
-from users.models import RenterIndividual
+from users.models import Renter
 from buildings.models import Building
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        RenterIndividual,
+        Renter,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Автор'

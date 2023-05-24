@@ -1,21 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
+from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+phone_regex = RegexValidator(
+    regex=r'^\+?7?\d{10,10}$',
+    message='Формат номера телефона: +79999999999'
+)
+
+renter_type_choices = (
+    ('INDIVIDUAL', 'Физическое лицо'),
+    ('IP', 'Индивидуальный предприниматель'),
+    ('ORGANIZATION', 'Юридическое лицо')
+)
+
+landlord_type_choices = (
+    ('IP', 'Индивидуальный предприниматель'),
+    ('ORGANIZATION', 'Юридическое лицо')
+)
+
+
 class UserManager(BaseUserManager):
-    """
-    Custom user manager.
-    Validate data and create new user entry.
-    """
+
     def _create_user(self, email, password, **kwargs):
         is_staff = kwargs.pop('is_staff', False)
         is_superuser = kwargs.pop('is_superuser', False)
         role = kwargs.pop('role', 'ADMIN')
         email = self.normalize_email(email)
-
         user = self.model(
             email=email,
             role=role,
@@ -37,7 +51,6 @@ class UserManager(BaseUserManager):
         return self._create_user(
             email=email,
             password=password,
-            # role='ADMIN',
             is_staff=True,
             is_superuser=True,
             **kwargs
@@ -47,15 +60,25 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     class Role(models.TextChoices):
         ADMIN = 'ADMIN', 'Admin'
-        RENTER_INDIVIDUAL = 'RENTER_INDIVIDUAL', 'Renter_individual'
-        RENTER_LEGAL = 'RENTER_LEGAL', 'Renter_legal'
+        RENTER = 'RENTER', 'Renter'
         LANDLORD = 'LANDLORD', 'Landlord'
 
-    # base_role = Role.ADMIN
     role = models.CharField(max_length=30, choices=Role.choices)
     email = models.EmailField('Email', unique=True, blank=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    first_name = models.CharField(
+        'Имя',
+        max_length=100,
+    )
+    last_name = models.CharField(
+        'Фамилия',
+        max_length=100,
+    )
+    middle_name = models.CharField(
+        'Отчество',
+        max_length=100,
+    )
     REQUIRED_FIELDS = ('role',)
     USERNAME_FIELD = 'email'
     objects = UserManager()
@@ -65,55 +88,69 @@ class User(AbstractBaseUser, PermissionsMixin):
             return super(User, self).save(*args, **kwargs)
 
 
-class RenterIndividualManager(BaseUserManager):
+class RenterManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(role=User.Role.RENTER_INDIVIDUAL)
+        return results.filter(role=User.Role.RENTER)
 
 
-class RenterIndividual(User):
+class Renter(User):
 
-    base_role = User.Role.RENTER_INDIVIDUAL
-    renter_individual = RenterIndividualManager()
+    base_role = User.Role.RENTER
+    renter_individual = RenterManager()
 
     class Meta:
         proxy = True
 
 
-@receiver(post_save, sender=RenterIndividual)
-def create_renter_individual_profile(sender, instance, created, **kwargs):
-    if created and instance.role == 'RENTER_INDIVIDUAL':
-        RenterIndividualProfile.objects.create(user=instance)
+@receiver(post_save, sender=User)
+@receiver(post_save, sender=Renter)
+def create_renter_profile(sender, instance, created, **kwargs):
+    if created and instance.role == 'RENTER':
+        RenterProfile.objects.create(user=instance)
 
 
-class RenterIndividualProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    test = models.IntegerField(null=True, blank=True)
+class RenterProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+    job_title = models.CharField(
+        verbose_name='Должность',
+        max_length=50,
+    )
+    contact_email = models.EmailField(
+        verbose_name='Контактный email',
+        unique=False,
+        blank=True
+    )
+    phone_number = models.CharField(
+        verbose_name='Контактный телефон',
+        validators=[phone_regex],
+        max_length=12,
+        blank=True
+    )
+    adress = models.CharField(
+        verbose_name='Адрес организации',
+        max_length=300,
+        blank=True
+    )
+    inn = models.IntegerField(
+        verbose_name='ИНН организации',
+        max_length=12,
+        blank=True
+    )
+    organization_name = models.CharField(
+        verbose_name='Название организации',
+        max_length=300,
+        blank=True
+    )
+    organization_type = models.CharField(
+        verbose_name='Юридический статус',
+        choices=renter_type_choices,
+        default='INDIVIDUAL'
+    )
 
-
-class RenterLegalManager(BaseUserManager):
-    def get_queryset(self, *args, **kwargs):
-        results = super().get_queryset(*args, **kwargs)
-        return results.filter(role=User.Role.RENTER_LEGAL)
-
-
-class RenterLegal(User):
-
-    base_role = User.Role.RENTER_LEGAL
-    renter_individual = RenterLegalManager()
-
-    class Meta:
-        proxy = True
-
-
-@receiver(post_save, sender=RenterLegal)
-def create_renter_legal_profile(sender, instance, created, **kwargs):
-    if created and instance.role == 'RENTER_LEGAL':
-        RenterLegalProfile.objects.create(user=instance)
-
-
-class RenterLegalProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     test = models.IntegerField(null=True, blank=True)
 
 
@@ -132,12 +169,47 @@ class Landlord(User):
         proxy = True
 
 
+@receiver(post_save, sender=User)
 @receiver(post_save, sender=Landlord)
-def create_landlird_profile(sender, instance, created, **kwargs):
+def create_landlord_profile(sender, instance, created, **kwargs):
     if created and instance.role == 'LANDLORD':
         LandlordProfile.objects.create(user=instance)
 
 
 class LandlordProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    job_title = models.CharField(
+        verbose_name='Должность',
+        max_length=50,
+    )
+    contact_email = models.EmailField(
+        verbose_name='Контактный email',
+        unique=False,
+        blank=True
+    )
+    phone_number = models.CharField(
+        verbose_name='Контактный телефон',
+        validators=[phone_regex],
+        max_length=12,
+        blank=True
+    )
+    adress = models.CharField(
+        verbose_name='Адрес организации',
+        max_length=300,
+        blank=True
+    )
+    inn = models.IntegerField(
+        verbose_name='ИНН организации',
+        max_length=12,
+        blank=True
+    )
+    organization_name = models.CharField(
+        verbose_name='Название организации',
+        max_length=300,
+        blank=True
+    )
+    organization_type = models.CharField(
+        verbose_name='Юридический статус',
+        choices=landlord_type_choices,
+    )
     test = models.IntegerField(null=True, blank=True)

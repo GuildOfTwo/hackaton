@@ -4,23 +4,16 @@ from django.shortcuts import render
 from buildings.models import Building
 from api.serializers import (CommentSerializer,
                              BuildingsSerializer,
-                             RenterIndividualProfileSerializer,
-                             RenterLegalProfileSerializer,
+                             RenterProfileSerializer,
                              LandlordProfileSerializer)
 from comments.models import Comment
-from users.models import (RenterIndividualProfile,
-                          RenterLegalProfile,
+from users.models import (RenterProfile,
                           LandlordProfile)
 
 
-class RenterIndividualProfileViewSet(viewsets.ModelViewSet):
-    queryset = RenterIndividualProfile.objects.all()
-    serializer_class = RenterIndividualProfileSerializer
-
-
-class RenterLegalProfileViewSet(viewsets.ModelViewSet):
-    queryset = RenterLegalProfile.objects.all()
-    serializer_class = RenterLegalProfileSerializer
+class RenterProfileViewSet(viewsets.ModelViewSet):
+    queryset = RenterProfile.objects.all()
+    serializer_class = RenterProfileSerializer
 
 
 class LandlordProfileViewSet(viewsets.ModelViewSet):
