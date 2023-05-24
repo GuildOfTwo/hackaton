@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('users', '0001_initial'),
     ]
 
     operations = [
@@ -29,6 +30,7 @@ class Migration(migrations.Migration):
                 ('additional_information', models.TextField(blank=True, help_text='Введите важную по вашему мнению дополнительную информацию', verbose_name='Дополнительная информация')),
                 ('capacity', models.CharField(blank=True, help_text='Введите вместимость обьекта (кол. людей)', max_length=200, verbose_name='Вместимость обьекта')),
                 ('cost', models.CharField(blank=True, help_text='Введите стоимость аренды', max_length=200, verbose_name='Стоимость')),
+                ('owner', models.ForeignKey(help_text='Выберите контактное лицо/владельца обьекта', on_delete=django.db.models.deletion.CASCADE, related_name='buildings', to='users.landlord', verbose_name='Владелец')),
             ],
             options={
                 'verbose_name': 'Объект',

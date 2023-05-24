@@ -2,6 +2,7 @@
 
 import django.core.validators
 from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -9,6 +10,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('users', '0001_initial'),
+        ('buildings', '0001_initial'),
     ]
 
     operations = [
@@ -19,6 +22,8 @@ class Migration(migrations.Migration):
                 ('text', models.TextField(help_text='Введите текст отзыва', verbose_name='Текст отзыва')),
                 ('pub_date', models.DateTimeField(auto_now_add=True, db_index=True, help_text='Дата публикации отзыва', verbose_name='Дата публикации отзыва')),
                 ('score', models.IntegerField(help_text='Введдите оценку', validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)], verbose_name='Оценка')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='users.renterindividual', verbose_name='Автор')),
+                ('building', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='buildings.building', verbose_name='Объект')),
             ],
             options={
                 'verbose_name': 'Отзыв',

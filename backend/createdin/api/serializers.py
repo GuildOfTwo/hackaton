@@ -27,7 +27,7 @@ class LandlordProfileSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True, slug_field='username'
+        read_only=True, slug_field='email'
     )
     class Meta:
         model = Comment
@@ -47,7 +47,7 @@ class BuildingsPhotoSerializer(serializers.ModelSerializer):
 
 class BuildingsSerializer(serializers.ModelSerializer):
     owner = serializers.SlugRelatedField(
-        read_only=True, slug_field='username'   # нужно поменят слаг - и нас нет юзернейма
+        read_only=True, slug_field='email'   # нужно поменят слаг - и нас нет юзернейма
     )
     images = BuildingsPhotoSerializer(
         many=True
@@ -69,7 +69,7 @@ class BuildingsSerializer(serializers.ModelSerializer):
             'features',
             'additional_information',
             'capacity',
-            'comments',
+            # 'comments',
             'cost',
             'images'
         )
