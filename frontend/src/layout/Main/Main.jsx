@@ -31,7 +31,8 @@ export const Main = () => {
         <Route exact path="/agreement" element={<AgreementPage />} />
         <Route exact path="/space/:id" element={<SpacePage />}/>
         <Route exact path="lk" element={<PersonalAreaPage />}/>
-        <Route exact path="new" element={<NewObjectPage />}/>
+        <Route exact path="new" element={<NewObjectPage lable='Добавить новый объект'/>}/>
+        <Route exact path="edit/:id" element={<NewObjectPage lable='Внести изменения' edit={true}/>}/>
       </Routes>
       </div>
     </main>

@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 
 export const ObjectItem = ({ el }) => {
-  const [isHovering, setIsHovering] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
-    setIsHovering(false);
+    setIsHovering(true);
   };
 
   const handleMouseOut = () => {
-    setIsHovering(true);
+    setIsHovering(false);
   };
 
   const navigate = useNavigate();
@@ -36,15 +36,21 @@ export const ObjectItem = ({ el }) => {
           : el.status.status}
       </p>
       <p className={styles.cardTitle}>{el.name}</p>
-      {isHovering ||
-        (el.status.rejectText.length <= 0 && (
+      {isHovering  &&
+        (
           <div className={styles.hoverWrapper}>
-            <ButtonDefault
+            {el.status.rejectText.length <= 0 &&   <ButtonDefault
               lable="К карточке"
               action={() => navigate(`/space/${el.id}`)}
+            /> }
+          
+            <ButtonDefault
+              lable="Внести изменения"
+              action={() => navigate(`/edit/${el.id}`)}
             />
+
           </div>
-        ))}
+        )}
     </div>
   );
 };
