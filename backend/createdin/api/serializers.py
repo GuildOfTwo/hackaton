@@ -11,7 +11,10 @@ from buildings.models import Building, BuildingImage
 
 
 class RenterProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    user = serializers.SlugRelatedField(
+        slug_field='email',
+        read_only=True
+    )
 
     class Meta:
         model = RenterProfile
@@ -19,7 +22,10 @@ class RenterProfileSerializer(serializers.ModelSerializer):
 
 
 class LandlordProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    user = serializers.SlugRelatedField(
+        slug_field='email',
+        read_only=True
+    )
 
     class Meta:
         model = LandlordProfile
@@ -30,6 +36,7 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         read_only=True, slug_field='email'
     )
+
     class Meta:
         model = Comment
         fields = (
