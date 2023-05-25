@@ -1,14 +1,14 @@
-import { PersonalLandlord } from '../../components/Personal/PersonalLandlord'
-import { PersonalTenant } from '../../components/Personal/PersonalTenant'
+
+import { PersonalPage } from '../../components/Personal/PersonalPage'
+
 import styles from './styles.module.sass'
 
 
-export const PersonalAreaPage = () => {
+export const PersonalAreaPage = ({tenant, landlord}) => {
 
     return (
         <section className={styles.section}>
-            <PersonalLandlord />
-            {/* <PersonalTenant /> */}
+            <PersonalPage tenant={tenant} landlord={landlord}/>
         </section>
     )
 }

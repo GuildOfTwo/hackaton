@@ -5,10 +5,7 @@ import "./yandexMap.sass";
 // import { data } from "../../TEMP_DATA/DATA";
 import { useEffect, useState } from "react";
 
-export const YandexMapSpace = ({ data }) => {
-
-    console.log(data)
-
+export const YandexMapSpace = ({ data= [] }) => {
   const mapState = {
     center: data,
     zoom: 15,
