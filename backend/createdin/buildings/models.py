@@ -4,6 +4,28 @@ from users.models import RenterIndividual
 import json
 
 
+class Spec(models.Model):
+    name = models.CharField(
+        verbose_name='Название',
+        help_text='Введите название специализации',
+        max_length=200
+    )
+    slug = models.SlugField(
+        verbose_name='Идентификатор',
+        max_length=200,
+        unique=True,
+        help_text='Введите текстовый идентификатор специализации'
+    )
+
+    class Meta:
+        verbose_name = 'Специализация'
+        verbose_name_plural = 'Специализации'
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+    
+
 class Building(models.Model):
     CHOICES = [
         ('FI', 'Кино-, фотосъемка'),
@@ -93,6 +115,13 @@ class Building(models.Model):
             verbose_name='Стоимость',
             help_text='Введите стоимость аренды'
     )
+    spec = models.ManyToManyField(
+        Spec,
+        through='SpecBuilding',
+        related_name='specs',
+        verbose_name='Специализация',
+        help_text='Выберите специализации'
+    )
     
 
     class Meta:
@@ -110,6 +139,21 @@ class Building(models.Model):
     def __str__(self):
         return self.title
 
+class SpecBuilding(models.Model):
+    spec = models.ForeignKey(Spec, on_delete=models.CASCADE,
+                            verbose_name='Специализация',
+                            help_text='Выберите специализации')
+    building = models.ForeignKey(Building, on_delete=models.CASCADE,
+                               verbose_name='Объект',
+                               help_text='Выберите обьект')
+
+    class Meta:
+        verbose_name = 'Теги рецепта'
+        verbose_name_plural = 'Теги рецепта'
+
+    def __str__(self):
+        return f'{self.tag} {self.recipe}'
+    
 
 class Booking(models.Model):
     building = models.ForeignKey(
@@ -156,3 +200,5 @@ class BuildingImage(models.Model):
 
     def __str__(self):
         return self.building.title
+    
+

@@ -4,7 +4,7 @@ from api.views import (CommentViewSet, BuildingViewSet,
                        RenterIndividualProfileViewSet,
                        RenterLegalProfileViewSet,
                        LandlordProfileViewSet,
-                       BookingViewSet)
+                       BookingViewSet, SpecViewSet)
 
 app_name = 'api'
 
@@ -27,7 +27,7 @@ router_v1.register(
 router_v1.register('comments', CommentViewSet, basename='comments')
 router_v1.register('buildings', BuildingViewSet, basename='buildings')
 router_v1.register('bookings', BookingViewSet, basename='bookings')
-
+router_v1.register('tags', SpecViewSet, basename='specs')
 
 urlpatterns = [
     path('v1/', include(router_v1.urls))
