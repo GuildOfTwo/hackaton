@@ -7,7 +7,7 @@ SECRET_KEY = '+4a!r2af70!%kn2=!^4zzuq*-h96fj41#w(nt-de!i(^03e*m)'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
