@@ -2,9 +2,13 @@ from rest_framework import validators
 from rest_framework.generics import get_object_or_404
 from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
 from buildings.models import Building, BuildingPhoto
 from users.models import (Renter, RenterProfile,
+from buildings.models import Building, BuildingImage
+from users.models import (RenterIndividual, RenterIndividualProfile,
+                          RenterLegal, RenterLegalProfile,
                           Landlord, LandlordProfile)
 
 
@@ -39,23 +43,39 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
 
-class BuildingsPhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BuildingPhoto
-        fields = ['building', 'photo']
-
-
-class BuildingsSerializer(serializers.ModelSerializer):
-    owner = serializers.SlugRelatedField(
-        read_only=True, slug_field='email'   # нужно поменят слаг - и нас нет юзернейма
+class BookingSerializer(serializers.ModelSerializer):
+    building = serializers.SlugRelatedField(
+        read_only=True, slug_field='title'
     )
-    images = BuildingsPhotoSerializer(
+    renter = serializers.SlugRelatedField(
+        read_only=True, slug_field='email'
+    )
+    class Meta:
+        model = Comment
+        fields = (
+            'building',
+            'renter',
+            'check_in',
+            'check_out',
+        )
+
+
+class BuildingImageModelSerializer(ModelSerializer):
+    class Meta:
+        model = BuildingImage
+        fields = ('image',)
+
+
+class BuildingSerializer(ModelSerializer):
+    building_images = BuildingImageModelSerializer(
         many=True
     )
+    rating = serializers.FloatField()
 
     class Meta:
         model = Building
         fields = (
+            'id',
             'owner',
             'title',
             'specialization',
@@ -68,8 +88,9 @@ class BuildingsSerializer(serializers.ModelSerializer):
             'area_rent',
             'features',
             'additional_information',
+            'building_images',
             'capacity',
-            # 'comments',
             'cost',
-            'images'
+            'bookings',
+            'rating'
         )

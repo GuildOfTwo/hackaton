@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
-from buildings.models import Building
+from django_filters.rest_framework import DjangoFilterBackend
+from buildings.models import Building, Booking
 from api.serializers import (CommentSerializer,
                              BuildingsSerializer,
                              RenterProfileSerializer,
@@ -30,3 +31,6 @@ class BuildingViewSet(viewsets.ModelViewSet):
     queryset = Building.objects.annotate(
         rating=Avg('comments__score')).order_by('title')
     serializer_class = BuildingsSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('specialization', 'area_sum', 'area_rent',
+                        'capacity', 'cost')

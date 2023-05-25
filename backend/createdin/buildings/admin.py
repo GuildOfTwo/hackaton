@@ -1,14 +1,14 @@
 from django.contrib import admin
 
-from buildings.models import Building, BuildingPhoto
+from buildings.models import Building, BuildingImage
 
 
-class BuildingsPhotoAdmin(admin.StackedInline):
-    model = BuildingPhoto
+class BuildingImageAdmin(admin.StackedInline):
+    model = BuildingImage
 
 
-class BuildingsAdmin(admin.ModelAdmin):
-    inlines = [BuildingsPhotoAdmin, ]
+class BuildingAdmin(admin.ModelAdmin):
+    inlines = [BuildingImageAdmin]
 
 
-admin.site.register(Building, BuildingsAdmin)
+admin.site.register(Building, BuildingAdmin)
