@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from buildings.models import Building, BuildingPhoto
+from buildings.models import Building, BuildingImage
 
 
 class BuildingImageAdmin(admin.StackedInline):
-    model = BuildingPhoto
+    model = BuildingImage
 
 
 class BuildingAdmin(admin.ModelAdmin):

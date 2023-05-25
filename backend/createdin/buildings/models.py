@@ -1,9 +1,16 @@
 from django.db import models
 from users.models import Landlord
 from users.models import RenterIndividual
+import json
 
 
 class Building(models.Model):
+    CHOICES = [
+        ('FI', 'Кино-, фотосъемка'),
+        ('VI', 'Выставка'),
+        ('AR', 'Арт-пространство'),
+        ('AU', 'Аудиозапись'),
+ ]
     owner = models.ForeignKey(
         Landlord,
         on_delete=models.CASCADE,
@@ -17,10 +24,11 @@ class Building(models.Model):
             verbose_name='Название',
             help_text='Введите название обьекта'
     )
-    specialization = models.TextField(
+    specialization = models.CharField(
             verbose_name='Специализация',
-            help_text='Опишите специализацию обьекта',
-            blank=True,
+            help_text='Выберите специализацию обьекта',
+            choices = CHOICES,
+            max_length=200
     )
     desc = models.TextField(
             verbose_name='Описание площадки',
@@ -28,17 +36,17 @@ class Building(models.Model):
             blank=True,
     )
     address = models.CharField(
-            max_length=12,
+            max_length=100,
             blank=False,
             verbose_name='Адрес объекта'
     )
     coordinates = models.CharField(
-            max_length=12,
+            max_length=30,
             blank=False,
             verbose_name='Координаты объекта'
     )
     operating_hours = models.CharField(
-            max_length=12,
+            max_length=50,
             blank=True,
             verbose_name='Режим работы'
     )
@@ -85,35 +93,22 @@ class Building(models.Model):
             verbose_name='Стоимость',
             help_text='Введите стоимость аренды'
     )
+    
 
     class Meta:
         verbose_name = 'Объект'
         verbose_name_plural = 'Обьекты'
         ordering = ['-cost']
 
+    def set_bookings(self, x):
+        self.bookings = json.dumps(x)
+    
+    def get_bookings(self):
+        return [self.bookings]
+
+
     def __str__(self):
         return self.title
-
-
-class BuildingPhoto(models.Model):
-    building = models.ForeignKey(
-        Building,
-        on_delete=models.CASCADE,
-        related_name='building_photo'
-    )
-    photo = models.ImageField(
-        verbose_name='Фотография',
-        blank=True,
-        upload_to='building_images/%Y/%m/%d/',
-        help_text='Выберите фотографию'
-    )
-
-    class Meta:
-        verbose_name = "Фотография площадки"
-        verbose_name_plural = "Фотографии площадки"
-
-    def __str__(self):
-        return self.building.title
 
 
 class Booking(models.Model):
@@ -141,44 +136,17 @@ class Booking(models.Model):
         help_text='Дата окончания аренды'
     )
 
-class News(models.Model):
-    date = models.DateTimeField(
-        verbose_name='Дата создания',
-        help_text='Введите дату создания'
-    )
-    title = models.CharField(
-        verbose_name='Заголовок',
-        max_length=200,
-        help_text='Введите заголовок новости'
-    )
-    news_full_text = models.TextField(
-        verbose_name='Содержание',
-        help_text='Введите текст новости'
-    )
-    news_video_link = models.URLField(
-        verbose_name='Видео',
-        blank=True,
-        help_text='Вставьте ссылку на видео'
-    )
 
-    class Meta:
-        verbose_name = "Новость"
-        verbose_name_plural = "Новости"
-
-    def __str__(self):
-        return self.title
-
-
-class NewsImage(models.Model):
-    news = models.ForeignKey(
-        News,
+class BuildingImage(models.Model):
+    building = models.ForeignKey(
+        Building,
         on_delete=models.CASCADE,
-        related_name='news_images'
+        related_name='building_images'
     )
     image = models.ImageField(
         verbose_name='Изображение',
         blank=True,
-        upload_to='news_images/%Y/%m/%d/',
+        upload_to='building_images/%Y/%m/%d/',
         help_text='Выберите изображение'
     )
 
@@ -187,4 +155,4 @@ class NewsImage(models.Model):
         verbose_name_plural = "Изображения"
 
     def __str__(self):
-        return self.news.title
+        return self.building.title

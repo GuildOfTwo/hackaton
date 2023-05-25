@@ -4,7 +4,7 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
-from buildings.models import Building, BuildingPhoto, NewsImage, News
+from buildings.models import Building, BuildingImage
 from users.models import (RenterIndividual, RenterIndividualProfile,
                           RenterLegal, RenterLegalProfile,
                           Landlord, LandlordProfile)
@@ -49,42 +49,6 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
 
-class BuildingsPhotoSerializer(ModelSerializer):
-    class Meta:
-        model = BuildingPhoto
-        fields = ['building', 'photo']
-
-
-class BuildingsSerializer(ModelSerializer):
-    building_images = BuildingsPhotoSerializer(
-        many=True
-    )
-    owner = serializers.SlugRelatedField(
-        read_only=True, slug_field='email'   # нужно поменят слаг - и нас нет юзернейма
-    )
-    
-    class Meta:
-        model = Building
-        fields = (
-            'owner',
-            'title',
-            'specialization',
-            'desc',
-            'address',
-            'coordinates',
-            'operating_hours',
-            'site',
-            'area_sum',
-            'area_rent',
-            'features',
-            'additional_information',
-            'building_images',
-            'capacity',
-            'cost',
-            'bookings',
-        )
-
-
 class BookingSerializer(serializers.ModelSerializer):
     building = serializers.SlugRelatedField(
         read_only=True, slug_field='title'
@@ -102,18 +66,37 @@ class BookingSerializer(serializers.ModelSerializer):
         )
 
 
-class NewsImageModelSerializer(ModelSerializer):
+class BuildingImageModelSerializer(ModelSerializer):
     class Meta:
-        model = NewsImage
-        fields = ['image', 'news']
+        model = BuildingImage
+        fields = ('image',)
 
 
-class NewsModelSerializer(ModelSerializer):
-    news_images = NewsImageModelSerializer(
+class BuildingSerializer(ModelSerializer):
+    building_images = BuildingImageModelSerializer(
         many=True
     )
+    rating = serializers.FloatField()
 
     class Meta:
-        model = News
-        fields = ['id', 'date', 'title', 'news_full_text', 'news_images',
-                  'news_video_link']
+        model = Building
+        fields = (
+            'id',
+            'owner',
+            'title',
+            'specialization',
+            'desc',
+            'address',
+            'coordinates',
+            'operating_hours',
+            'site',
+            'area_sum',
+            'area_rent',
+            'features',
+            'additional_information',
+            'building_images',
+            'capacity',
+            'cost',
+            'bookings',
+            'rating'
+        )

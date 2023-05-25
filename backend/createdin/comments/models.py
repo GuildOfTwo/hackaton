@@ -38,6 +38,12 @@ class Comment(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
         ordering = ['-pub_date']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['author', 'building'],
+                name='only_one_comment'
+            )
+        ]
 
 
     def __str__(self):
