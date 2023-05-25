@@ -73,19 +73,11 @@ class Building(models.Model):
             verbose_name='Вместимость обьекта',
             help_text='Введите вместимость обьекта (кол. людей)'
     )
-    booking = models.TextField(
+    bookings = models.TextField(
             verbose_name='Даты бронирования',
             help_text='Даты в которые объект занят',
             blank=True
             )
-#     comments = models.ForeignKey(
-#         Comment,
-#         on_delete=models.CASCADE,
-#         blank=True,
-#         null=True,
-#         related_name='buildings',
-#         verbose_name='Отзыв'
-#     )
     # rating  нужно ли в базе? Может вычислять в сериализаторе
     cost = models.CharField(
             max_length=200,
@@ -148,3 +140,51 @@ class Booking(models.Model):
         db_index=True,
         help_text='Дата окончания аренды'
     )
+
+class News(models.Model):
+    date = models.DateTimeField(
+        verbose_name='Дата создания',
+        help_text='Введите дату создания'
+    )
+    title = models.CharField(
+        verbose_name='Заголовок',
+        max_length=200,
+        help_text='Введите заголовок новости'
+    )
+    news_full_text = models.TextField(
+        verbose_name='Содержание',
+        help_text='Введите текст новости'
+    )
+    news_video_link = models.URLField(
+        verbose_name='Видео',
+        blank=True,
+        help_text='Вставьте ссылку на видео'
+    )
+
+    class Meta:
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+
+    def __str__(self):
+        return self.title
+
+
+class NewsImage(models.Model):
+    news = models.ForeignKey(
+        News,
+        on_delete=models.CASCADE,
+        related_name='news_images'
+    )
+    image = models.ImageField(
+        verbose_name='Изображение',
+        blank=True,
+        upload_to='news_images/%Y/%m/%d/',
+        help_text='Выберите изображение'
+    )
+
+    class Meta:
+        verbose_name = "Изображение"
+        verbose_name_plural = "Изображения"
+
+    def __str__(self):
+        return self.news.title

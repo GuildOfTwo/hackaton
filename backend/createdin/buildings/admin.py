@@ -3,12 +3,12 @@ from django.contrib import admin
 from buildings.models import Building, BuildingPhoto
 
 
-class BuildingsPhotoAdmin(admin.StackedInline):
+class BuildingImageAdmin(admin.StackedInline):
     model = BuildingPhoto
 
 
-class BuildingsAdmin(admin.ModelAdmin):
-    inlines = [BuildingsPhotoAdmin, ]
+class BuildingAdmin(admin.ModelAdmin):
+    inlines = [BuildingImageAdmin]
 
 
-admin.site.register(Building, BuildingsAdmin)
+admin.site.register(Building, BuildingAdmin)

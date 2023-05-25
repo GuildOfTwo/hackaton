@@ -1,13 +1,13 @@
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
-from buildings.models import Building, Booking
+from buildings.models import Building, Booking, News
 from api.serializers import (CommentSerializer,
                              BuildingsSerializer,
                              RenterIndividualProfileSerializer,
                              RenterLegalProfileSerializer,
                              LandlordProfileSerializer,
-                             BookingSerializer)
+                             BookingSerializer, NewsModelSerializer)
 from comments.models import Comment
 from users.models import (RenterIndividualProfile,
                           RenterLegalProfile,
@@ -43,3 +43,9 @@ class BuildingViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+
+
+
+class NewsModelViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsModelSerializer

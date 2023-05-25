@@ -2,8 +2,9 @@ from rest_framework import validators
 from rest_framework.generics import get_object_or_404
 from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
-from buildings.models import Building, BuildingPhoto
+from buildings.models import Building, BuildingPhoto, NewsImage, News
 from users.models import (RenterIndividual, RenterIndividualProfile,
                           RenterLegal, RenterLegalProfile,
                           Landlord, LandlordProfile)
@@ -48,20 +49,20 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
 
-class BuildingsPhotoSerializer(serializers.ModelSerializer):
+class BuildingsPhotoSerializer(ModelSerializer):
     class Meta:
         model = BuildingPhoto
         fields = ['building', 'photo']
 
 
-class BuildingsSerializer(serializers.ModelSerializer):
+class BuildingsSerializer(ModelSerializer):
+    building_images = BuildingsPhotoSerializer(
+        many=True
+    )
     owner = serializers.SlugRelatedField(
         read_only=True, slug_field='email'   # нужно поменят слаг - и нас нет юзернейма
     )
-    images = BuildingsPhotoSerializer(
-        many=True
-    )
-
+    
     class Meta:
         model = Building
         fields = (
@@ -77,9 +78,10 @@ class BuildingsSerializer(serializers.ModelSerializer):
             'area_rent',
             'features',
             'additional_information',
+            'building_images',
             'capacity',
             'cost',
-            'images'
+            'bookings',
         )
 
 
@@ -98,3 +100,20 @@ class BookingSerializer(serializers.ModelSerializer):
             'check_in',
             'check_out',
         )
+
+
+class NewsImageModelSerializer(ModelSerializer):
+    class Meta:
+        model = NewsImage
+        fields = ['image', 'news']
+
+
+class NewsModelSerializer(ModelSerializer):
+    news_images = NewsImageModelSerializer(
+        many=True
+    )
+
+    class Meta:
+        model = News
+        fields = ['id', 'date', 'title', 'news_full_text', 'news_images',
+                  'news_video_link']
