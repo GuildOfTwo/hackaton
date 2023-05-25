@@ -13,17 +13,32 @@
 
 .inputGroup
     display: flex
-
     justify-content: space-between
+    position: relative
+
+.inputGroup, ymaps
+    color: black
 
 .lable
     font-size: 1em
+    color: white
 
 .title
     font-size: 2em
     text-align: center
+    
+input, textarea
+    width: 60%
 
 .buttons
     display: flex
     justify-content: center
     gap: 40px
+.inputError
+    color: #a00303
+    position: absolute
+    right: 20px
+    bottom: -24px
+
+.mapWrapper
+    margin: 0 auto

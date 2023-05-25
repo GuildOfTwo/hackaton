@@ -2,10 +2,22 @@ import styles from "./styles.module.sass";
 
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { GeolocationControl, Map, Placemark } from "@pbe/react-yandex-maps";
+import icon from "../../assets/icons/marker.svg";
 
 export const ObjectForm = ({ lable = "", edit = false }) => {
+  const initialState = {
+    title: "",
+    center: [55.755864, 37.617698],
+    zoom: 12,
+  };
+
+  const [mapConstructor, setMapConstructor] = useState(null);
+  const [state, setState] = useState({ ...initialState });
+  const searchRef = useRef(null);
+
   const {
     handleSubmit,
     register,
@@ -20,6 +32,30 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
   const handleEdit = () => {};
 
   const handleCreate = () => {};
+
+  useEffect(() => {
+    if (mapConstructor) {
+      new mapConstructor.SuggestView(searchRef.current).events.add(
+        "select",
+        function (e) {
+          const selectedName = e.get("item").value;
+          mapConstructor.geocode(selectedName).then((result) => {
+            const newCoords = result.geoObjects
+              .get(0)
+              .geometry.getCoordinates();
+            setState((prevState) => ({ ...prevState, center: newCoords }));
+          });
+        }
+      );
+    }
+  }, [mapConstructor]);
+
+  const mapOptions = {
+    modules: ["geocode", "SuggestView"],
+    // defaultOptions: { suppressMapOpenBlock: true },
+    width: 600,
+    height: 400,
+  };
 
   return (
     <form action="" className={styles.form}>
@@ -98,18 +134,30 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           placeholder="Адрес"
           autoComplete="off"
           disabled={isDisabled}
+          ref={searchRef}
         />
         {errors.adress && (
           <p role="alert" className={styles.inputError}>
             {errors.adress.message}
           </p>
         )}
+        
       </div>
-
-      
-
-    
- 
+      <div className={styles.mapWrapper}>
+      <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
+        <Placemark
+          geometry={state.center}
+          modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+          options={{
+            iconLayout: "default#imageWithContent",
+            iconImageHref: icon,
+            iconImageSize: [20, 60],
+            iconImageOffset: [-20, -40],
+            iconCaptionMaxWidth: 500,
+          }}
+        />
+      </Map>
+      </div>
 
       <div className={styles.buttons}>
         {!isDisabled ? (
@@ -128,6 +176,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           />
         )}
       </div>
+
     </form>
   );
 };
