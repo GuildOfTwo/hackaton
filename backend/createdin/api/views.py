@@ -1,12 +1,14 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
-from buildings.models import Building
+from buildings.models import Building, Status
 from api.serializers import (CommentSerializer,
                              BuildingSerializer,
                              RenterProfileSerializer,
-                             LandlordProfileSerializer)
+                             LandlordProfileSerializer,
+                             StatusSerializer)
 from comments.models import Comment
 from users.models import (RenterProfile,
                           LandlordProfile)
@@ -25,7 +27,9 @@ class LandlordProfileViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('building',)
+                        
 
 class BuildingViewSet(viewsets.ModelViewSet):
     queryset = Building.objects.annotate(
@@ -34,3 +38,10 @@ class BuildingViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('specialization', 'area_sum', 'area_rent',
                         'capacity', 'cost')
+
+
+class StatusViewSet(viewsets.ModelViewSet):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('building',)

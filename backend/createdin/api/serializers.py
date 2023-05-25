@@ -4,7 +4,7 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
-from buildings.models import Building, BuildingImage
+from buildings.models import Building, BuildingImage, Status
 from users.models import (Renter, RenterProfile, Landlord, LandlordProfile)
 from buildings.models import Building, BuildingImage
 
@@ -44,6 +44,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'text',
             'pub_date',
             'score',
+            'building'
         )
 
 
@@ -53,11 +54,22 @@ class BuildingImageModelSerializer(ModelSerializer):
         fields = ('image',)
 
 
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = (
+            'stat',
+            'reject_text',
+            'building',
+        )
+
+
 class BuildingSerializer(ModelSerializer):
     building_images = BuildingImageModelSerializer(
         many=True
     )
     rating = serializers.FloatField()
+    building_status = StatusSerializer(many=True)
 
     class Meta:
         model = Building
@@ -79,5 +91,12 @@ class BuildingSerializer(ModelSerializer):
             'capacity',
             'cost',
             'booking',
-            'rating'
+            'rating',
+            'building_status',
+            'entity',
+            'phone',
+            'email',
+            'inn',
         )
+
+
