@@ -26,22 +26,31 @@ export class Calendar extends React.Component {
     this.generateBooking();
   }
   state = {
-    currentMonth: new Date(),
+    currentMonth: new Date(2023, 5,1),
     bookedDates: [],
     nextMonthDates: [],
   };
 
+  componentDidUpdate(prevProps) {
+    // Обычное использование (не забудьте сравнить свойства):
+    if (this.props.currentMonth !== prevProps.currentMonth) {
+      this.generateBooking();
+    }
+  }
+
   generateBooking = () => {
-    const { currentMonth } = this.state;
+    const { currentMonth } = this.props;
     let bookedDates = [];
     let nextMonthDates = [];
     let dates = this.props.data;
     for (let i = 0; i < dates.length; i++) {
+      console.log(isThisMonth(new Date(dates[i])))
       let date = new Date(dates[i]);
       const day = new Date(dates[i]).getDate();
 
-      const month = isThisMonth(date);
-      if (month) {
+
+      
+      if (currentMonth.getMonth() === date.getMonth()) {
         bookedDates.push(
           new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
         );
@@ -50,7 +59,7 @@ export class Calendar extends React.Component {
           new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
         );
     }
-    this.setState(() => ({ bookedDates }));
+    this.setState((prevState) => ({ ...prevState, bookedDates: bookedDates, nextMonthDates: nextMonthDates }));
   };
 
   isBooked = (date) => {
@@ -60,16 +69,19 @@ export class Calendar extends React.Component {
   };
 
   nextMonth = () => {
-    this.setState(() => ({
-      currentMonth: addMonths(this.state.currentMonth, 1),
-    }));
+    this.props.onChangeMonth(addMonths(this.props.currentMonth, 1),
+    );
+    
   };
 
   prevMonth = () => {
-    this.setState(() => ({
-      currentMonth: subMonths(this.state.currentMonth, 1),
-    }));
+    this.props.onChangeMonth(subMonths(this.props.currentMonth, 1),
+    );
+    
   };
+
+
+
 
   renderButton = () => {
     return (
@@ -89,7 +101,7 @@ export class Calendar extends React.Component {
           </div>
         </div>
         <div className="col col-center">
-          <span>{format(this.state.currentMonth, dateFormat)}</span>
+          <span>{format(this.props.currentMonth, dateFormat)}</span>
         </div>
         <div className="col col-end" onClick={this.nextMonth}>
           <div className="icon">chevron_right</div>
@@ -101,7 +113,7 @@ export class Calendar extends React.Component {
   renderDays = () => {
     const dateFormat = "EEEE";
     const days = [];
-    let startDate = startOfWeek(this.state.currentMonth);
+    let startDate = startOfWeek(this.props.currentMonth);
     for (let i = 1; i < 8; i++) {
       days.push(
         <div className="col col-center" key={i}>
@@ -113,7 +125,7 @@ export class Calendar extends React.Component {
   };
 
   renderCells = () => {
-    const { currentMonth } = this.state;
+    const { currentMonth } = this.props;
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
@@ -164,6 +176,7 @@ export class Calendar extends React.Component {
   };
 
   render() {
+
     return (
       <div className="calendar">
         {this.renderHeader()}

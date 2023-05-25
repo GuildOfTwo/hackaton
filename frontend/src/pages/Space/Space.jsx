@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { data } from "../../TEMP_DATA/DATA";
 import styles from "./styles.module.sass";
+import { useState } from 'react'
 
 // import { SwiperSlider } from "../../components/Swiper/Swiper";
 import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
@@ -21,6 +22,7 @@ export const SpacePage = () => {
 
   const itemData = data.find((el) => el.id == id);
 
+  const [currentMonth, setCurrentMonth] = useState(new Date())
   const rating = itemData.rating;
   const averageRating = useMemo(() => {
     const sum = rating?.reduce((acc, item) => acc + parseInt(item.rating), 0);
@@ -88,7 +90,11 @@ export const SpacePage = () => {
           <p className={styles.description}>{itemData.description}</p>
           <div className={styles.calendarWrapper}>
           <p className={styles.cta}>Выбирите дату и оставьте заявку</p>
-            <Calendar data={itemData.bookedDates} />
+            <Calendar 
+              data={itemData.bookedDates} 
+              currentMonth={currentMonth}
+              onChangeMonth={setCurrentMonth}
+            />
           </div>
         </div>
         {/* <SwiperSlider data={itemData}/> */}
