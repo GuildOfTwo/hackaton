@@ -22,13 +22,13 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: thisisPetrovich/hacaton_backend
+          tags: thisispetrovich/hacaton_backend
       # - name: Push to Docker Hub frontend
       #   uses: docker/build-push-action@v2 
       #   with:
       #     context: ./frontend
       #     push: true
-      #     tags: thisisPetrovich/hacaton_frontend
+      #     tags: thisispetrovich/hacaton_frontend
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
