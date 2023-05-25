@@ -66,7 +66,7 @@ export const Login = () => {
           <label htmlFor="name" className={styles.lable}>
               Пароль
             </label>
-            <div className={styles.inputPass}>
+
               <input
               
                 className={styles.input}
@@ -81,12 +81,8 @@ export const Login = () => {
                   {errors.password.message}
                 </p>
               )}
-              <button
-                type="button"
-                className={styles.showPass}
-                onClick={handleShowPass}
-              ></button>
-            </div>
+ 
+
           </div>
   
          
