@@ -4,12 +4,6 @@ import json
 
 
 class Building(models.Model):
-    CHOICES = [
-        ('FI', 'Кино-, фотосъемка'),
-        ('VI', 'Выставка'),
-        ('AR', 'Арт-пространство'),
-        ('AU', 'Аудиозапись'),
- ]
     owner = models.ForeignKey(
         Landlord,
         on_delete=models.CASCADE,
@@ -25,8 +19,7 @@ class Building(models.Model):
     )
     specialization = models.CharField(
             verbose_name='Специализация',
-            help_text='Выберите специализацию обьекта',
-            choices = CHOICES,
+            help_text='Введите специализацию обьекта',
             max_length=200
     )
     desc = models.TextField(
@@ -57,12 +50,14 @@ class Building(models.Model):
     area_sum = models.PositiveIntegerField(
             verbose_name='Общая площадь имущественного комплекса (кв. м)',
             help_text='Введите общую площадь имущественного комплекса (кв. м)',
-            blank=True
+            blank=True,
+            null=True
     )
     area_rent = models.PositiveIntegerField(
             verbose_name='Свободная арендопригодная площадь (кв. м)',
             help_text='Введите свободную арендопригодную площадь (кв. м)',
-            blank=True
+            blank=True,
+            null=True
     )
     features = models.TextField(
             verbose_name='Особенности',
@@ -74,22 +69,45 @@ class Building(models.Model):
             help_text='Введите важную по вашему мнению дополнительную информацию',
             blank=True
             )
-    capacity = models.CharField(
-            max_length=200,
+    capacity = models.PositiveIntegerField(
+            verbose_name='Вместимость, чел.',
+            help_text='Введите вместимость, чел.',
             blank=True,
-            verbose_name='Вместимость обьекта',
-            help_text='Введите вместимость обьекта (кол. людей)'
+            null=True
     )
     booking = models.TextField(
             verbose_name='Даты бронирования',
             help_text='Даты в которые объект занят',
             blank=True
             )
-    # rating  нужно ли в базе? Может вычислять в сериализаторе
-    cost = models.CharField(
+    cost = models.PositiveIntegerField(
+            verbose_name='Стоимость',
+            help_text='Введите стоимость аренды за сутки',
+            blank=True,
+            null=True
+    )
+    entity = models.CharField(
             max_length=200,
             blank=True,
-            verbose_name='Стоимость',
+            verbose_name='Юр. название',
+            help_text='Введите стоимость аренды'
+    )
+    phone = models.CharField(
+            max_length=30,
+            blank=True,
+            verbose_name='Контактный телефон',
+            help_text='Введите телефон'
+    ) 
+    email = models.CharField(
+            max_length=30,
+            blank=True,
+            verbose_name='Адрес электронной почты',
+            help_text='Введите почту'
+    )
+    inn  = models.CharField(
+            max_length=12,
+            blank=True,
+            verbose_name='ИНН',
             help_text='Введите стоимость аренды'
     )
     
@@ -126,6 +144,37 @@ class BuildingImage(models.Model):
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
+
+    def __str__(self):
+        return self.building.title
+    
+
+class Status(models.Model):
+    CHOICES = [
+        ('Опубликовано', 'Опубликовано'),
+        ('Заблокировано', 'Заблокировано'),
+        ('Снято с публикации', 'Снято с публикации'),
+ ]
+    stat = models.CharField(
+            verbose_name='Состояние',
+            help_text='Выберите состояние добавленного обьекта',
+            choices = CHOICES,
+            max_length=200
+    )
+    reject_text = models.TextField(
+            verbose_name='Комментарий администратора',
+            help_text='Введите текст комментария',
+            blank=True,
+    )
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.CASCADE,
+        related_name='building_status'
+    )
+
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = "Статусы"
 
     def __str__(self):
         return self.building.title
