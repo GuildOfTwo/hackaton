@@ -40,8 +40,8 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo docker pull thisisPetrovich/hacaton_backend:latest
-          # sudo docker pull thisisPetrovich/hacaton_frontend:latest
+          sudo docker pull thisispetrovich/hacaton_backend:latest
+          # sudo docker pull thisispetrovich/hacaton_frontend:latest
           sudo docker compose stop
           sudo docker compose rm backend
           sudo docker compose rm frontend
