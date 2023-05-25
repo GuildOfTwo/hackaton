@@ -118,32 +118,38 @@ class RenterProfile(models.Model):
     job_title = models.CharField(
         verbose_name='Должность',
         max_length=50,
-        blank=True
+        blank=True,
+        null=True,
     )
     contact_email = models.EmailField(
         verbose_name='Контактный email',
         unique=False,
-        blank=True
+        blank=True,
+        null=True,
     )
     phone_number = models.CharField(
         verbose_name='Контактный телефон',
         validators=[phone_regex],
         max_length=12,
-        blank=True
+        blank=True,
+        null=True,
     )
     adress = models.CharField(
         verbose_name='Адрес организации',
         max_length=300,
-        blank=True
+        blank=True,
+        null=True,
     )
     inn = models.IntegerField(
         verbose_name='ИНН организации',
-        blank=True
+        blank=True,
+        null=True,
     )
     organization_name = models.CharField(
         verbose_name='Название организации',
         max_length=300,
-        blank=True
+        blank=True,
+        null=True,
     )
     organization_type = models.CharField(
         verbose_name='Юридический статус',
@@ -181,33 +187,39 @@ class LandlordProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     job_title = models.CharField(
         blank=True,
+        null=True,
         verbose_name='Должность',
         max_length=50,
     )
     contact_email = models.EmailField(
         verbose_name='Контактный email',
         unique=False,
-        blank=True
+        blank=True,
+        null=True,
     )
     phone_number = models.CharField(
         verbose_name='Контактный телефон',
         validators=[phone_regex],
         max_length=12,
-        blank=True
+        blank=True,
+        null=True,
     )
     adress = models.CharField(
         verbose_name='Адрес организации',
         max_length=300,
-        blank=True
+        blank=True,
+        null=True,
     )
     inn = models.IntegerField(
         verbose_name='ИНН организации',
-        blank=True
+        blank=True,
+        null=True,
     )
     organization_name = models.CharField(
         verbose_name='Название организации',
         max_length=300,
-        blank=True
+        blank=True,
+        null=True,
     )
     organization_type = models.CharField(
         verbose_name='Юридический статус',
