@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import Landlord
-from users.models import RenterIndividual
 import json
 
 
@@ -81,7 +80,7 @@ class Building(models.Model):
             verbose_name='Вместимость обьекта',
             help_text='Введите вместимость обьекта (кол. людей)'
     )
-    bookings = models.TextField(
+    booking = models.TextField(
             verbose_name='Даты бронирования',
             help_text='Даты в которые объект занят',
             blank=True
@@ -100,41 +99,15 @@ class Building(models.Model):
         verbose_name_plural = 'Обьекты'
         ordering = ['-cost']
 
-    def set_bookings(self, x):
-        self.bookings = json.dumps(x)
+    def set_booking(self, x):
+        self.booking = json.dumps(x)
     
-    def get_bookings(self):
-        return [self.bookings]
+    def get_booking(self):
+        return [self.booking]
 
 
     def __str__(self):
         return self.title
-
-
-class Booking(models.Model):
-    building = models.ForeignKey(
-        Building,
-        on_delete=models.CASCADE,
-        related_name='booking'
-    )
-    renter = models.ForeignKey(
-        RenterIndividual,
-        on_delete=models.CASCADE,
-        related_name='booking',
-        verbose_name='Арендатор'
-    )
-    check_in = models.DateTimeField(
-        'Дата начала аренды',
-        auto_now_add=True,
-        db_index=True,
-        help_text='Дата начала аренды'
-    )
-    check_out = models.DateTimeField(
-        'Дата окончания аренды',
-        auto_now_add=True,
-        db_index=True,
-        help_text='Дата окончания аренды'
-    )
 
 
 class BuildingImage(models.Model):
