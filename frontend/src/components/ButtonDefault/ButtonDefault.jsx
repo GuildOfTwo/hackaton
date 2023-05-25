@@ -1,10 +1,19 @@
-import styles from './styles.module.sass'
+import styles from "./styles.module.sass";
 
-
-export const ButtonDefault = ({lable = 'text', action, disabled = false}) => {
-
-
-    return (
-        <button className={disabled ? styles.disabled : styles.button} onClick={action} disabled={disabled}>{lable}</button>
-    )
-}
+export const ButtonDefault = ({
+  lable = "text",
+  action,
+  disabled = false,
+  width = "",
+}) => {
+  return (
+    <button
+      className={disabled ? styles.disabled : styles.button}
+      onClick={action}
+      disabled={disabled}
+      style={{width: width}}
+    >
+      {lable}
+    </button>
+  );
+};
