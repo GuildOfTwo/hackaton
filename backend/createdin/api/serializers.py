@@ -4,12 +4,9 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
-from buildings.models import Building, BuildingPhoto
-from users.models import (Renter, RenterProfile,
 from buildings.models import Building, BuildingImage
-from users.models import (RenterIndividual, RenterIndividualProfile,
-                          RenterLegal, RenterLegalProfile,
-                          Landlord, LandlordProfile)
+from users.models import (Renter, RenterProfile, Landlord, LandlordProfile)
+from buildings.models import Building, BuildingImage
 
 
 
@@ -40,23 +37,6 @@ class CommentSerializer(serializers.ModelSerializer):
             'text',
             'pub_date',
             'score',
-        )
-
-
-class BookingSerializer(serializers.ModelSerializer):
-    building = serializers.SlugRelatedField(
-        read_only=True, slug_field='title'
-    )
-    renter = serializers.SlugRelatedField(
-        read_only=True, slug_field='email'
-    )
-    class Meta:
-        model = Comment
-        fields = (
-            'building',
-            'renter',
-            'check_in',
-            'check_out',
         )
 
 
@@ -91,6 +71,6 @@ class BuildingSerializer(ModelSerializer):
             'building_images',
             'capacity',
             'cost',
-            'bookings',
+            'booking',
             'rating'
         )
