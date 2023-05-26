@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { GeolocationControl, Map, Placemark } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
+import { ImagesUpload } from "./ImagesUpload";
 
 export const ObjectForm = ({ lable = "", edit = false }) => {
   const initialState = {
@@ -143,6 +144,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
         )}
         
       </div>
+      <ImagesUpload />
       <div className={styles.mapWrapper}>
       <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
         <Placemark
@@ -176,6 +178,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           />
         )}
       </div>
+
 
     </form>
   );
