@@ -3,10 +3,17 @@ import styles from "./styles.module.sass";
 import React, { useState } from "react";
 import DatePicker from "react-multi-date-picker";
 import gregorian_ru_lowercase from "./locale";
+import resetIcon from "../../assets/icons/reset.png";
+import { useSelector } from "react-redux";
 
 export const Filters = () => {
-  const [value, setValue] = useState([]);
-  const [price, setPrice] = useState(1000);
+  let today = new Date
+  const [value, setValue] = useState([today]);
+  const [price, setPrice] = useState(20000);
+  const [type, setType] = useState('Лофт')
+
+  const data = useSelector(state => state.cards.state)
+  const filteredData = useSelector(state => state.filtered.state)
 
   const getDate = () => {
     let array = [];
@@ -22,6 +29,10 @@ export const Filters = () => {
     console.log(date);
   }
 
+  const handleReset = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <section className={styles.section}>
       <form action="" className={styles.form}>
@@ -29,15 +40,15 @@ export const Filters = () => {
           <label htmlFor="name" className="form-group__lable">
             Тип площадки
           </label>
-          <select name="select">
+          <select name="select" onChange={(e) => setType(e.target.value)}>
             <option value="Арт">Лофт</option>
-            <option value="ПО и компьютерные игры">Мастерская</option>
+            <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
             <option value="Реклама">Реклама</option>
             <option value="Дизайн">Дизайн</option>
             <option value="Мода">Мода</option>
             <option value="Кино и анимация">Кино и анимация</option>
             <option value="Телерадиовещание и новые медиа">
-              Телерадиовещание и новые медиа
+              Телерадиовещание и медиа
             </option>
             <option value="Издательское дело">Издательское дело</option>
             <option value="Архитектура">Архитектура</option>
@@ -72,13 +83,17 @@ export const Filters = () => {
             id="price"
             type="range"
             min="0"
-            max="1000"
-            step="100"
+            max="100000"
+            step="1000"
+            value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
         </div>
 
         <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
+        <button className={styles.reset} onClick={(e) => handleReset(e)}>
+          <img src={resetIcon} alt="сбросить фильтр" />
+        </button>
       </form>
     </section>
   );
