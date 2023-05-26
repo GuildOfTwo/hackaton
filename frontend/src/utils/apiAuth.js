@@ -1,9 +1,9 @@
-import { BASE_URL } from './constants';
+import { BASE_URL_AUTH } from './constants';
 import { getResponse} from './utils';
 
 class Api {
   constructor() {
-    this._base_url = BASE_URL;
+    this._base_url = BASE_URL_AUTH;
   }
 
   register(data) {

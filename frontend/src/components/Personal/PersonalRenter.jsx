@@ -1,7 +1,7 @@
-import { PersonalForm } from "./PersonalForm";
+import { PersonalForm } from "./FormLandlord";
 import styles from "./styles.module.sass";
 
-export const PersonalTenant = () => {
+export const PersonalRenter = () => {
   return (
     <div className={styles.element}>
       <PersonalForm />

@@ -5,7 +5,7 @@ import { ObjectItem } from "./ObjectItem";
 import { useSelector } from "react-redux";
 
 export const ObjectsList = ({ id }) => {
-  let tempId = 1;
+  let tempId = 16;
   const [cards, setCards] = useState([]);
   const data = useSelector((state) => state.cards.state);
 
@@ -20,7 +20,7 @@ export const ObjectsList = ({ id }) => {
 
   return (
     <>
-      {cards.length >= 1 ? (
+      {cards?.length >= 1 ? (
         cards.map((el, index) => <ObjectItem data={el} key={index} />)
       ) : (
         <div className={styles.emptyObjects}>Нет добавленных объектов</div>

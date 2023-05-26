@@ -5,7 +5,7 @@ import { useState } from "react";
 import { css } from "styled-components";
 export const CardItem = ({data}) => {
 
-    const {title, desc, id, images} = data
+    const {title, desc, id, building_images} = data
 
     const [isHovering, setIsHovering] = useState(false);
 
@@ -28,7 +28,7 @@ export const CardItem = ({data}) => {
             <h2 className={styles.cardItem__title}>{title}</h2>
 
         <div className={styles.imgWrapper}>
-            <img src={images[0]} alt="" className={styles.img}/>
+            <img src={building_images[0].image} alt="" className={styles.img}/>
             </div>
    
             

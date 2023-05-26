@@ -39,6 +39,8 @@ export const SpacePage = () => {
   //   return Math.round(sum / rating.length);
   // }, [rating]);
 
+  let locationArray = card.coordinates ? card.coordinates.split(',').map(Number) : [];
+
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>{card.title}</h2>
@@ -111,10 +113,10 @@ export const SpacePage = () => {
         
         <div className={styles.grid}>
           
-         {card.coordinates && <YandexMapSpace data={card.coordinates} />} 
-          {card.images?.map((el, index) => (
+         {locationArray.length && <YandexMapSpace data={locationArray} />} 
+          {card.building_images?.map((el, index) => (
             <div className={styles.imgWrapper} key={index}>
-              <img src={el} alt="" className={styles.img} />
+              <img src={el.image} alt="" className={styles.img} />
             </div>
           ))}
         </div>

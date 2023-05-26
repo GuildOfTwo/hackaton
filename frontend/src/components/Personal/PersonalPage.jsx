@@ -1,16 +1,26 @@
 import styles from "./styles.module.sass";
-import { PersonalForm } from "./PersonalForm";
+import { FormLandlord } from "./FormLandlord";
 import { AddNewObject } from "./addNewObject";
 import { ObjectsList } from "./objectsList";
+import { FormRenter } from "./FormRenter";
 
-export const PersonalPage = () => { 
+export const PersonalPage = () => {
+  const role = localStorage.getItem("role");
+
   return (
     <div className={styles.element}>
-      <PersonalForm />
-      <div className={styles.objectsSection}>
-        <AddNewObject />
-        <ObjectsList />
-      </div>
+      {role == "RENTER" ? (
+        <FormRenter />
+      ) : (
+        <>
+          {" "}
+          <FormLandlord />
+          <div className={styles.objectsSection}>
+            <AddNewObject />
+            <ObjectsList />
+          </div>
+        </>
+      )}
     </div>
   );
 };

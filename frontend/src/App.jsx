@@ -12,6 +12,7 @@ import {
 } from "./store/authSlice";
 import { apiAuth } from "./utils/apiAuth";
 import { setUserData } from "./store/userSlice";
+import { apiObjects } from "./utils/objectsApi";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,15 +24,24 @@ function App() {
       dispatch(setLoggedIn(true));
       dispatch(setToken(token));
       apiAuth
-      .getUserData(token)
-      .then((res) => dispatch(setUserData(res)))
-      .catch(err => console.log(err))
+        .getUserData(token)
+        .then((res) => {
+          dispatch(setUserData(res));
+          localStorage.setItem("role", res.role);
+        })
+        .catch((err) => console.log(err));
+   
     }
   }, [isLoggedIn]);
 
-
   useEffect(() => {
-    dispatch(setData(data));
+    apiObjects
+    .getObjectsList()
+    .then((res) => {
+      console.log(res)
+      dispatch(setData(res));
+    })
+    .catch((err) => console.log(err));
   }, []);
   return (
     <>

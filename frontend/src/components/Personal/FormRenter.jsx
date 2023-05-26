@@ -5,7 +5,7 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { useSelector } from "react-redux";
 
 
-export const PersonalForm = () => {
+export const FormRenter = () => {
     const [isDisabled, setIsDisabled] = useState(true);
     const data = useSelector(state => state.user.state)
     const {
@@ -16,123 +16,10 @@ export const PersonalForm = () => {
     } = useForm({
       mode: "onChange",
     });
-    const {role} = useSelector(state => state.user.state)
-if (role) {
-if(role == "LANDLORD") {
-    return(
-        <form action="" className={styles.form}>
-        <h2 className={styles.title}>Изменение данных профиля1</h2>
 
-        <div className={styles.inputGroup}>
-          <label htmlFor="lastName" className={styles.lable}>
-            Фамилия
-          </label>
-          <input
-            {...register("lastName", {
-              required: "Обязательное поле",
-              minLength: {
-                value: 2,
-                message: "This input must exceed 2 characters",
-              },
-            })}
-            className={styles.input}
-            name="lastName"
-            id="lastName"
-            type="text"
-            placeholder="Фамилия"
-            autoComplete="off"
-            disabled={isDisabled}
-          />
-          {errors.name && (
-            <p role="alert" className={styles.inputError}>
-              {errors.name.message}
-            </p>
-          )}
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="firstName" className={styles.lable}>
-            Имя
-          </label>
-          <input
-            {...register("firstName", {
-              required: "Обязательное поле",
-              minLength: {
-                value: 2,
-                message: "This input must exceed 2 characters",
-              },
-            })}
-            className={styles.input}
-            name="firstName"
-            id="firstName"
-            type="text"
-            placeholder="Имя"
-            autoComplete="off"
-            disabled={isDisabled}
-          />
-          {errors.name && (
-            <p role="alert" className={styles.inputError}>
-              {errors.name.message}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="fatherName" className={styles.lable}>
-            Отчество
-          </label>
-          <input
-            {...register("fatherName", {
-              required: false,
-              minLength: {
-                value: 2,
-                message: "This input must exceed 2 characters",
-              },
-            })}
-            className={styles.input}
-            name="fatherName"
-            id="fatherName"
-            type="text"
-            placeholder="Отчество"
-            autoComplete="off"
-            disabled={isDisabled}
-          />
-          {errors.name && (
-            <p role="alert" className={styles.inputError}>
-              {errors.name.message}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.buttons}>
-          {!isDisabled ? (
-            <>
-              <ButtonDefault
-                lable="Сохранить изменения"
-                disabled={
-                  true
-                }
-
-                action={() => alert('хер тебе, а не сохранение')}
-              />
-              <ButtonDefault
-                lable="Отмена"
-    
-                action={() => setIsDisabled(true)}
-              />
-            </>
-          ) : (
-            <ButtonDefault
-              lable="Редактировать"
- 
-              action={() => setIsDisabled(false)}
-            />
-          )}
-        </div>
-      </form>
-    )} else if(role == 'RENTER') {
       return (
         <form action="" className={styles.form}>
-        <h2 className={styles.title}>Изменение данных профиля2</h2>
+        <h2 className={styles.title}>Изменение данных профиля RENTER</h2>
 
         <div className={styles.inputGroup}>
           <label htmlFor="lastName" className={styles.lable}>
@@ -242,5 +129,4 @@ if(role == "LANDLORD") {
       </form>
       )
     }
-  }
-}
+  
