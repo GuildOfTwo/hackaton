@@ -145,4 +145,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 
-CORS_ORIGIN_ALLOW_ALL=True
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
