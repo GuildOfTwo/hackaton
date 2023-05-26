@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://37.230.196.234/auth/'
+export const BASE_URL = 'https://cors-anywhere.herokuapp.com/http://37.230.196.234/auth/'

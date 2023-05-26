@@ -9,14 +9,15 @@ class Api {
   register(data) {
     return fetch(`${this._base_url}users/`, {
       method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
+      headers: { 
+        Accept: "application/json", 
+        "Content-Type": "application/json", 
       },
       body: JSON.stringify(data)
     })
     .then(getResponse)
   }
-
+  
   login(data) {
     return fetch(`${this._base_url}token/login/`, {
       method: 'POST',
@@ -27,6 +28,18 @@ class Api {
     })
     .then(getResponse)
   }
+
+  logout() {
+    return fetch(`${this._base_url}token/logout/`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    .then(getResponse)
+  }
+
+  
 
   updateTokens(token) {
     return fetch(`${this._base_url}/auth/token/`, {
