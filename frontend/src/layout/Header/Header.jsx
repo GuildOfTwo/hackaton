@@ -1,7 +1,7 @@
 import styles from "./styles.module.sass";
 import logo from "../../assets/images/headerLogo.svg";
 import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiAuth } from "../../utils/apiAuth";
 import { setLoggedOut, deleteToken } from "../../store/authSlice";
@@ -13,21 +13,20 @@ export const Header = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
-  console.log(token);
-
   const handleLogout = () => {
     // apiAuth
     //   .logout(token)
     //   .then((res) => {
-        dispatch(setLoggedOut(true));
-        dispatch(deleteToken(token));
-        localStorage.clear();
-        // console.log(res);
-        navigate('/')
-        apiAuth.logout(token)
+    dispatch(setLoggedOut(true));
+    dispatch(deleteToken(token));
+    localStorage.clear();
+    // console.log(res);
+    navigate("/");
+    apiAuth.logout(token);
     //   })
     //   .catch((err) => console.log(err));
   };
+  const location = useLocation();
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -36,13 +35,16 @@ export const Header = () => {
           Креативные площадки Москвы
         </h1>
         {logedIn ? (
-          <>
-            <ButtonDefault
-              lable="В личный кабинет"
-              action={() => navigate("/lk")}
-            />
+          <div className={styles.btnWrapper}>
+            {location.pathname !== "/lk" && (
+              <ButtonDefault
+                lable="Личный кабинет"
+                action={() => navigate("/lk")}
+              />
+            )}
+
             <ButtonDefault lable="Выйти" action={() => handleLogout()} />
-          </>
+          </div>
         ) : (
           <ButtonDefault lable="Войти" action={() => navigate("/auth")} />
         )}

@@ -11,3 +11,8 @@ admin
 RENTER
 testMail55@mail.ru
 12345678F%
+
+
+LANDLORD
+landlords@mail.ru
+1234567%dD

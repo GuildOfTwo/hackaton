@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { apiAuth } from '../../utils/apiAuth';
+import { apiAuth } from "../../utils/apiAuth";
+import { useDispatch } from "react-redux";
+import { setToken, setLoggedIn } from "../../store/authSlice";
 
 export const Register = () => {
   const {
@@ -22,30 +24,48 @@ export const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   // console.log(useRegisterMutation())
+  const dispatch = useDispatch();
 
-
-
-
-  const onSubmit =  (data, e) => {
+  const onSubmit = (data, e) => {
     const authData = {
-      "email": data.email,
-      "password": data.password,
-      "role": role
+      email: data.email,
+      password: data.password,
+      role: role,
     };
     e.preventDefault();
-    apiAuth.register(authData) 
-      .then(res => {
-        console.log(res)
+    apiAuth
+      .register(authData)
+      .then((res) => {
+        console.log(res);
       })
-      .catch(err => console.log(err))
+      .then(() => {
+        login(authData);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleShowPass = () => {
     setShowPass(!showPass);
   };
 
-  const [role, setRole] = useState('RENTER');
+  const login = (data) => {
+    const authData = {
+      email: data.email,
+      password: data.password,
+    };
+    apiAuth
+      .login(authData)
+      .then((res) => {
+        console.log(res);
+        dispatch(setToken(res.auth_token));
+        dispatch(setLoggedIn(true));
+        localStorage.setItem("logIn", true);
+        localStorage.setItem("token", res.auth_token);
+      })
+      .catch((err) => console.log(err));
+  };
 
+  const [role, setRole] = useState("RENTER");
 
   return (
     <section className={styles.auth}>
@@ -136,20 +156,22 @@ export const Register = () => {
           <label className={styles.lable}>Вы регистрируетесь как..</label>
 
           <div className={styles.buttons}>
-        <button
-          className={role == 'RENTER' ? styles.buttonActive : styles.button}
-          onClick={() => setRole('RENTER')}
-        >
-          Арендатор
-        </button>
-     
-        <button
-          className={role == 'LANDLORD' ? styles.buttonActive : styles.button}
-          onClick={() => setRole('LANDLORD')}
-        >
-          Арендодатель
-        </button>
-      </div>
+            <button 
+              className={role == "RENTER" ? styles.buttonActive : styles.button}
+              onClick={(e) => {e.preventDefault();setRole("RENTER")}}
+            >
+              Арендатор
+            </button>
+
+            <button 
+              className={
+                role == "LANDLORD" ? styles.buttonActive : styles.button
+              }
+              onClick={(e) => {e.preventDefault();setRole("LANDLORD")}}
+            >
+              Арендодатель
+            </button>
+          </div>
         </div>
 
         <ButtonDefault type="submit" lable="Зарегистрироваться" />

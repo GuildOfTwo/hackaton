@@ -5,7 +5,7 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { useSelector } from "react-redux";
 
 
-export const PersonalForm = ({tenant, landlord}) => {
+export const PersonalForm = () => {
     const [isDisabled, setIsDisabled] = useState(true);
     const data = useSelector(state => state.user.state)
     const {
@@ -16,7 +16,9 @@ export const PersonalForm = ({tenant, landlord}) => {
     } = useForm({
       mode: "onChange",
     });
-if(landlord) {
+    const {role} = useSelector(state => state.user.state)
+if (role) {
+if(role == "LANDLORD") {
     return(
         <form action="" className={styles.form}>
         <h2 className={styles.title}>Изменение данных профиля1</h2>
@@ -127,7 +129,7 @@ if(landlord) {
           )}
         </div>
       </form>
-    )} else {
+    )} else if(role == 'RENTER') {
       return (
         <form action="" className={styles.form}>
         <h2 className={styles.title}>Изменение данных профиля2</h2>
@@ -240,5 +242,5 @@ if(landlord) {
       </form>
       )
     }
-
+  }
 }
