@@ -26,7 +26,6 @@ export class Calendar extends React.Component {
     this.generateBooking();
   }
   state = {
-    currentMonth: new Date(2023, 5,1),
     bookedDates: [],
     nextMonthDates: [],
   };

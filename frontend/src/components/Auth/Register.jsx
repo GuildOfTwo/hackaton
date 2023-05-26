@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { useRegisterMutation } from '../../utils/userApi';
 
 export const Register = () => {
   const {
@@ -16,22 +17,27 @@ export const Register = () => {
   } = useForm({
     mode: "onChange",
   });
+
+  const [register] = useRegisterMutation()
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
+  console.log(useRegisterMutation())
+
+
+
 
   const onSubmit = async (data) => {
-    mainApi
-      .register(data)
-      .then((res) => {
-        dispatch(setToken(res.token));
-        dispatch(setLoggedIn(true));
-        localStorage.setItem("logIn", true);
-        localStorage.setItem("token", res.token);
-      })
-      .finally(() => navigate("/"))
-      .catch((err) => {
-        console.warn(err);
-      });
+    register(data)
+      // .then((res) => {
+      //   dispatch(setToken(res.token));
+      //   dispatch(setLoggedIn(true));
+      //   localStorage.setItem("logIn", true);
+      //   localStorage.setItem("token", res.token);
+      // })
+      // .finally(() => navigate("/"))
+      // .catch((err) => {
+      //   console.warn(err);
+      // });
   };
 
   const handleShowPass = () => {
