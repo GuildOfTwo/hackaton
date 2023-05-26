@@ -18,16 +18,20 @@ export const Register = () => {
     mode: "onChange",
   });
 
-  const [register] = useRegisterMutation()
+  // const [register] = useRegisterMutation()
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
-  console.log(useRegisterMutation())
+  // console.log(useRegisterMutation())
 
 
 
 
   const onSubmit = async (data) => {
-    register(data)
+    const authData = {
+      email: data.email,
+      password: data.password,
+    };
+    console.log(authData)
       // .then((res) => {
       //   dispatch(setToken(res.token));
       //   dispatch(setLoggedIn(true));
