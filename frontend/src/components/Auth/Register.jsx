@@ -26,12 +26,13 @@ export const Register = () => {
 
 
 
-  const onSubmit =  (data) => {
+  const onSubmit =  (data, e) => {
     const authData = {
-      email: data.email,
-      password: data.password,
-      role
+      "email": data.email,
+      "password": data.password,
+      "role": role
     };
+    e.preventDefault();
     apiAuth.register(authData) 
       .then(res => {
         console.log(res)
@@ -213,22 +214,24 @@ export const Register = () => {
 
           <div className={styles.buttons}>
         <button
+          type='button'
           className={role == 'Арендатор' ? styles.buttonActive : styles.button}
-          onClick={() => setRole('Арендатор')}
+          onClick={() => setRole('RENTER')}
         >
           Арендатор
         </button>
      
         <button
+          type='button'
           className={role == 'Арендодатель' ? styles.buttonActive : styles.button}
-          onClick={() => setRole('Арендодатель')}
+          onClick={() => setRole('RENTER')}
         >
           Арендодатель
         </button>
       </div>
         </div>
 
-        <ButtonDefault lable="Зарегистрироваться" />
+        <ButtonDefault type="submit" lable="Зарегистрироваться" />
         <Link to="/agreement" className={styles.link}>
           Регистрируясь вы принимаете условия пользовательского соглашения
         </Link>

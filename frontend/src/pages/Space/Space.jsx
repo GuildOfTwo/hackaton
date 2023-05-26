@@ -17,6 +17,7 @@ import { Calendar } from "../../components/Calendar/Calendar";
 import { useMemo } from "react";
 import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
 import { useSelector } from "react-redux";
+import { Feedback } from '../../components/Feedbacks/Feedback/Feedback';
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -105,7 +106,9 @@ export const SpacePage = () => {
             />}
            
           </div>
+          <Feedback  text="Клевое место" score={10} author="Vasia Pupkin" date={new Date()}/>
         </div>
+        
         <div className={styles.grid}>
           
          {card.coordinates && <YandexMapSpace data={card.coordinates} />} 
@@ -116,6 +119,7 @@ export const SpacePage = () => {
           ))}
         </div>
       </div>
+      
     </section>
   );
 };

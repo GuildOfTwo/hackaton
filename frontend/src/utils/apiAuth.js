@@ -9,7 +9,7 @@ class Api {
   register(data) {
     return fetch(`${this._base_url}users/`, {
       method: 'POST',
-      mode: "no-cors",
+      //mode: "no-cors",
       headers: {
         'Content-type': 'application/json'
       },
