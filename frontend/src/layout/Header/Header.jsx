@@ -24,6 +24,7 @@ export const Header = () => {
         localStorage.clear();
         // console.log(res);
         navigate('/')
+        apiAuth.logout(token)
     //   })
     //   .catch((err) => console.log(err));
   };
