@@ -10,6 +10,8 @@ import {
   setLoggedOut,
   deleteToken,
 } from "./store/authSlice";
+import { apiAuth } from "./utils/apiAuth";
+import { setUserData } from "./store/userSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,9 +22,14 @@ function App() {
     if (isLoggedIn) {
       dispatch(setLoggedIn(true));
       dispatch(setToken(token));
+      apiAuth
+      .getUserData(token)
+      .then((res) => dispatch(setUserData(res)))
+      .catch(err => console.log(err))
     }
   }, [isLoggedIn]);
-console.log(isLoggedIn)
+
+
   useEffect(() => {
     dispatch(setData(data));
   }, []);

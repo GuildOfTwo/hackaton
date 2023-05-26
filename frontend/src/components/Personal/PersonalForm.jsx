@@ -2,10 +2,12 @@ import { useState } from "react";
 import styles from "./styles.module.sass";
 import { useForm } from "react-hook-form";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { useSelector } from "react-redux";
 
 
 export const PersonalForm = ({tenant, landlord}) => {
     const [isDisabled, setIsDisabled] = useState(true);
+    const data = useSelector(state => state.user.state)
     const {
       handleSubmit,
       register,

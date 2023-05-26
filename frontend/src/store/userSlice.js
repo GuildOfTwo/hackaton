@@ -7,11 +7,11 @@ const userSlise = createSlice({
   },
 
   reducers: {
-    setData(state, action) {
+    setUserData(state, action) {
       state.state = action.payload;
     },
   },
 });
 
-export const { setData } = userSlise.actions;
+export const { setUserData } = userSlise.actions;
 export default userSlise.reducer;

@@ -29,17 +29,32 @@ class Api {
     .then(getResponse)
   }
 
-  logout() {
+  logout(token) {
     return fetch(`${this._base_url}token/logout/`, {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
-      }
+        'Content-type': 'application/json',
+        authorization:`token ${token}`
+      },
     })
     .then(getResponse)
   }
 
   
+  getUserData(token) {
+    return fetch(`${this._base_url}users/me/`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        authorization:`token ${token}`
+      },
+    
+    })
+    .then(getResponse)
+  }
+
+
+
 
   updateTokens(token) {
     return fetch(`${this._base_url}/auth/token/`, {

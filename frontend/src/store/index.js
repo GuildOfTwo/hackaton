@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import dataSlice from "./dataSlice";
 import filterSlice from "./filterSlice";
 import authSlice from "./authSlice";
+import userSlice from "./userSlice";
 // import authSlice from "./authSlice";
 // import modalSlice from "./modalSlice";
 
@@ -10,6 +11,6 @@ export default configureStore({
     cards: dataSlice,
     filtered: filterSlice,
     auth: authSlice,
-    // modal: modalSlice
+    user: userSlice
   },
 });

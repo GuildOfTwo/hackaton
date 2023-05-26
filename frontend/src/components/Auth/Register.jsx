@@ -137,26 +137,15 @@ export const Register = () => {
 
           <div className={styles.buttons}>
         <button
-<<<<<<< HEAD
-          type='button'
-          className={role == 'Арендатор' ? styles.buttonActive : styles.button}
-=======
           className={role == 'RENTER' ? styles.buttonActive : styles.button}
->>>>>>> 3ec18c689b87bdd7f577d3122b11ed0f17da81db
           onClick={() => setRole('RENTER')}
         >
           Арендатор
         </button>
      
         <button
-<<<<<<< HEAD
-          type='button'
-          className={role == 'Арендодатель' ? styles.buttonActive : styles.button}
-          onClick={() => setRole('RENTER')}
-=======
           className={role == 'LANDLORD' ? styles.buttonActive : styles.button}
           onClick={() => setRole('LANDLORD')}
->>>>>>> 3ec18c689b87bdd7f577d3122b11ed0f17da81db
         >
           Арендодатель
         </button>
