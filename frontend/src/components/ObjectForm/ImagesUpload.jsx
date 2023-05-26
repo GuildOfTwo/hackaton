@@ -4,11 +4,10 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 
 import imagesUpload from "./imagesUpload.module.sass";
 
-export const ImagesUpload = () => {
+export const ImagesUpload = ({ files, setFiles}) => {
   const [selectedfile, SetSelectedFile] = useState([]);
-  const [Files, SetFiles] = useState([]);
 
-  console.log(Files);
+
 
   const InputChange = (e) => {
     let images = [];
@@ -36,7 +35,7 @@ export const ImagesUpload = () => {
     e.preventDefault();
     if (selectedfile.length > 0) {
       for (let index = 0; index < selectedfile.length; index++) {
-        SetFiles((preValue) => {
+        setFiles((preValue) => {
           return [...preValue, selectedfile[index]];
         });
       }
@@ -66,7 +65,7 @@ export const ImagesUpload = () => {
       <p className={imagesUpload.text}>
         {selectedfile.length} выбранно
       </p>
-      <p className={imagesUpload.text}> {Files.length} загруженно</p>
+      <p className={imagesUpload.text}> {files.length} загруженно</p>
       </div>
 
       <div className={imagesUpload.btnWrapper}>

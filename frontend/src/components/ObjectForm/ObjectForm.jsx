@@ -1,12 +1,13 @@
 import styles from "./styles.module.sass";
 
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { GeolocationControl, Map, Placemark } from "@pbe/react-yandex-maps";
+import { Map, Placemark } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
 import { ImagesUpload } from "./ImagesUpload";
+import { useSelector } from "react-redux";
 
 export const ObjectForm = ({ lable = "", edit = false }) => {
   const initialState = {
@@ -15,6 +16,21 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
     zoom: 12,
   };
 
+  const [cardData, setCardData] = useState();
+  const data = useSelector((state) => state.cards.state);
+
+  console.log(cardData);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (edit == true) {
+      if (data.length) {
+        let itemData = data.find((el) => el.id == id);
+        setCardData(itemData);
+      }
+    }
+  }, [data]);
+  const [files, setFiles] = useState([]);
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
@@ -142,23 +158,22 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
             {errors.adress.message}
           </p>
         )}
-        
       </div>
-      <ImagesUpload />
+      <ImagesUpload files={files} setFiles={setFiles} />
       <div className={styles.mapWrapper}>
-      <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
-        <Placemark
-          geometry={state.center}
-          modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
-          options={{
-            iconLayout: "default#imageWithContent",
-            iconImageHref: icon,
-            iconImageSize: [20, 60],
-            iconImageOffset: [-20, -40],
-            iconCaptionMaxWidth: 500,
-          }}
-        />
-      </Map>
+        <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
+          <Placemark
+            geometry={state.center}
+            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+            options={{
+              iconLayout: "default#imageWithContent",
+              iconImageHref: icon,
+              iconImageSize: [20, 60],
+              iconImageOffset: [-20, -40],
+              iconCaptionMaxWidth: 500,
+            }}
+          />
+        </Map>
       </div>
 
       <div className={styles.buttons}>
@@ -178,8 +193,6 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           />
         )}
       </div>
-
-
     </form>
   );
 };
