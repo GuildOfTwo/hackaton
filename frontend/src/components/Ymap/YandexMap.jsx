@@ -11,17 +11,17 @@ export const YandexMap = () => {
     zoom: 11,
     behaviors: ["default", "scrollZoom"],
   };
-
+console.log(newData)
   useEffect(() => {
     let array = data.map((el) => ({
       ...el,
       body: `<div class='container'>
       <div className="wrapper">
-  <h2 class='bodyTitle'>${el.name}</h2>
-  <p class="description">${el.description}</p>
+  <h2 class='bodyTitle'>${el.title}</h2>
+  <p class="description">${el.desc}</p>
   <div class="contacts">
-  <p class="adress">${el.adress}</p>
-  <a href="tel:${el.tel}" class="tel">${el.tel}</a>
+  <p class="adress">${el.address}</p>
+  <a href="tel:${el.phone}" class="tel">${el.phone}</a>
   </div>
   </div>
   <a class="button" href='../space/${el.id}' target="_blank">Открыть в новом окне</a>

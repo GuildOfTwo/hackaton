@@ -40,13 +40,13 @@ export const SpacePage = () => {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>{card.name}</h2>
+      <h2 className={styles.title}>{card.title}</h2>
       <div className={styles.infobar}>
      
 
         <div className={styles.iconWrapper}>
           <img src={adress} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.adress}</p>
+          <p className={styles.iconText}>{card.address}</p>
         </div>
 
         <div className={styles.iconWrapper}>
@@ -56,18 +56,18 @@ export const SpacePage = () => {
 
         <div className={styles.iconWrapper}>
           <img src={square} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.square}</p>
+          <p className={styles.iconText}>{card.area_rent}</p>
         </div>
 
         <div className={styles.iconWrapper}>
           <img src={ratingIcon} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>999</p>
+          <p className={styles.iconText}>{card.rating}</p>
         </div>
 
         <div className={styles.iconWrapper}>
           <img src={phone} alt="" className={styles.iconImg} />
-          <a className={styles.iconText} href={`tel:${card.tel}`}>
-            {card.tel}
+          <a className={styles.iconText} href={`tel:${card.phone}`}>
+            {card.phone}
           </a>
         </div>
 
@@ -88,18 +88,18 @@ export const SpacePage = () => {
         <div className={styles.iconWrapper}>
           <img src={ruble} alt="" className={styles.iconImg} />
           <p className={styles.iconText}>
-            Целый день: {card?.price?.day}&#8381;
+            Целый день: {card?.cost}&#8381;
           </p>
 
         </div>
       </div>
       <div className={styles.wrapper}>
         <div className={styles.leftSide}>
-          <p className={styles.description}>{card.description}</p>
+          <p className={styles.description}>{card.desc}</p>
           <div className={styles.calendarWrapper}>
             <p className={styles.cta}>Выбирите дату и оставьте заявку</p>
             {card.coordinates &&  <Calendar
-              data={card?.bookedDates}
+              data={card?.booking}
               currentMonth={currentMonth}
               onChangeMonth={setCurrentMonth}
             />}

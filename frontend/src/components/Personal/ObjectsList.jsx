@@ -12,7 +12,7 @@ export const ObjectsList = ({ id }) => {
   useEffect(() => {
     let objects;
     if (data.length) {
-      objects = data?.filter((el) => el.ownerId == tempId);
+      objects = data?.filter((el) => el.owner == tempId);
     }
 
     setCards(objects);
@@ -21,7 +21,7 @@ export const ObjectsList = ({ id }) => {
   return (
     <>
       {cards.length >= 1 ? (
-        cards.map((el, index) => <ObjectItem el={el} key={index} />)
+        cards.map((el, index) => <ObjectItem data={el} key={index} />)
       ) : (
         <div className={styles.emptyObjects}>Нет добавленных объектов</div>
       )}
