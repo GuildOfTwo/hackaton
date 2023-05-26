@@ -11,7 +11,6 @@ export const YandexMap = () => {
     zoom: 11,
     behaviors: ["default", "scrollZoom"],
   };
-console.log(newData)
   useEffect(() => {
     let array = data.map((el) => ({
       ...el,

@@ -53,83 +53,6 @@ export const Register = () => {
         <h2 className={styles.title}>Регистрация</h2>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="lastName" className={styles.lable}>
-            Фамилия
-          </label>
-          <input
-            {...register("lastName", {
-              required: "Обязательное поле",
-              minLength: {
-                value: 2,
-                message: "Не менее 2-х символов",
-              },
-            })}
-            className={styles.input}
-            name="lastName"
-            id="lastName"
-            type="text"
-            placeholder="Фамилия"
-            autoComplete="off"
-          />
-          {errors.lastName && (
-            <p role="alert" className={styles.inputError}>
-              {errors.lastName.message}
-            </p>
-          )}
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="firstName" className={styles.lable}>
-            Имя
-          </label>
-          <input
-            {...register("firstName", {
-              required: "Обязательное поле",
-              minLength: {
-                value: 2,
-                message: "Не менее 2-х символов",
-              },
-            })}
-            className={styles.input}
-            name="firstName"
-            id="firstName"
-            type="text"
-            placeholder="Имя"
-            autoComplete="off"
-          />
-          {errors.firstName && (
-            <p role="alert" className={styles.inputError}>
-              {errors.firstName.message}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="fatherName" className={styles.lable}>
-            Отчество
-          </label>
-          <input
-            {...register("fatherName", {
-              required: false,
-              minLength: {
-                value: 2,
-                message: "Не менее 2-х символов",
-              },
-            })}
-            className={styles.input}
-            name="fatherName"
-            id="fatherName"
-            type="text"
-            placeholder="Отчество"
-            autoComplete="off"
-          />
-          {errors.fatherName && (
-            <p role="alert" className={styles.inputError}>
-              {errors.fatherName.message}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.lable}>
             Электронная почта
           </label>
@@ -214,17 +137,26 @@ export const Register = () => {
 
           <div className={styles.buttons}>
         <button
+<<<<<<< HEAD
           type='button'
           className={role == 'Арендатор' ? styles.buttonActive : styles.button}
+=======
+          className={role == 'RENTER' ? styles.buttonActive : styles.button}
+>>>>>>> 3ec18c689b87bdd7f577d3122b11ed0f17da81db
           onClick={() => setRole('RENTER')}
         >
           Арендатор
         </button>
      
         <button
+<<<<<<< HEAD
           type='button'
           className={role == 'Арендодатель' ? styles.buttonActive : styles.button}
           onClick={() => setRole('RENTER')}
+=======
+          className={role == 'LANDLORD' ? styles.buttonActive : styles.button}
+          onClick={() => setRole('LANDLORD')}
+>>>>>>> 3ec18c689b87bdd7f577d3122b11ed0f17da81db
         >
           Арендодатель
         </button>
