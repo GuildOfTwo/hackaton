@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { useRegisterMutation } from '../../utils/userApi';
+import { apiAuth } from '../../utils/apiAuth';
 
 export const Register = () => {
   const {
@@ -26,29 +26,24 @@ export const Register = () => {
 
 
 
-  const onSubmit = async (data) => {
+  const onSubmit =  (data) => {
     const authData = {
       email: data.email,
       password: data.password,
+      role
     };
-    console.log(authData)
-      // .then((res) => {
-      //   dispatch(setToken(res.token));
-      //   dispatch(setLoggedIn(true));
-      //   localStorage.setItem("logIn", true);
-      //   localStorage.setItem("token", res.token);
-      // })
-      // .finally(() => navigate("/"))
-      // .catch((err) => {
-      //   console.warn(err);
-      // });
+    apiAuth.register(authData) 
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => console.log(err))
   };
 
   const handleShowPass = () => {
     setShowPass(!showPass);
   };
 
-  const [role, setRole] = useState('Арендатор');
+  const [role, setRole] = useState('RENTER');
 
 
   return (

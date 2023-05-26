@@ -1,5 +1,5 @@
 import { retry } from '@reduxjs/toolkit/query/react'
-import { api } from './api'
+import { api } from './apiAuth'
 
 export const postsApi = api.injectEndpoints({
   endpoints: (build) => ({
