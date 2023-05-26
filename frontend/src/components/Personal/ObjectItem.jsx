@@ -4,8 +4,12 @@ import { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 
-export const ObjectItem = ({ el }) => {
+export const ObjectItem = ({ data }) => {
   const [isHovering, setIsHovering] = useState(false);
+
+  const {images, building_status, title, id} = data
+
+  console.log(building_status[0].reject_text)
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -24,29 +28,29 @@ export const ObjectItem = ({ el }) => {
       onMouseOut={handleMouseOut}
     >
       <img
-        src={el.images[0]}
+        src={images[0]}
         className={styles.img}
         style={
-          el.status.rejectText.length >= 1 ? { filter: css`grayscale(1)` } : {}
+          building_status[0].reject_text.length >= 1 ? { filter: css`grayscale(1)` } : {}
         }
       />
       <p className={styles.infobar}>
-        {el.status.rejectText.length >= 1
-          ? el.status.rejectText
-          : el.status.status}
+        {building_status[0].reject_text.length >= 1
+          ? building_status[0].reject_text
+          : building_status.stat}
       </p>
-      <p className={styles.cardTitle}>{el.name}</p>
+      <p className={styles.cardTitle}>{title}</p>
       {isHovering  &&
         (
           <div className={styles.hoverWrapper}>
-            {el.status.rejectText.length <= 0 &&   <ButtonDefault
+            {building_status[0].reject_text.length <= 0 &&   <ButtonDefault
               lable="К карточке"
-              action={() => navigate(`/space/${el.id}`)}
+              action={() => navigate(`/space/${id}`)}
             /> }
           
             <ButtonDefault
               lable="Внести изменения"
-              action={() => navigate(`/edit/${el.id}`)}
+              action={() => navigate(`/edit/${id}`)}
             />
 
           </div>
