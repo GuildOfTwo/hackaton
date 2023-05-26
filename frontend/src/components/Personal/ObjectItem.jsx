@@ -9,8 +9,6 @@ export const ObjectItem = ({ data }) => {
 
   const {images, building_status, title, id} = data
 
-  console.log(building_status[0].reject_text)
-
   const handleMouseOver = () => {
     setIsHovering(true);
   };
