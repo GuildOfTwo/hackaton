@@ -7,6 +7,7 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { apiAuth } from "../../utils/apiAuth";
 import { setToken, setLoggedIn } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/userSlice";
 export const Login = () => {
   const {
     handleSubmit,
@@ -28,13 +29,18 @@ export const Login = () => {
     apiAuth
       .login(authData)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         dispatch(setToken(res.auth_token));
         dispatch(setLoggedIn(true));
         localStorage.setItem("logIn", true);
         localStorage.setItem("token", res.auth_token);
+        apiAuth.getUserData(res.auth_token).then((res) => {
+          dispatch(setUserData(res));
+          localStorage.setItem("role", res.role);
+        });
       })
       .catch((err) => console.log(err));
+   
   };
 
   const handleShowPass = () => {
