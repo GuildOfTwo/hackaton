@@ -56,41 +56,41 @@ class Api {
 
 
 
-  updateTokens(token) {
-    return fetch(`${this._base_url}/auth/token/`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        "token": token
-      })
-    })
-    .then(getResponse)
-    .then(res => {
-      localStorage.setItem('refresh', res.refreshToken);
-      localStorage.setItem('token', res.accessToken);
-    })
-    .catch((err) => console.log(err.status))
-  }
+  // updateTokens(token) {
+  //   return fetch(`${this._base_url}/auth/token/`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       "token": token
+  //     })
+  //   })
+  //   .then(getResponse)
+  //   .then(res => {
+  //     localStorage.setItem('refresh', res.refreshToken);
+  //     localStorage.setItem('token', res.accessToken);
+  //   })
+  //   .catch((err) => console.log(err.status))
+  // }
 
 
-  getUserInfo() {
-    return fetch(`${this._base_url}user/`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `${localStorage.getItem('token')}`
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer'
-    })
-    .then((res) => res.json())
-    .then(data => data)
-  }
+  // getUserInfo() {
+  //   return fetch(`${this._base_url}user/`, {
+  //     method: 'GET',
+  //     mode: 'cors',
+  //     cache: 'no-cache',
+  //     credentials: 'same-origin',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //       Authorization: `${localStorage.getItem('token')}`
+  //     },
+  //     redirect: 'follow',
+  //     referrerPolicy: 'no-referrer'
+  //   })
+  //   .then((res) => res.json())
+  //   .then(data => data)
+  // }
 
 }
 

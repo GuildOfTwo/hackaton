@@ -27,6 +27,7 @@ function App() {
       apiAuth
         .getUserData(token)
         .then((res) => {
+          console.log(res, 'user DATA')
           dispatch(setUserData(res));
           localStorage.setItem("role", res.role);
         })

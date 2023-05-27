@@ -32,6 +32,7 @@ export const SpacePage = () => {
       let itemData = data.find((el) => el.id == id);
       setCard(itemData);
       let intg = Math.floor(itemData.rating);
+      console.log(itemData)
       setRating(intg);
 
       let commentsData = dataComments.filter((el) => el.building == id);
@@ -43,6 +44,8 @@ export const SpacePage = () => {
     }
   }, [data]);
 
+  
+  console.log(rating)
   let locationArray = card.coordinates
     ? card.coordinates.split(",").map(Number)
     : [];

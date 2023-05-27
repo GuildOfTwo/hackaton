@@ -20,6 +20,7 @@ export const LeftFeedback = () => {
   const dispatch = useDispatch();
   const handlePostFeedback = () => {
     let data = {
+      author_id: 'testMail55@mail.ru',
       text: feedbackText,
       score: Number(score),
       building: Number(id),

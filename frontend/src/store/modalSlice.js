@@ -5,14 +5,11 @@ const modalSlice = createSlice({
   initialState: {
     modalIsOpened: false,
     title: "",
-    status: null,
-    success: false,
-    error: false,
+    status: null
   },
 
   reducers: {
     openModal(state, action) {
-        console.log(action)
       state.modalIsOpened = true;
       state.title = action.payload.text;
       state.status = action.payload.status

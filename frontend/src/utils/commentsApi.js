@@ -24,7 +24,7 @@ class Comments {
       headers: { 
         Accept: "application/json", 
         "Content-Type": "application/json", 
-        authorization:`token 2a46ebf75df16e0ca3bea66e816edce64108e751`
+        authorization:`token fba0d9d84a538d79a4df17283c542978062738d4`
       },
       body: JSON.stringify(data)
     })
