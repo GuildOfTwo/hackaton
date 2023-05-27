@@ -1,13 +1,13 @@
 import { BASE_URL_DATA } from './constants';
 import { getResponse} from './utils';
 
-class Objects {
+class Comments {
   constructor() {
     this._base_url = BASE_URL_DATA;
   }
 
-  getObjectsList() {
-    return fetch(`${this._base_url}buildings/`, {
+  getCommentsList() {
+    return fetch(`${this._base_url}comments/`, {
       method: 'GET',
       headers: { 
         Accept: "application/json", 
@@ -23,4 +23,4 @@ class Objects {
 
 
 
-export const apiObjects = new Objects();
+export const apiComments = new Comments();

@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 
 export const CardsList = () => {
 
-  const data = useSelector(state => state.cards.state)
-  console.log(data)
+  const data = useSelector(state => state.cards.objects)
   return (
     <section className={styles.cardsList}>
       <h2 className={styles.cardsListTitle}> Все площадки</h2>

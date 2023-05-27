@@ -3,15 +3,19 @@ import { createSlice } from '@reduxjs/toolkit';
 const dataSlice = createSlice({
   name: 'cards',
   initialState: {
-    state: {},
+    objects: {},
   },
 
   reducers: {
-    setData(state, action) {
-      state.state = action.payload;
+    setObjects(state, action) {
+      state.objects = action.payload;
     },
+    setComments(state, action) {
+      state.comments = action.payload
+    }
+
   },
 });
 
-export const { setData } = dataSlice.actions;
+export const { setObjects, setComments } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -24,7 +24,7 @@ export const SpacePage = () => {
   const [card, setCard] = useState([]);
   const [rating, setRating] = useState(null)
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const data = useSelector((state) => state.cards.state);
+  const data = useSelector((state) => state.cards.objects);
 
   useEffect(() => {
     if (data.length) {

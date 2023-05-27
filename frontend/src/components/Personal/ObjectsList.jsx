@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 export const ObjectsList = ({ id }) => {
   let tempId = 16;
   const [cards, setCards] = useState([]);
-  const data = useSelector((state) => state.cards.state);
+  const data = useSelector((state) => state.cards.objects);
 
   useEffect(() => {
     let objects;

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Header } from "./layout/Header/Header";
 import { Main } from "./layout/Main/Main";
 import { useDispatch } from "react-redux";
-import { setData } from "./store/dataSlice";
+import { setObjects, setComments } from "./store/dataSlice";
 import { data } from "./TEMP_DATA/DATA";
 import {
   setLoggedIn,
@@ -13,6 +13,7 @@ import {
 import { apiAuth } from "./utils/apiAuth";
 import { setUserData } from "./store/userSlice";
 import { apiObjects } from "./utils/objectsApi";
+import { apiComments } from "./utils/commentsApi";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,10 +39,17 @@ function App() {
     apiObjects
     .getObjectsList()
     .then((res) => {
-      console.log(res)
-      dispatch(setData(res));
+      console.log(res, 'объекты')
+      dispatch(setObjects(res));
     })
     .catch((err) => console.log(err));
+    apiComments
+    .getCommentsList()
+    .then((res) => {
+      console.log(res, 'комментарии')
+      dispatch(setComments(res))
+    })
+    .catch(err => console.log(err))
   }, []);
   return (
     <>
