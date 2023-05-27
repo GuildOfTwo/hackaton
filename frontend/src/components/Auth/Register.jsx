@@ -107,8 +107,8 @@ export const Register = () => {
             {...register("password", {
               required: "Обязательное поле",
               minLength: {
-                value: 6,
-                message: "Не менее 6 символов",
+                value: 8,
+                message: "Не менее 8 символов",
               },
             })}
             className={styles.input}
