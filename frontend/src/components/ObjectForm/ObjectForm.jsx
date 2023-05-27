@@ -19,8 +19,8 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
 
   const [cardData, setCardData] = useState();
   const data = useSelector((state) => state.cards.state);
+  const user = useSelector((state) => state.user.user);
 
-  console.log(cardData);
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
+  const [address, setAddress] = useState('');
 
   const {
     handleSubmit,
@@ -53,9 +54,32 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
 
   // Обработчик сабмита формы
   const onSubmit = (data) => {
-    console.log(data)
+    // Для передачи файлов
+    const formData = new FormData();
+    if (files) {
+      formData.append("images", files);
+    }
+
+    // Формируем новый объект
+    const newData = {
+      ...data,
+      owner: user.id,
+      coordinates: state.center.toString(),
+      rating: 0,
+      building_status: [{
+        // Ожидает модерации
+        stat: 'Заблокировано',
+        reject_text: '',
+        // Ожидаем id от бэка
+        building: 0
+      }],
+      building_images: [formData],
+      address: address
+    };
+ 
+
     apiData
-      .createBuilding(data)
+      .createBuilding(newData)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -66,6 +90,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         'select',
         function (e) {
           const selectedName = e.get('item').value;
+          setAddress(selectedName);
           mapConstructor.geocode(selectedName).then((result) => {
             const newCoords = result.geoObjects
               .get(0)
@@ -577,29 +602,29 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="adress" className={styles.lable}>
+        <label htmlFor="address" className={styles.lable}>
           Адрес
         </label>
         <input
-          {...register('adress', {
+          {...register('address', {
             // required: "Обязательное поле",
             minLength: {
               value: 2,
               message: 'This input must exceed 2 characters',
-            },
+            }
           })}
           className={styles.input}
-          name="adress"
-          id="adress"
+          name="address"
+          id="address"
           type="text"
           placeholder="Адрес"
           autoComplete="off"
           disabled={isDisabled}
           ref={searchRef}
         />
-        {errors.adress && (
+        {errors.address && (
           <p role="alert" className={styles.inputError}>
-            {errors.adress.message}
+            {errors.address.message}
           </p>
         )}
       </div>
