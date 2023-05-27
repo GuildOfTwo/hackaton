@@ -34,7 +34,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
-
+console.log(files)
   const {
     handleSubmit,
     register,
