@@ -3,6 +3,7 @@ import icon from "../../assets/icons/marker.svg";
 import "./yandexMap.sass";
 import { data } from "../../TEMP_DATA/DATA";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export const YandexMap = () => {
   const [newData, setNewData] = useState([]);
@@ -11,8 +12,12 @@ export const YandexMap = () => {
     zoom: 11,
     behaviors: ["default", "scrollZoom"],
   };
+
+  const data1 = useSelector(state => state.cards.objects)
+  console.log(data1)
   useEffect(() => {
-    let array = data.map((el) => ({
+if(data1.length >= 1) {
+    let array = data1.map((el) => ({
       ...el,
       body: `<div class='container'>
       <div className="wrapper">
@@ -27,7 +32,10 @@ export const YandexMap = () => {
   </div>`,
     }));
     setNewData(array);
-  }, []);
+  }
+  }, [data1]);
+
+  console.log(newData)
 
   return (
     <section className="section">

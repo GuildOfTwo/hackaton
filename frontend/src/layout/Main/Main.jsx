@@ -12,6 +12,7 @@ import { PersonalAreaPage } from "../../pages/Personal/PersonalArea";
 import { NewObjectPage } from "../../pages/NewObject/NewObject";
 import { Redirect } from "../../components/Protected/Redirect";
 import { useSelector } from "react-redux";
+import { Modal } from "../../components/Modal/Modal";
 
 export const Main = () => {
   const { pathname } = useLocation();
@@ -39,6 +40,7 @@ export const Main = () => {
         <Route exact path="new" element={<Protected ><NewObjectPage lable='Добавить новый объект'/></Protected>}/>
         <Route exact path="edit/:id" element={<Protected ><NewObjectPage lable='Внести изменения' edit={true}/></Protected>}/>
       </Routes>
+      <Modal />
       </div>
     </main>
   );

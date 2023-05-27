@@ -9,7 +9,6 @@ export const Feedback = ({ comments }) => {
   const [status, setStatus] = useState(null)
   const renters1 = useSelector((state) => state.user);
 // console.log(newComments)
-console.log(renters)
 
   useEffect(() => {
     if(renters.length >= 1) {
