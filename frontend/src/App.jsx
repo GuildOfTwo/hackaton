@@ -3,7 +3,7 @@ import { Header } from "./layout/Header/Header";
 import { Main } from "./layout/Main/Main";
 import { useDispatch } from "react-redux";
 import { setObjects, setComments } from "./store/dataSlice";
-import { data } from "./TEMP_DATA/DATA";
+// import { data } from "./TEMP_DATA/DATA";
 import {
   setLoggedIn,
   setToken,

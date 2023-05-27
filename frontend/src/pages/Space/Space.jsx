@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { data } from "../../TEMP_DATA/DATA";
+// import { data } from "../../TEMP_DATA/DATA";
 import styles from "./styles.module.sass";
 import { useEffect, useState } from "react";
 

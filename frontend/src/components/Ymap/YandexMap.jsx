@@ -1,7 +1,7 @@
 import { Map, Placemark, ZoomControl } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
 import "./yandexMap.sass";
-import { data } from "../../TEMP_DATA/DATA";
+// import { data } from "../../TEMP_DATA/DATA";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -13,12 +13,11 @@ export const YandexMap = () => {
     behaviors: ["default", "scrollZoom"],
   };
 
-  const data1 = useSelector(state => state.cards.objects)
-  console.log(data1)
+  const data = useSelector(state => state.cards.objects)
   useEffect(() => {
-if(data1.length >= 1) {
-    let array = data1.map((el) => ({
-      ...el,
+if(data.length >= 1) {
+    let array = data.map((el) => ({
+      ...el, coordinates: el.coordinates.split(",").map(Number),
       body: `<div class='container'>
       <div className="wrapper">
   <h2 class='bodyTitle'>${el.title}</h2>
@@ -33,9 +32,7 @@ if(data1.length >= 1) {
     }));
     setNewData(array);
   }
-  }, [data1]);
-
-  console.log(newData)
+  }, [data]);
 
   return (
     <section className="section">
