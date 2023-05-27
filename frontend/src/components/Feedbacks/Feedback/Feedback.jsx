@@ -7,10 +7,12 @@ export const Feedback = ({ comments }) => {
   const [newComments, setNewComments] = useState([]);
   const renters = useSelector((state) => state.user.users);
   const [status, setStatus] = useState(null)
+  const renters1 = useSelector((state) => state.user);
 // console.log(newComments)
-// console.log(renters)
+console.log(renters)
 
   useEffect(() => {
+    if(renters.length >= 1) {
     const commentsArray = comments.map((comment) => {
       const user = renters.find((u) => u.user === comment.author);
       if (user) {
@@ -19,6 +21,7 @@ export const Feedback = ({ comments }) => {
       return comment;
     });
     setNewComments(commentsArray);
+  }
   }, [comments, renters]);
 
 
