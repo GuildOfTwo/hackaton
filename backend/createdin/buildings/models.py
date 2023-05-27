@@ -104,13 +104,13 @@ class Building(models.Model):
             verbose_name='Адрес электронной почты',
             help_text='Введите почту'
     )
-    inn  = models.CharField(
+    inn = models.CharField(
             max_length=12,
             blank=True,
             verbose_name='ИНН',
             help_text='Введите стоимость аренды'
     )
-    
+
 
     class Meta:
         verbose_name = 'Объект'
@@ -158,7 +158,7 @@ class Status(models.Model):
     stat = models.CharField(
             verbose_name='Состояние',
             help_text='Выберите состояние добавленного обьекта',
-            choices = CHOICES,
+            choices=CHOICES,
             max_length=200
     )
     reject_text = models.TextField(
