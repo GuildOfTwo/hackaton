@@ -99,18 +99,18 @@ class BuildingSerializer(ModelSerializer):
             'inn',
         )
 
-    def create(self, validated_data):
-        building_images = validated_data.pop('building_images', [])
-        building = Building.objects.create(**validated_data)
-        for image in building_images:
-            BuildingImage.objects.create(image=image, building=building)
-        return building
+    # def create(self, validated_data):
+    #     building_images = validated_data.pop('building_images', [])
+    #     building = Building.objects.create(**validated_data)
+    #     for image in building_images:
+    #         BuildingImage.objects.create(image=image, building=building)
+    #     return building
     
-    def update(self, instance, validated_data):
-        building_images = validated_data.pop('building_images', [])
-        building = Building.objects.update(**validated_data)
-        for image in building_images:
-            BuildingImage.objects.create(image=image, building=building)
-        return building
+    # def update(self, instance, validated_data):
+    #     building_images = validated_data.pop('building_images', [])
+    #     building = Building.objects.update(**validated_data)
+    #     for image in building_images:
+    #         BuildingImage.objects.create(image=image, building=building)
+    #     return building
 
 
