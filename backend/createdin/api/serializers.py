@@ -68,8 +68,8 @@ class BuildingSerializer(ModelSerializer):
     building_images = BuildingImageModelSerializer(
         many=True
     )
-    rating = serializers.FloatField()
-    building_status = StatusSerializer(many=True)
+    # rating = serializers.FloatField()
+    # building_status = StatusSerializer(many=True)
 
     class Meta:
         model = Building
@@ -91,12 +91,26 @@ class BuildingSerializer(ModelSerializer):
             'capacity',
             'cost',
             'booking',
-            'rating',
-            'building_status',
+            # 'rating',
+            # 'building_status',
             'entity',
             'phone',
             'email',
             'inn',
         )
+
+    def create(self, validated_data):
+        building_images = validated_data.pop('building_images', [])
+        building = Building.objects.create(**validated_data)
+        for image in building_images:
+            BuildingImage.objects.create(image=image, building=building)
+        return building
+    
+    def update(self, instance, validated_data):
+        building_images = validated_data.pop('building_images', [])
+        building = Building.objects.update(**validated_data)
+        for image in building_images:
+            BuildingImage.objects.create(image=image, building=building)
+        return building
 
 

@@ -115,6 +115,24 @@ class RenterProfile(models.Model):
         User,
         on_delete=models.CASCADE
     )
+    first_name = models.CharField(
+        'Имя',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    last_name = models.CharField(
+        'Фамилия',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    middle_name = models.CharField(
+        'Отчество',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     job_title = models.CharField(
         verbose_name='Должность',
         max_length=50,
@@ -190,6 +208,24 @@ class LandlordProfile(models.Model):
         null=True,
         verbose_name='Должность',
         max_length=50,
+    )
+    first_name = models.CharField(
+        'Имя',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    last_name = models.CharField(
+        'Фамилия',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    middle_name = models.CharField(
+        'Отчество',
+        max_length=100,
+        blank=True,
+        null=True,
     )
     contact_email = models.EmailField(
         verbose_name='Контактный email',
