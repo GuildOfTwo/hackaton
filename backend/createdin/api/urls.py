@@ -1,9 +1,15 @@
+from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views import (CommentViewSet, BuildingViewSet,
                        RenterProfileViewSet,
                        LandlordProfileViewSet,
                        StatusViewSet)
+
+
+admin.site.site_header = "Добро пожаловать!"
+admin.site.site_title = "Администрирование сайта"
+admin.site.index_title = "Администрирование агрегатора площадок и услуг креативных индустрий Москвы"
 
 app_name = 'api'
 

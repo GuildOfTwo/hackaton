@@ -137,7 +137,7 @@ class BuildingImage(models.Model):
     image = models.ImageField(
         verbose_name='Изображение',
         blank=True,
-        upload_to='building_images/%Y/%m/%d/',
+        upload_to='',
         help_text='Выберите изображение'
     )
 
