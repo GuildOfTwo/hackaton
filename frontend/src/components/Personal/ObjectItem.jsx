@@ -9,6 +9,8 @@ export const ObjectItem = ({ data }) => {
 
   const {building_status, title, id, building_images} = data
 
+  console.log(data)
+
   const handleMouseOver = () => {
     setIsHovering(true);
   };
@@ -26,25 +28,25 @@ export const ObjectItem = ({ data }) => {
       onMouseOut={handleMouseOut}
     >
       <img
-        src={building_images && building_images[0].image}
+        src={building_images && building_images[0]?.image}
         className={styles.img}
-        style={
-          building_status[0]?.reject_text.length >= 1 ? { filter: css`grayscale(1)` } : {}
-        }
+        // style={
+        //   building_status[0]?.reject_text.length >= 1 ? { filter: css`grayscale(1)` } : {}
+        // }
       />
       <p className={styles.infobar}>
-        {building_status[0]?.reject_text.length >= 1
+        {/* {building_status[0]?.reject_text.length >= 1
           ? building_status[0]?.reject_text
-          : building_status.stat}
+          : building_status.stat} */}
       </p>
       <p className={styles.cardTitle}>{title}</p>
       {isHovering  &&
         (
           <div className={styles.hoverWrapper}>
-            {building_status[0]?.reject_text.length <= 0 &&   <ButtonDefault
+            {/* {building_status[0]?.reject_text.length <= 0 &&   <ButtonDefault
               lable="К карточке"
               action={() => navigate(`/space/${id}`)}
-            /> }
+            /> } */}
           
             <ButtonDefault
               lable="Внести изменения"
