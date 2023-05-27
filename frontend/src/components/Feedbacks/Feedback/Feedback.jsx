@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
-import RatingRange from "../RatingRange/RatingRange";
 import styles from "./styles.module.sass";
 import { useEffect, useState } from "react";
+import { LeftFeedback } from "./LeftFeedback";
 
 export const Feedback = ({ comments }) => {
   const [newComments, setNewComments] = useState([]);
   const renters = useSelector((state) => state.user.users);
-console.log(newComments)
-console.log(renters)
+// console.log(newComments)
+// console.log(renters)
 
   useEffect(() => {
     const commentsArray = comments.map((comment) => {
@@ -21,7 +21,7 @@ console.log(renters)
   }, [comments]);
 
 
-
+console.log(newComments)
   return (
     <div className={styles.container}>
 
@@ -31,12 +31,12 @@ console.log(renters)
         <div className={styles.feedbackWrapper} key={index}>
           <p className={styles.text}>{el.text}</p>
           <div className={styles.flex}>
-            <div>{el.score}</div>
-            {/* <RatingRange nice={score * 10} bad={100 - score * 10} /> */}
-            <span className={styles.author}>{el.name}</span>
+            <div>Оценка {el.score}</div>
+            <span className={styles.author}>Автор {el.name}</span>
           </div>
         </div>
       )) : <p className={styles.reviewsPlug}>Никто не оставил отзыва. Будьте первым</p>}
+      <LeftFeedback />
     </div>
   );
 };
