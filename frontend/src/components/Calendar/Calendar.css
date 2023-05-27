@@ -165,7 +165,7 @@
   line-height: 1;
   color: var(--main-color);
   opacity: 0;
-  font-size: 8em;
+  font-size: 5em;
   position: absolute;
   top: -0.2em;
   right: -0.05em;
@@ -196,6 +196,10 @@
   padding: 20px 0;
   display: flex;
   justify-content: center;
+  text-align: center;
+}
+.activeDay {
+  background-color: red;
 }
 /* 
 button {

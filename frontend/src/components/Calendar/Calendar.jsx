@@ -22,13 +22,27 @@ export class Calendar extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.generateBooking();
-  }
+
   state = {
     bookedDates: [],
     nextMonthDates: [],
+    status: "",
+    day: null
   };
+  componentDidMount() {
+    this.generateBooking();
+    if (!localStorage.getItem("logIn")) {
+      this.setState((prevState) => ({
+        ...prevState,
+        status: "Зарегистрируйтесь, что бы оставить заявку",
+      }));
+    } else if (localStorage.getItem("role") == "LANDLORD") {
+      this.setState((prevState) => ({
+        ...prevState,
+        status: "Только арендаторы могут оставлять заявки",
+      }));
+    } else this.setState((prevState) => ({ ...prevState }));
+  }
 
   componentDidUpdate(prevProps) {
     // Обычное использование (не забудьте сравнить свойства):
@@ -37,18 +51,19 @@ export class Calendar extends React.Component {
     }
   }
 
+  handlePostReq() {
+    console.log(this.state.day)
+  }
+
   generateBooking = () => {
     const { currentMonth } = this.props;
     let bookedDates = [];
     let nextMonthDates = [];
     let dates = this.props.data;
     for (let i = 0; i < dates.length; i++) {
-      console.log(isThisMonth(new Date(dates[i])))
       let date = new Date(dates[i]);
       const day = new Date(dates[i]).getDate();
 
-
-      
       if (currentMonth.getMonth() === date.getMonth()) {
         bookedDates.push(
           new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
@@ -58,7 +73,11 @@ export class Calendar extends React.Component {
           new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day - 1)
         );
     }
-    this.setState((prevState) => ({ ...prevState, bookedDates: bookedDates, nextMonthDates: nextMonthDates }));
+    this.setState((prevState) => ({
+      ...prevState,
+      bookedDates: bookedDates,
+      nextMonthDates: nextMonthDates,
+    }));
   };
 
   isBooked = (date) => {
@@ -68,24 +87,27 @@ export class Calendar extends React.Component {
   };
 
   nextMonth = () => {
-    this.props.onChangeMonth(addMonths(this.props.currentMonth, 1),
-    );
-    
+    this.props.onChangeMonth(addMonths(this.props.currentMonth, 1));
   };
 
   prevMonth = () => {
-    this.props.onChangeMonth(subMonths(this.props.currentMonth, 1),
-    );
-    
+    this.props.onChangeMonth(subMonths(this.props.currentMonth, 1));
   };
-
-
-
 
   renderButton = () => {
     return (
       <div className="buttonWrapper">
-        <ButtonDefault lable="Оставить заявку" action={(e) => console.log(e)} />
+        {this.state.status.length >= 1 ? (
+          <p className="textPlug">{this.state.status}</p>
+        ) : 
+        (
+          this.state.day ? <ButtonDefault
+            lable="Оставить заявку"
+            action={(e) => this.handlePostReq()}
+          /> : <p className="textPlug">Выберите дату</p>
+        )
+       
+        }
       </div>
     );
   };
@@ -140,21 +162,26 @@ export class Calendar extends React.Component {
     const thisDay = new Date();
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
+        const currentDate = day;
         formattedDate = format(day, dateFormat);
         days.push(
           <div
             className={`col cell ${
               !isSameMonth(day, monthStart)
                 ? "disabled"
-                : this.isBooked(day)
+                : this.isBooked(currentDate)
                 ? "selected"
                 : ""
             }
-            ${isBefore(day, thisDay) ? "disabled" : ""}`}
-            key={day}
-            id={day}
+            ${isBefore(currentDate, thisDay) ? "disabled" : ""}`}
+            key={currentDate}
+            id={currentDate}
             onClick={() => {
-              console.log(day);
+              this.setState((prevState) => ({
+                ...prevState,
+                
+                day: currentDate,
+              }));
             }}
           >
             <span className="number">{formattedDate}</span>
@@ -175,7 +202,6 @@ export class Calendar extends React.Component {
   };
 
   render() {
-
     return (
       <div className="calendar">
         {this.renderHeader()}

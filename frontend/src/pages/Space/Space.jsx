@@ -3,8 +3,6 @@ import { data } from "../../TEMP_DATA/DATA";
 import styles from "./styles.module.sass";
 import { useEffect, useState } from "react";
 
-// import { SwiperSlider } from "../../components/Swiper/Swiper";
-import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
 import adress from "../../assets/icons/adress.png";
 import people from "../../assets/icons/people.png";
 import email from "../../assets/icons/email.png";
@@ -14,55 +12,50 @@ import site from "../../assets/icons/site.png";
 import ratingIcon from "../../assets/icons/rating.png";
 import square from "../../assets/icons/square.png";
 import { Calendar } from "../../components/Calendar/Calendar";
-import { useMemo } from "react";
 import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
 import { useSelector } from "react-redux";
-import { Feedback } from '../../components/Feedbacks/Feedback/Feedback';
+import { Feedback } from "../../components/Feedbacks/Feedback/Feedback";
+import { Helmet } from "react-helmet-async";
 
 export const SpacePage = () => {
   const { id } = useParams();
   const [card, setCard] = useState([]);
-  const [rating, setRating] = useState(null)
-  const [comments, setComments] = useState([])
+  const [rating, setRating] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [booking, setBooking] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
   const dataComments = useSelector((state) => state.cards.comments);
-  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     if (data.length && dataComments) {
       let itemData = data.find((el) => el.id == id);
       setCard(itemData);
-      setRating(itemData.rating)
+      let intg = Math.floor(itemData.rating);
+      setRating(intg);
 
-      let commentsData = dataComments.filter((el) => el.building == id)
-      setComments(commentsData)
+      let commentsData = dataComments.filter((el) => el.building == id);
+      setComments(commentsData);
+
+      const string = itemData.booking;
+      const array = Array.from(string.split(",").map((str) => str.trim()));
+      setBooking(array);
     }
   }, [data]);
 
-  // const averageRating = useMemo(() => {
-  //   const sum = rating?.reduce((acc, item) => acc + parseInt(item.rating), 0);
-  //   return Math.round(sum / rating.length);
-  // }, [rating]);
-
-  let locationArray = card.coordinates ? card.coordinates.split(',').map(Number) : [];
-
-  useEffect(() => {
-    if(!localStorage.getItem('logIn')) {
-      setStatus('Зарегистрируйтесь, что бы оставить отзыв')
-  
-    } else if (localStorage.getItem('role') == 'LANDLORD') {
-      setStatus('Только арендаторы могут оставлять отзывы')
-    } else setStatus(null)
-  },[])
-
+  let locationArray = card.coordinates
+    ? card.coordinates.split(",").map(Number)
+    : [];
 
   return (
     <section className={styles.section}>
+      <Helmet>
+        <title>{card.title}</title>
+        <meta name="description" content="App Description" />
+        <meta name="theme-color" content="#008f68" />
+      </Helmet>
       <h2 className={styles.title}>{card.title}</h2>
       <div className={styles.infobar}>
-     
-
         <div className={styles.iconWrapper}>
           <img src={adress} alt="" className={styles.iconImg} />
           <p className={styles.iconText}>{card.address}</p>
@@ -80,7 +73,7 @@ export const SpacePage = () => {
 
         <div className={styles.iconWrapper}>
           <img src={ratingIcon} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.rating}</p>
+          <p className={styles.iconText}>{rating}</p>
         </div>
 
         <div className={styles.iconWrapper}>
@@ -106,10 +99,7 @@ export const SpacePage = () => {
 
         <div className={styles.iconWrapper}>
           <img src={ruble} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>
-            Целый день: {card?.cost}&#8381;
-          </p>
-
+          <p className={styles.iconText}>Целый день: {card?.cost}&#8381;</p>
         </div>
       </div>
       <div className={styles.wrapper}>
@@ -117,30 +107,26 @@ export const SpacePage = () => {
           <p className={styles.description}>{card.desc}</p>
           <div className={styles.calendarWrapper}>
             <p className={styles.cta}>Выбирите дату и оставьте заявку</p>
-            {card.coordinates &&  <Calendar
-              data={card?.booking}
-              currentMonth={currentMonth}
-              onChangeMonth={setCurrentMonth}
-            />}
-           
+            {card.coordinates && (
+              <Calendar
+                data={booking}
+                currentMonth={currentMonth}
+                onChangeMonth={setCurrentMonth}
+              />
+            )}
           </div>
-         
         </div>
-        
+
         <div className={styles.grid}>
-          
-         {locationArray.length && <YandexMapSpace data={locationArray} />} 
+          {locationArray.length && <YandexMapSpace data={locationArray} />}
           {card.building_images?.map((el, index) => (
             <div className={styles.imgWrapper} key={index}>
               <img src={el.image} alt="" className={styles.img} />
             </div>
           ))}
         </div>
-        
       </div>
-      
 
-      {/* {!status ? <Feedback comments={comments} /> : <div className={styles.reviewsWarning}>{status}</div>} */}
       <Feedback comments={comments} />
     </section>
   );
