@@ -6,6 +6,7 @@ import { LeftFeedback } from "./LeftFeedback";
 export const Feedback = ({ comments }) => {
   const [newComments, setNewComments] = useState([]);
   const renters = useSelector((state) => state.user.users);
+  const [status, setStatus] = useState(null)
 // console.log(newComments)
 // console.log(renters)
 
@@ -18,10 +19,17 @@ export const Feedback = ({ comments }) => {
       return comment;
     });
     setNewComments(commentsArray);
-  }, [comments]);
+  }, [comments, renters]);
 
 
-console.log(newComments)
+  useEffect(() => {
+    if(!localStorage.getItem('logIn')) {
+      setStatus('Зарегистрируйтесь, что бы оставить отзыв')
+  
+    } else if (localStorage.getItem('role') == 'LANDLORD') {
+      setStatus('Только арендаторы могут оставлять отзывы')
+    } else setStatus(null)
+  },[])
   return (
     <div className={styles.container}>
 
@@ -36,7 +44,8 @@ console.log(newComments)
           </div>
         </div>
       )) : <p className={styles.reviewsPlug}>Никто не оставил отзыва. Будьте первым</p>}
-      <LeftFeedback />
+        {!status ?  <LeftFeedback /> : <div className={styles.reviewsWarning}>{status}</div>}
+     
     </div>
   );
 };

@@ -27,6 +27,7 @@ export const SpacePage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
   const dataComments = useSelector((state) => state.cards.comments);
+  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     if (data.length && dataComments) {
@@ -45,6 +46,16 @@ export const SpacePage = () => {
   // }, [rating]);
 
   let locationArray = card.coordinates ? card.coordinates.split(',').map(Number) : [];
+
+  useEffect(() => {
+    if(!localStorage.getItem('logIn')) {
+      setStatus('Зарегистрируйтесь, что бы оставить отзыв')
+  
+    } else if (localStorage.getItem('role') == 'LANDLORD') {
+      setStatus('Только арендаторы могут оставлять отзывы')
+    } else setStatus(null)
+  },[])
+
 
   return (
     <section className={styles.section}>
@@ -127,6 +138,9 @@ export const SpacePage = () => {
         </div>
         
       </div>
+      
+
+      {/* {!status ? <Feedback comments={comments} /> : <div className={styles.reviewsWarning}>{status}</div>} */}
       <Feedback comments={comments} />
     </section>
   );
