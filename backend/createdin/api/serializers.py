@@ -68,8 +68,8 @@ class BuildingSerializer(ModelSerializer):
     building_images = BuildingImageModelSerializer(
         many=True
     )
-    # rating = serializers.FloatField()
-    # building_status = StatusSerializer(many=True)
+    rating = serializers.FloatField()
+    building_status = StatusSerializer(many=True)
 
     class Meta:
         model = Building
@@ -91,8 +91,8 @@ class BuildingSerializer(ModelSerializer):
             'capacity',
             'cost',
             'booking',
-            # 'rating',
-            # 'building_status',
+            'rating',
+            'building_status',
             'entity',
             'phone',
             'email',
