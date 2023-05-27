@@ -23,14 +23,19 @@ export const SpacePage = () => {
   const { id } = useParams();
   const [card, setCard] = useState([]);
   const [rating, setRating] = useState(null)
+  const [comments, setComments] = useState([])
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
+  const dataComments = useSelector((state) => state.cards.comments);
 
   useEffect(() => {
-    if (data.length) {
+    if (data.length && dataComments) {
       let itemData = data.find((el) => el.id == id);
       setCard(itemData);
       setRating(itemData.rating)
+
+      let commentsData = dataComments.filter((el) => el.building == id)
+      setComments(commentsData)
     }
   }, [data]);
 
@@ -108,7 +113,7 @@ export const SpacePage = () => {
             />}
            
           </div>
-          <Feedback  text="Клевое место" score={10} author="Vasia Pupkin" date={new Date()}/>
+         
         </div>
         
         <div className={styles.grid}>
@@ -120,8 +125,9 @@ export const SpacePage = () => {
             </div>
           ))}
         </div>
+        
       </div>
-      
+      <Feedback comments={comments} />
     </section>
   );
 };

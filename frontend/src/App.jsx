@@ -11,7 +11,7 @@ import {
   deleteToken,
 } from "./store/authSlice";
 import { apiAuth } from "./utils/apiAuth";
-import { setUserData } from "./store/userSlice";
+import { setAllUsers, setUserData } from "./store/userSlice";
 import { apiObjects } from "./utils/objectsApi";
 import { apiComments } from "./utils/commentsApi";
 
@@ -31,25 +31,31 @@ function App() {
           localStorage.setItem("role", res.role);
         })
         .catch((err) => console.log(err));
-   
     }
   }, [isLoggedIn]);
 
   useEffect(() => {
     apiObjects
-    .getObjectsList()
-    .then((res) => {
-      console.log(res, 'объекты')
-      dispatch(setObjects(res));
-    })
-    .catch((err) => console.log(err));
+      .getObjectsList()
+      .then((res) => {
+        console.log(res, "объекты");
+        dispatch(setObjects(res));
+      })
+      .catch((err) => console.log(err));
     apiComments
-    .getCommentsList()
-    .then((res) => {
-      console.log(res, 'комментарии')
-      dispatch(setComments(res))
-    })
-    .catch(err => console.log(err))
+      .getCommentsList()
+      .then((res) => {
+        console.log(res, "комментарии");
+        dispatch(setComments(res));
+      })
+      .catch((err) => console.log(err));
+    apiObjects
+      .getAllUsers()
+      .then((res) => {
+        console.log(res, "пользователи");
+        dispatch(setAllUsers(res));
+      })
+      .catch((err) => console.log(err));
   }, []);
   return (
     <>

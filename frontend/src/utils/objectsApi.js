@@ -1,5 +1,5 @@
-import { BASE_URL_DATA } from './constants';
-import { getResponse} from './utils';
+import { BASE_URL_DATA } from "./constants";
+import { getResponse } from "./utils";
 
 class Objects {
   constructor() {
@@ -8,19 +8,25 @@ class Objects {
 
   getObjectsList() {
     return fetch(`${this._base_url}buildings/`, {
-      method: 'GET',
-      headers: { 
-        Accept: "application/json", 
-        "Content-Type": "application/json", 
-      }
-    })
-    .then(getResponse)
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(getResponse);
   }
-  
- 
 
+  getAllUsers() {
+    return fetch(`${this._base_url}renter_profile/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(getResponse);
+  }
 }
 
-
-
 export const apiObjects = new Objects();
+
+

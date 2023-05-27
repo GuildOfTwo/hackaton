@@ -16,9 +16,6 @@ class Comments {
     })
     .then(getResponse)
   }
-  
- 
-
 }
 
 
