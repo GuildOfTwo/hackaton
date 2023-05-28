@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import { Header } from "./layout/Header/Header";
+import { Main } from "./layout/Main/Main";
+import { useDispatch } from "react-redux";
+import { setObjects, setComments } from "./store/dataSlice";
+// import { data } from "./TEMP_DATA/DATA";
+import {
+  setLoggedIn,
+  setToken,
+  setLoggedOut,
+  deleteToken,
+} from "./store/authSlice";
+import { apiAuth } from "./utils/api/apiAuth";
+import { setAllUsers, setUserData } from "./store/userSlice";
+import { apiObjects } from "./utils/api/objectsApi";
+import { apiComments } from "./utils/api/commentsApi";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
 
+  let isLoggedIn = localStorage.getItem("logIn") && true;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (isLoggedIn) {
+      dispatch(setLoggedIn(true));
+      dispatch(setToken(token));
+      apiAuth
+        .getUserData(token)
+        .then((res) => {
+          console.log(res, 'user DATA')
+          dispatch(setUserData(res));
+          localStorage.setItem("role", res.role);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    apiObjects
+      .getObjectsList()
+      .then((res) => {
+        console.log(res, "объекты");
+        dispatch(setObjects(res));
+      })
+      .catch((err) => console.log(err));
+    apiComments
+      .getCommentsList()
+      .then((res) => {
+        console.log(res, "комментарии");
+        dispatch(setComments(res));
+      })
+      .catch((err) => console.log(err));
+    apiObjects
+      .getAllUsers()
+      .then((res) => {
+        console.log(res, "пользователи");
+        dispatch(setAllUsers(res));
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <Main />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
