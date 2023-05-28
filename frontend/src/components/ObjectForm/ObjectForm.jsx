@@ -7,10 +7,13 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { Map, Placemark } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
 import { ImagesUpload } from "./ImagesUpload";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiData } from "../../utils/api/dataApi";
+import { openModal } from "../../store/modalSlice";
+import { cardCreatedSuccess } from "../../utils/modalPayload";
+import { cardCreatedError } from "../../utils/modalPayload";
 
-export const ObjectForm = ({ lable = "", edit = false }) => {
+export const ObjectForm = ({ lable = null, edit = false }) => {
   const initialState = {
     title: "",
     center: [55.755864, 37.617698],
@@ -47,7 +50,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
   });
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(edit);
-
+const dispatch = useDispatch()
   const handleEdit = () => {};
 
   const handleCreate = () => {};
@@ -55,7 +58,6 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
   // Обработчик сабмита формы
   const onSubmit = (data) => {
     const formData = new FormData();
-    console.log(files);
     if (files) {
       files.forEach((file, index) => {
         if (files.length >= 2) {
@@ -72,7 +74,13 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
         formData.append(key, value);
       }
     }
-    apiData.createBuilding(formData);
+    apiData
+    .createBuilding(formData)
+    .then(res => dispatch(openModal(cardCreatedSuccess)))
+    .catch(err => dispatch(openModal(cardCreatedError)))
+    .finally(() => {setTimeout(function(){
+      navigate('/')
+  }, 5000);})
   };
 
   useEffect(() => {

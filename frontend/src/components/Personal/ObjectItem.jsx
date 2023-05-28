@@ -49,7 +49,8 @@ export const ObjectItem = ({ data }) => {
           
             <ButtonDefault
               lable="Внести изменения"
-              action={() => navigate(`/edit/${id}`)}
+              // action={() => navigate(`/edit/${id}`)}
+              action={() => alert('Еще не реализовано')}
             />
 
           </div>
