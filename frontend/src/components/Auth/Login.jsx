@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { apiAuth } from "../../utils/apiAuth";
+import { apiAuth } from "../../utils/api/apiAuth";
 import { setToken, setLoggedIn } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/userSlice";

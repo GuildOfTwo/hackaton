@@ -1,5 +1,5 @@
-import { BASE_URL_AUTH } from './constants';
-import { getResponse} from './utils';
+import { BASE_URL_AUTH } from '../constants';
+import { getResponse} from '../utils';
 
 class Api {
   constructor() {

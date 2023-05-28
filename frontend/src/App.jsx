@@ -10,10 +10,10 @@ import {
   setLoggedOut,
   deleteToken,
 } from "./store/authSlice";
-import { apiAuth } from "./utils/apiAuth";
+import { apiAuth } from "./utils/api/apiAuth";
 import { setAllUsers, setUserData } from "./store/userSlice";
-import { apiObjects } from "./utils/objectsApi";
-import { apiComments } from "./utils/commentsApi";
+import { apiObjects } from "./utils/api/objectsApi";
+import { apiComments } from "./utils/api/commentsApi";
 
 function App() {
   const dispatch = useDispatch();

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { apiAuth } from "../../utils/apiAuth";
+import { apiAuth } from "../../utils/api/apiAuth";
 import { useDispatch } from "react-redux";
 import { setToken, setLoggedIn } from "../../store/authSlice";
 

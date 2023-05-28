@@ -3,7 +3,7 @@ import logo from "../../assets/images/headerLogo.svg";
 import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { apiAuth } from "../../utils/apiAuth";
+import { apiAuth } from "../../utils/api/apiAuth";
 import { setLoggedOut, deleteToken } from "../../store/authSlice";
 
 export const Header = () => {

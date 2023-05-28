@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ButtonDefault } from "../../ButtonDefault/ButtonDefault";
 import leftFeedback from "./leftFeedback.module.sass";
 import { useParams } from "react-router-dom";
-import { apiComments } from "../../../utils/commentsApi";
+import { apiComments } from "../../../utils/api/commentsApi";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/modalSlice";
 import {
