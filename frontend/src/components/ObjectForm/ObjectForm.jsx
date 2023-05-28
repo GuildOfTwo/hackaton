@@ -58,8 +58,9 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
   // Обработчик сабмита формы
   const onSubmit = (data) => {
     // Для передачи файлов
-    const formData = new FormData();
+    let formData = new FormData();
     if (files) {
+      console.log(files)
       formData.append("images", files);
     }
 
@@ -69,24 +70,16 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
       owner: user.id,
       coordinates: state.center.toString(),
       rating: 0,
-      // building_status: [
-      //   {
-      //     // Ожидает модерации
-      //     stat: "Заблокировано",
-      //     reject_text: "",
-      //     // Ожидаем id от бэка
-      //     building: 0,
-      //   },
-      // ],
-      building_images: [formData],
+      // building_images: formData,
+      building_images: [{images: 'https://kartinkof.club/uploads/posts/2022-05/1653010381_5-kartinkof-club-p-kartinka-zastavka-schaste-5.jpg'}],
       address: address,
     };
 
-    console.log(formData)
-    // apiData
-    //   .createBuilding(newData)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
+    console.log(newData)
+    apiData
+      .createBuilding(newData)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
