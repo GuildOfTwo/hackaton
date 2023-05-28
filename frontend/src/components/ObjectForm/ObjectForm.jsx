@@ -12,8 +12,13 @@ import { apiData } from "../../utils/api/dataApi";
 import { openModal } from "../../store/modalSlice";
 import { cardCreatedSuccess } from "../../utils/modalPayload";
 import { cardCreatedError } from "../../utils/modalPayload";
+import DatePicker from "react-multi-date-picker";
+import gregorian_ru_lowercase from "./locale";
+import './picker.sass'
 
 export const ObjectForm = ({ lable = null, edit = false }) => {
+  let today = new Date
+  const [value, setValue] = useState([today]);
   const initialState = {
     title: "",
     center: [55.755864, 37.617698],
@@ -39,6 +44,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
   const [address, setAddress] = useState("");
+  const [type, setType] = useState('Лофт')
 
   const {
     handleSubmit,
@@ -69,8 +75,10 @@ const dispatch = useDispatch()
     formData.append("coordinates", state.center.toString());
     formData.append("rating", "0");
     formData.append("address", address);
+    formData.append("specialization", type);
+
     for (const [key, value] of Object.entries(data)) {
-      if (key !== "address") {
+      if (key !== "address" && key !== 'specialization') {
         formData.append(key, value);
       }
     }
@@ -140,35 +148,27 @@ const dispatch = useDispatch()
       </div>
 
       <div className={styles.inputGroup}>
-        <lable htmlFor="specialization" className={styles.lable}>
-          Специализация
-        </lable>
-        <input
-          {...register("specialization", {
-            required: "Обязательное поле",
-            minLength: {
-              value: 2,
-              message: "This input must exceed 2 characters",
-            },
-            maxLength: {
-              value: 200,
-              message: "This input mustn't exceed 200 characters",
-            },
-          })}
-          className={styles.input}
-          name="specialization"
-          id="specialization"
-          type="text"
-          placeholder="Специализация"
-          autoComplete="off"
-          disabled={isDisabled}
-        />
-        {errors.specialization && (
-          <p role="alert" className={styles.inputError}>
-            {errors.specialization.message}
-          </p>
-        )}
-      </div>
+          <label htmlFor="name" className={styles.lable}>
+            Тип площадки
+          </label>
+          <select name="select" onChange={(e) => setType(e.target.value)} className={styles.input}>
+            <option value="Арт">Лофт</option>
+            <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
+            <option value="Реклама">Реклама</option>
+            <option value="Дизайн">Дизайн</option>
+            <option value="Мода">Мода</option>
+            <option value="Кино и анимация">Кино и анимация</option>
+            <option value="Телерадиовещание и новые медиа">
+              Телерадиовещание и медиа
+            </option>
+            <option value="Издательское дело">Издательское дело</option>
+            <option value="Архитектура">Архитектура</option>
+            <option value="Музыка">Музыка</option>
+            <option value="Исполнительские искусства">
+              Исполнительские искусства
+            </option>
+          </select>
+        </div>
 
       <div className={styles.inputGroup}>
         <lable htmlFor="operating_hours" className={styles.lable}>
@@ -422,26 +422,12 @@ const dispatch = useDispatch()
         <lable htmlFor="booking" className={styles.lable}>
           Даты бронирования
         </lable>
-        <input
-          {...register("booking", {
-            required: false,
-            minLength: {
-              value: 2,
-              message: "This input must exceed 2 characters",
-            },
-            maxLength: {
-              value: 50,
-              message: "This input mustn't exceed 50 characters",
-            },
-          })}
-          className={styles.input}
-          name="booking"
-          id="booking"
-          type="text"
-          placeholder="Даты в которые объект занят"
-          autoComplete="off"
-          disabled={isDisabled}
-        />
+        <DatePicker
+            multiple
+            value={value}
+            onChange={setValue}
+            locale={gregorian_ru_lowercase}
+          />
         {errors.booking && (
           <p role="alert" className={styles.inputError}>
             {errors.booking.message}

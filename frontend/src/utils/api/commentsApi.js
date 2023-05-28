@@ -18,13 +18,12 @@ class Comments {
   }
 
   postComment(data) {
-    console.log(data)
     return fetch(`${this._base_url}comments/`, {
       method: 'POST',
       headers: { 
         Accept: "application/json", 
         "Content-Type": "application/json", 
-        authorization:`token fefc81750f24b613de8605feb3da8c948fdd3f1c`
+        authorization:`token 278db318f019381fe0994e2f751ea8cae1780466`
       },
       body: JSON.stringify(data)
     })
