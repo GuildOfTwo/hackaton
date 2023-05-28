@@ -1,6 +1,6 @@
 import { HomePage } from "../../pages/Home/Home";
 import styles from "./styles.module.sass";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { AuthPage } from "../../pages/Auth/Auth";
@@ -26,21 +26,55 @@ export const Main = () => {
   }, [pathname]);
 
 
+
   return (
     <main className={styles.main}>
       <div className={styles.main__wrapper}>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route exact path="/auth" element={<Redirect><AuthPage /></Redirect>} />
-        <Route path='/*' element={<NotFoundPage/>} />
-        <Route exact path="/agreement" element={<AgreementPage />} />
-        <Route exact path="/space/:id" element={<SpacePage />}/>
-  
-        <Route exact path="lk" element={<Protected > <PersonalAreaPage /> </Protected>}/>
-        <Route exact path="new" element={<Protected ><NewObjectPage lable='Добавить новый объект'/></Protected>}/>
-        <Route exact path="edit/:id" element={<Protected ><NewObjectPage lable='Внести изменения' edit={true} /></Protected>}/>
-      </Routes>
-      <Modal />
+        <Routes>
+          <Route path="/" element={<HomePage/>} />
+          <Route
+            exact
+            path="/auth"
+            element={
+              <Redirect>
+                <AuthPage />
+              </Redirect>
+            }
+          />
+          <Route path="/*" element={<NotFoundPage />} />
+          <Route exact path="/agreement" element={<AgreementPage />} />
+          <Route exact path="/space/:id" element={<SpacePage />} />
+
+          <Route
+            exact
+            path="lk"
+            element={
+              <Protected>
+                {" "}
+                <PersonalAreaPage />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            exact
+            path="new"
+            element={
+              <Protected>
+                <NewObjectPage lable="Добавить новый объект" />
+              </Protected>
+            }
+          />
+          <Route
+            exact
+            path="edit/:id"
+            element={
+              <Protected>
+                <NewObjectPage lable="Внести изменения" edit={true} />
+              </Protected>
+            }
+          />
+        </Routes>
+        <Modal />
       </div>
     </main>
   );

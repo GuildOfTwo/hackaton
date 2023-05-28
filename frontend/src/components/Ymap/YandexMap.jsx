@@ -5,7 +5,7 @@ import "./yandexMap.sass";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const YandexMap = () => {
+export const YandexMap = ({prop}) => {
   const [newData, setNewData] = useState([]);
   const mapState = {
     center: [55.76, 37.64],
@@ -37,7 +37,7 @@ useEffect(() => {
   }
 }, [data, filteredData]);
   return (
-    <section className="section">
+    <section className="section" ref={prop}>
       <Map
       instanceRef={ref => { ref && ref.behaviors.disable('scrollZoom'); }} 
         defaultState={mapState}
