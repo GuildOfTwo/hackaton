@@ -12,7 +12,10 @@ export const Filters = () => {
   // const [value, setValue] = useState([today]);
   const [price, setPrice] = useState(20000);
   const [type, setType] = useState("Лофт");
-
+  const [capacity, setCapacity] = useState(800);
+  const [areaSum, setAreaSum] = useState(4000);
+  const [areaRent, setAreaRent] = useState(700);
+  // area_sum
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cards.objects);
   // const filteredData = useSelector(state => state.filtered.filtered)
@@ -25,19 +28,22 @@ export const Filters = () => {
   //   }
   //   return array;
   // };
-  console.log(data)
+
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(data)
+    console.log(data);
     const filteredData = data.filter((item) => {
       return (
         (type ? item.specialization === type : true) &&
-        (price ? item.cost > 0 && item.cost <= price : true)
+        (price ? item.cost > 0 && item.cost <= price : true) &&
+        (capacity ? item.capacity > 0 && item.capacity <= capacity : true) &&
+        (areaSum ? item.area_sum > 0 && item.area_sum <= areaSum : true) &&
+        (areaRent ? item.area_rent > 0 && item.area_rent <= areaRent : true)
       );
     });
     if (filteredData) {
       dispatch(setFilters(filteredData));
-      console.log(filteredData)
+      console.log(filteredData);
     }
   }
 
@@ -50,6 +56,66 @@ export const Filters = () => {
   return (
     <section className={styles.section}>
       <form action="" className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="price" className="form-group__lable">
+            Вместимость
+          </label>
+          <input
+            className="input"
+            name="price"
+            id="price"
+            type="range"
+            min="100"
+            max="1000"
+            step="50"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
+          />
+          <label htmlFor="price" className="form-group__lable">
+            {capacity} человек
+          </label>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="price" className="form-group__lable">
+            Аренднопригодная площадь
+          </label>
+          <input
+            className="input"
+            name="price"
+            id="price"
+            type="range"
+            min="50"
+            max="1000"
+            step="50"
+            value={areaRent}
+            onChange={(e) => setAreaRent(e.target.value)}
+          />
+          <label htmlFor="price" className="form-group__lable">
+            {areaRent} м2
+          </label>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="price" className="form-group__lable">
+            Общая площадь
+          </label>
+          <input
+            className="input"
+            name="price"
+            id="price"
+            type="range"
+            min="200"
+            max="5000"
+            step="200"
+            value={areaSum}
+            onChange={(e) => setAreaSum(e.target.value)}
+          />
+          <label htmlFor="price" className="form-group__lable">
+            {areaSum} м2
+          </label>
+        </div>
+
         <div className={styles.formGroup}>
           <label htmlFor="name" className="form-group__lable">
             Тип площадки
@@ -93,9 +159,7 @@ export const Filters = () => {
 
         <div className={styles.formGroup}>
           <label htmlFor="price" className="form-group__lable">
-            {`
-Цена до: ${price}`}
-            &#8381;
+            Цена до
           </label>
           <input
             className="input"
@@ -108,18 +172,25 @@ export const Filters = () => {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
+          <label htmlFor="price" className="form-group__lable">
+            {`
+${price}`}
+            &#8381;
+          </label>
         </div>
 
-        <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
-        {/* <ButtonDefault
+        <div className={styles.btnWrap}>
+          <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
+          {/* <ButtonDefault
           lable="Найти"
           action={(e) => {
             e.preventDefault(), handleSubmit();
           }}
         /> */}
-        <button className={styles.reset} onClick={(e) => handleReset(e)}>
-          <img src={resetIcon} alt="сбросить фильтр" />
-        </button>
+          <button className={styles.reset} onClick={(e) => handleReset(e)}>
+            <img src={resetIcon} alt="сбросить фильтр" />
+          </button>
+        </div>
       </form>
     </section>
   );
