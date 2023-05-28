@@ -38,7 +38,7 @@ export const Main = () => {
   
         <Route exact path="lk" element={<Protected > <PersonalAreaPage /> </Protected>}/>
         <Route exact path="new" element={<Protected ><NewObjectPage lable='Добавить новый объект'/></Protected>}/>
-        <Route exact path="edit/:id" element={<Protected ><NewObjectPage lable='Внести изменения' edit={true}/></Protected>}/>
+        <Route exact path="edit/:id" element={<Protected ><NewObjectPage lable='Внести изменения' edit={true} /></Protected>}/>
       </Routes>
       <Modal />
       </div>

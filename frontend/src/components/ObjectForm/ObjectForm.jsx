@@ -1,49 +1,52 @@
-import styles from './styles.module.sass';
+import styles from "./styles.module.sass";
 
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
-import { Map, Placemark } from '@pbe/react-yandex-maps';
-import icon from '../../assets/icons/marker.svg';
-import { ImagesUpload } from './ImagesUpload';
-import { useSelector } from 'react-redux';
-import { apiData } from '../../utils/api/dataApi';
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { Map, Placemark } from "@pbe/react-yandex-maps";
+import icon from "../../assets/icons/marker.svg";
+import { ImagesUpload } from "./ImagesUpload";
+import { useSelector } from "react-redux";
+import { apiData } from "../../utils/api/dataApi";
 
-export const ObjectForm = ({ lable = '', edit = false }) => {
+export const ObjectForm = ({ lable = "", edit = false }) => {
+
+
+  const [cardData, setCardData] = useState();
+  const data = useSelector((state) => state.cards.objects);
+  const user = useSelector((state) => state.user.user);
   const initialState = {
-    title: '',
-    center: [55.755864, 37.617698],
+    title: "",
+    center: [cardData ? cardData.coordinates : 55.755864, 37.617698],
     zoom: 12,
   };
 
-  const [cardData, setCardData] = useState();
-  const data = useSelector((state) => state.cards.state);
-  const user = useSelector((state) => state.user.user);
-
-  const { id } = useParams();
-
   useEffect(() => {
-    if (edit == true) {
+    if (edit) {
       if (data.length) {
-        let itemData = data.find((el) => el.id == id);
-        setCardData(itemData);
+        let itemData = data.find((el) => el.owner === user.id);
+
+        if (itemData) {
+          setCardData(itemData);
+        }
       }
     }
   }, [data]);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(cardData ? cardData.building_images : []);
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
 
   const {
     handleSubmit,
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
   });
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(edit);
@@ -66,17 +69,18 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
       owner: user.id,
       coordinates: state.center.toString(),
       rating: 0,
-      building_status: [{
-        // Ожидает модерации
-        stat: 'Заблокировано',
-        reject_text: '',
-        // Ожидаем id от бэка
-        building: 0
-      }],
+      building_status: [
+        {
+          // Ожидает модерации
+          stat: "Заблокировано",
+          reject_text: "",
+          // Ожидаем id от бэка
+          building: 0,
+        },
+      ],
       building_images: [formData],
-      address: address
+      address: address,
     };
- 
 
     apiData
       .createBuilding(newData)
@@ -87,9 +91,9 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
   useEffect(() => {
     if (mapConstructor) {
       new mapConstructor.SuggestView(searchRef.current).events.add(
-        'select',
+        "select",
         function (e) {
-          const selectedName = e.get('item').value;
+          const selectedName = e.get("item").value;
           setAddress(selectedName);
           mapConstructor.geocode(selectedName).then((result) => {
             const newCoords = result.geoObjects
@@ -103,12 +107,13 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
   }, [mapConstructor]);
 
   const mapOptions = {
-    modules: ['geocode', 'SuggestView'],
+    modules: ["geocode", "SuggestView"],
     // defaultOptions: { suppressMapOpenBlock: true },
     width: 600,
     height: 400,
   };
 
+  console.log(cardData);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>{lable}</h2>
@@ -118,11 +123,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Название
         </label>
         <input
-          {...register('title', {
-            required: 'Обязательное поле',
+          {...register("title", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
           })}
           className={styles.input}
@@ -132,6 +137,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Название"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.title : ""}
         />
         {errors.title && (
           <p role="alert" className={styles.inputError}>
@@ -145,11 +151,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Специализация
         </lable>
         <input
-          {...register('specialization', {
-            required: 'Обязательное поле',
+          {...register("specialization", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 200,
@@ -163,6 +169,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Специализация"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.specialization : ""}
         />
         {errors.specialization && (
           <p role="alert" className={styles.inputError}>
@@ -176,11 +183,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Режим работы
         </lable>
         <input
-          {...register('operating_hours', {
+          {...register("operating_hours", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -194,6 +201,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Режим работы"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.operating_hours : ""}
         />
         {errors.operating_hours && (
           <p role="alert" className={styles.inputError}>
@@ -207,11 +215,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Сайт
         </lable>
         <input
-          {...register('site', {
+          {...register("site", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -225,6 +233,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите сайт объекта"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.site : ""}
         />
         {errors.site && (
           <p role="alert" className={styles.inputError}>
@@ -238,11 +247,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Общая площадь (кв. м)
         </lable>
         <input
-          {...register('area_sum', {
-            required: 'Обязательное поле',
+          {...register("area_sum", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -256,6 +265,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите общую площадь имущественного комплекса (кв. м)"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.area_sum : ""}
         />
         {errors.area_sum && (
           <p role="alert" className={styles.inputError}>
@@ -269,11 +279,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Свободная площадь (кв. м)
         </lable>
         <input
-          {...register('area_rent', {
-            required: 'Обязательное поле',
+          {...register("area_rent", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -287,6 +297,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите свободную арендопригодную площадь (кв. м)"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.area_rent : ""}
         />
         {errors.area_rent && (
           <p role="alert" className={styles.inputError}>
@@ -300,11 +311,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Особенности
         </lable>
         <textarea
-          {...register('features', {
+          {...register("features", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -318,6 +329,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Напишите объекты коллективного пользования, спец. оборудование объектов и т.д."
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.features : ""}
         />
         {errors.features && (
           <p role="alert" className={styles.inputError}>
@@ -331,11 +343,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Дополнительная информация
         </lable>
         <textarea
-          {...register('additional_information', {
+          {...register("additional_information", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -349,6 +361,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите важную по вашему мнению дополнительную информацию"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.additional_information : ""}
         />
         {errors.additional_information && (
           <p role="alert" className={styles.inputError}>
@@ -362,11 +375,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Вместимость, чел.
         </lable>
         <input
-          {...register('capacity', {
-            required: 'Обязательное поле',
+          {...register("capacity", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -380,6 +393,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите вместимость, чел."
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.capacity : ""}
         />
         {errors.capacity && (
           <p role="alert" className={styles.inputError}>
@@ -393,11 +407,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Стоимость
         </lable>
         <input
-          {...register('cost', {
-            required: 'Обязательное поле',
+          {...register("cost", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -411,6 +425,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите стоимость аренды за сутки"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.cost : ""}
         />
         {errors.cost && (
           <p role="alert" className={styles.inputError}>
@@ -424,11 +439,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Даты бронирования
         </lable>
         <input
-          {...register('booking', {
+          {...register("booking", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -442,6 +457,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Даты в которые объект занят"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.booking : ""}
         />
         {errors.booking && (
           <p role="alert" className={styles.inputError}>
@@ -455,11 +471,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Юр. название
         </lable>
         <input
-          {...register('entity', {
-            required: 'Обязательное поле',
+          {...register("entity", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -473,6 +489,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите юридическое название"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.entity : ""}
         />
         {errors.entity && (
           <p role="alert" className={styles.inputError}>
@@ -486,11 +503,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Контактный телефон
         </lable>
         <input
-          {...register('phone', {
-            required: 'Обязательное поле',
+          {...register("phone", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 30,
@@ -504,6 +521,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите телефон"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.phone : ""}
         />
         {errors.phone && (
           <p role="alert" className={styles.inputError}>
@@ -517,11 +535,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Адрес электронной почты
         </lable>
         <input
-          {...register('email', {
-            required: 'Обязательное поле',
+          {...register("email", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 30,
@@ -535,6 +553,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите почту"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.email : ""}
         />
         {errors.email && (
           <p role="alert" className={styles.inputError}>
@@ -548,11 +567,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           ИНН
         </lable>
         <input
-          {...register('inn', {
-            required: 'Обязательное поле',
+          {...register("inn", {
+            required: "Обязательное поле",
             minLength: {
               value: 12,
-              message: 'This input must exceed 12 characters',
+              message: "This input must exceed 12 characters",
             },
             maxLength: {
               value: 12,
@@ -566,6 +585,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Введите ИНН"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.inn : ""}
         />
         {errors.inn && (
           <p role="alert" className={styles.inputError}>
@@ -579,11 +599,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Описание
         </label>
         <textarea
-          {...register('description', {
-            required: 'Обязательное поле',
+          {...register("desc", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
           })}
           className={styles.input}
@@ -593,6 +613,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           placeholder="Описание"
           autoComplete="off"
           disabled={isDisabled}
+          value={cardData ? cardData.desc : ""}
         />
         {errors.description && (
           <p role="alert" className={styles.inputError}>
@@ -606,12 +627,12 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Адрес
         </label>
         <input
-          {...register('address', {
+          {...register("address", {
             // required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
-            }
+              message: "This input must exceed 2 characters",
+            },
           })}
           className={styles.input}
           name="address"
@@ -621,6 +642,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           ref={searchRef}
+          value={cardData ? cardData.address : ""}
         />
         {errors.address && (
           <p role="alert" className={styles.inputError}>
@@ -633,9 +655,9 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
           <Placemark
             geometry={state.center}
-            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
             options={{
-              iconLayout: 'default#imageWithContent',
+              iconLayout: "default#imageWithContent",
               iconImageHref: icon,
               iconImageSize: [20, 60],
               iconImageOffset: [-20, -40],
@@ -649,7 +671,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         {!isDisabled ? (
           <>
             <ButtonDefault
-              lable={edit ? 'Сохранить изменения' : 'Отправить на проверку'}
+              lable={edit ? "Сохранить изменения" : "Отправить на проверку"}
               disabled={false}
               // action={() => alert("хер тебе, а не сохранение")}
             />
