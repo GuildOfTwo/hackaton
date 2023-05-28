@@ -50,7 +50,6 @@ class BuildingViewSet(viewsets.ModelViewSet):
         return BuildingPostSerializer
     
     def update(self, request, *args, **kwargs):
-        print(request.data)
         send_mail(
             subject='Новое бронирование',
             message=f'{request.user} забронировал ваш объект '

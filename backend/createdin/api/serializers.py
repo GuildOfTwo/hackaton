@@ -143,18 +143,3 @@ class BuildingPostSerializer(ModelSerializer):
             BuildingImage.objects.create(building=building, image=image_data)
         Status.objects.create(building=building, stat='На модерации')
         return building
-
-
-    # def create(self, validated_data):
-    #     building_images = validated_data.pop('building_images', [])
-    #     building = Building.objects.create(**validated_data)
-    #     for image in building_images:
-    #         BuildingImage.objects.create(image=image, building=building)
-    #     return building
-    
-    # def update(self, instance, validated_data):
-    #     building_images = validated_data.pop('building_images')
-    #     building = Building.objects.update(**validated_data)
-    #     for image in building_images:
-    #         BuildingImage.objects.create(image=image, building=building)
-    #     return building
