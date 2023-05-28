@@ -32,6 +32,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('building',)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
                         
 
 class BuildingViewSet(viewsets.ModelViewSet):
