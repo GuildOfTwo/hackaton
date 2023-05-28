@@ -102,12 +102,16 @@ class BuildingGetSerializer(ModelSerializer):
 
 class BuildingPostSerializer(ModelSerializer):
     building_images = BuildingImageModelSerializer(
-        many=True
+        source='buildingimage_set',
+        many=True, read_only=True
     )
+    building_status = StatusSerializer(many=True, read_only=True)
 
+    
     class Meta:
         model = Building
         fields = (
+            'id',
             'owner',
             'title',
             'specialization',
@@ -128,19 +132,29 @@ class BuildingPostSerializer(ModelSerializer):
             'phone',
             'email',
             'inn',
+            'building_status'
         )
 
 
     def create(self, validated_data):
-        building_images = validated_data.pop('building_images', [])
+        images_data = self.context.get('view').request.FILES
         building = Building.objects.create(**validated_data)
-        for image in building_images:
-            BuildingImage.objects.create(image=image, building=building)
+        for image_data in images_data.values():
+            BuildingImage.objects.create(building=building, image=image_data)
+        Status.objects.create(building=building, stat='На модерации')
         return building
+
+
+    # def create(self, validated_data):
+    #     building_images = validated_data.pop('building_images', [])
+    #     building = Building.objects.create(**validated_data)
+    #     for image in building_images:
+    #         BuildingImage.objects.create(image=image, building=building)
+    #     return building
     
-    def update(self, instance, validated_data):
-        building_images = validated_data.pop('building_images', [])
-        building = Building.objects.update(**validated_data)
-        for image in building_images:
-            BuildingImage.objects.create(image=image, building=building)
-        return building
+    # def update(self, instance, validated_data):
+    #     building_images = validated_data.pop('building_images')
+    #     building = Building.objects.update(**validated_data)
+    #     for image in building_images:
+    #         BuildingImage.objects.create(image=image, building=building)
+    #     return building
