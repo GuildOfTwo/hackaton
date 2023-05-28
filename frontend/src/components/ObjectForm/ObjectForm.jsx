@@ -1,26 +1,26 @@
-import styles from './styles.module.sass';
+import styles from "./styles.module.sass";
 
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
-import { Map, Placemark } from '@pbe/react-yandex-maps';
-import icon from '../../assets/icons/marker.svg';
-import { ImagesUpload } from './ImagesUpload';
-import { useSelector } from 'react-redux';
-import { apiData } from '../../utils/api/dataApi';
+import { set, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { Map, Placemark } from "@pbe/react-yandex-maps";
+import icon from "../../assets/icons/marker.svg";
+import { ImagesUpload } from "./ImagesUpload";
+import { useSelector } from "react-redux";
+import { apiData } from "../../utils/api/dataApi";
 
-export const ObjectForm = ({ lable = '', edit = false }) => {
+export const ObjectForm = ({ lable = "", edit = false }) => {
   const initialState = {
-    title: '',
+    title: "",
     center: [55.755864, 37.617698],
     zoom: 12,
   };
 
   const [cardData, setCardData] = useState();
   const data = useSelector((state) => state.cards.state);
+  const user = useSelector((state) => state.user.user);
 
-  console.log(cardData);
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
+  const [address, setAddress] = useState("");
 
   const {
     handleSubmit,
@@ -42,7 +43,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
     watch,
     formState: { errors },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
   });
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(edit);
@@ -53,19 +54,34 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
 
   // Обработчик сабмита формы
   const onSubmit = (data) => {
-    console.log(data)
-    apiData
-      .createBuilding(data)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    const formData = new FormData();
+    console.log(files);
+    if (files) {
+      files.forEach((file, index) => {
+        if (files.length >= 2) {
+          formData.append(`building_image_${index + 1}`, file.image, file.name);
+        } else formData.append(`building_image`, file.image, file.name);
+      });
+    }
+    formData.append("owner", user.id);
+    formData.append("coordinates", state.center.toString());
+    formData.append("rating", "0");
+    formData.append("address", address);
+    for (const [key, value] of Object.entries(data)) {
+      if (key !== "address") {
+        formData.append(key, value);
+      }
+    }
+    apiData.createBuilding(formData);
   };
 
   useEffect(() => {
     if (mapConstructor) {
       new mapConstructor.SuggestView(searchRef.current).events.add(
-        'select',
+        "select",
         function (e) {
-          const selectedName = e.get('item').value;
+          const selectedName = e.get("item").value;
+          setAddress(selectedName);
           mapConstructor.geocode(selectedName).then((result) => {
             const newCoords = result.geoObjects
               .get(0)
@@ -78,7 +94,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
   }, [mapConstructor]);
 
   const mapOptions = {
-    modules: ['geocode', 'SuggestView'],
+    modules: ["geocode", "SuggestView"],
     // defaultOptions: { suppressMapOpenBlock: true },
     width: 600,
     height: 400,
@@ -93,11 +109,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Название
         </label>
         <input
-          {...register('title', {
-            required: 'Обязательное поле',
+          {...register("title", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
           })}
           className={styles.input}
@@ -120,11 +136,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Специализация
         </lable>
         <input
-          {...register('specialization', {
-            required: 'Обязательное поле',
+          {...register("specialization", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 200,
@@ -151,11 +167,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Режим работы
         </lable>
         <input
-          {...register('operating_hours', {
+          {...register("operating_hours", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -182,11 +198,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Сайт
         </lable>
         <input
-          {...register('site', {
+          {...register("site", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -213,11 +229,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Общая площадь (кв. м)
         </lable>
         <input
-          {...register('area_sum', {
-            required: 'Обязательное поле',
+          {...register("area_sum", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -244,11 +260,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Свободная площадь (кв. м)
         </lable>
         <input
-          {...register('area_rent', {
-            required: 'Обязательное поле',
+          {...register("area_rent", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -275,11 +291,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Особенности
         </lable>
         <textarea
-          {...register('features', {
+          {...register("features", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -306,11 +322,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Дополнительная информация
         </lable>
         <textarea
-          {...register('additional_information', {
+          {...register("additional_information", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -337,11 +353,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Вместимость, чел.
         </lable>
         <input
-          {...register('capacity', {
-            required: 'Обязательное поле',
+          {...register("capacity", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -368,11 +384,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Стоимость
         </lable>
         <input
-          {...register('cost', {
-            required: 'Обязательное поле',
+          {...register("cost", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -399,11 +415,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Даты бронирования
         </lable>
         <input
-          {...register('booking', {
+          {...register("booking", {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 50,
@@ -430,11 +446,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Юр. название
         </lable>
         <input
-          {...register('entity', {
-            required: 'Обязательное поле',
+          {...register("entity", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 500,
@@ -461,11 +477,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Контактный телефон
         </lable>
         <input
-          {...register('phone', {
-            required: 'Обязательное поле',
+          {...register("phone", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 30,
@@ -492,11 +508,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Адрес электронной почты
         </lable>
         <input
-          {...register('email', {
-            required: 'Обязательное поле',
+          {...register("email", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
             maxLength: {
               value: 30,
@@ -523,11 +539,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           ИНН
         </lable>
         <input
-          {...register('inn', {
-            required: 'Обязательное поле',
+          {...register("inn", {
+            required: "Обязательное поле",
             minLength: {
               value: 12,
-              message: 'This input must exceed 12 characters',
+              message: "This input must exceed 12 characters",
             },
             maxLength: {
               value: 12,
@@ -554,11 +570,11 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
           Описание
         </label>
         <textarea
-          {...register('description', {
-            required: 'Обязательное поле',
+          {...register("description", {
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
           })}
           className={styles.input}
@@ -577,29 +593,30 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="adress" className={styles.lable}>
+        <label htmlFor="address" className={styles.lable}>
           Адрес
         </label>
         <input
-          {...register('adress', {
+          {...register("address", {
             // required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: "This input must exceed 2 characters",
             },
           })}
           className={styles.input}
-          name="adress"
-          id="adress"
+          name="address"
+          id="address"
           type="text"
           placeholder="Адрес"
           autoComplete="off"
           disabled={isDisabled}
           ref={searchRef}
+          onChange={(e) => setAddress(e.target.value)}
         />
-        {errors.adress && (
+        {errors.address && (
           <p role="alert" className={styles.inputError}>
-            {errors.adress.message}
+            {errors.address.message}
           </p>
         )}
       </div>
@@ -608,9 +625,9 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
           <Placemark
             geometry={state.center}
-            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
             options={{
-              iconLayout: 'default#imageWithContent',
+              iconLayout: "default#imageWithContent",
               iconImageHref: icon,
               iconImageSize: [20, 60],
               iconImageOffset: [-20, -40],
@@ -624,7 +641,7 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         {!isDisabled ? (
           <>
             <ButtonDefault
-              lable={edit ? 'Сохранить изменения' : 'Отправить на проверку'}
+              lable={edit ? "Сохранить изменения" : "Отправить на проверку"}
               disabled={false}
               // action={() => alert("хер тебе, а не сохранение")}
             />

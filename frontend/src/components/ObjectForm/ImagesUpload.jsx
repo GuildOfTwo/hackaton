@@ -9,6 +9,32 @@ export const ImagesUpload = ({ files, setFiles}) => {
 
 
 
+  // const InputChange = (e) => {
+  //   let images = [];
+  //   for (let i = 0; i < e.target.files.length; i++) {
+  //     let file = e.target.files[i];
+  //     if (file.size > 1048576) {
+  //       alert("Размер файла не должен превышать 1mb");
+  //       continue; // пропустить файл
+  //     }
+  //     images.push(file);
+  //     let reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       SetSelectedFile((preValue) => {
+  //         return [
+  //           ...preValue,
+  //           {
+  //             image: reader.result,
+  //           },
+  //         ];
+  //       });
+  //     };
+  //     if (e.target.files[i]) {
+  //       reader.readAsDataURL(file);
+  //     }
+  //   }
+  // };
+
   const InputChange = (e) => {
     let images = [];
     for (let i = 0; i < e.target.files.length; i++) {
@@ -18,20 +44,14 @@ export const ImagesUpload = ({ files, setFiles}) => {
         continue; // пропустить файл
       }
       images.push(file);
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        SetSelectedFile((preValue) => {
-          return [
-            ...preValue,
-            {
-              image: reader.result,
-            },
-          ];
-        });
-      };
-      if (e.target.files[i]) {
-        reader.readAsDataURL(file);
-      }
+      SetSelectedFile((preValue) => {
+        return [
+          ...preValue,
+          {
+            image: file,
+          },
+        ];
+      });
     }
   };
 
