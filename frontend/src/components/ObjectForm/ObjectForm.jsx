@@ -60,6 +60,8 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
       formData.append("images", files);
     }
 
+    console.log(formData)
+
     // Формируем новый объект
     const newData = {
       ...data,
@@ -73,15 +75,15 @@ export const ObjectForm = ({ lable = '', edit = false }) => {
         // Ожидаем id от бэка
         building: 0
       }],
-      building_images: [formData],
+      building_images: files,
       address: address
     };
  
-
-    apiData
-      .createBuilding(newData)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    console.log(newData)
+    // apiData
+    //   .createBuilding(newData)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
