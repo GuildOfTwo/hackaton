@@ -564,7 +564,7 @@ const dispatch = useDispatch()
           Описание
         </label>
         <textarea
-          {...register("description", {
+          {...register("desc", {
             required: "Обязательное поле",
             minLength: {
               value: 2,
