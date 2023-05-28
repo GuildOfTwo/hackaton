@@ -46,27 +46,19 @@ class BuildingViewSet(viewsets.ModelViewSet):
             return BuildingGetSerializer
         return BuildingPostSerializer
     
-    
-    # def create(self, request, *args, **kwargs):
-    #     print(request.data)
-    #     # send_mail(
-    #     #     message=(
-    #     #     f'{request.user} забронировал ваш объект {request.data.title},'
-    #     #     f'пожалуйста свяжитесь с ним по почте {request.user.email}'
-    #     #     f'или по телефону {request.user.phone}',
-    #     #     ),
-    #     #     from_email=f'{request.user.email}',
-    #     #     recipient_list=f'{request.data.email}',
-    #     #     fail_silently=False
-    #     # )
-    #     return super().create(request, *args, **kwargs)
-    
-    # def update(self, request, *args, **kwargs):
-    #     print(self)
-    #     print(request.data)
-    #     print(kwargs)
-    #     # send_mail()
-    #     return super().update(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        send_mail(
+            subject='Новое бронирование',
+            message=f'{request.user} забронировал ваш объект '
+                    f'{request.data["title"]},'
+                    f'пожалуйста свяжитесь с ним по почте {request.user.email}'
+                    f' для согласования условий бронирования.',
+            from_email=f'{request.user.email}',
+            recipient_list=[f'{request.data["email"]}', ],
+            fail_silently=False
+        )
+        return super().update(request, *args, **kwargs)
 
 
 class StatusViewSet(viewsets.ModelViewSet):
