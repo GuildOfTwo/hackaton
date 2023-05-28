@@ -69,23 +69,24 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
       owner: user.id,
       coordinates: state.center.toString(),
       rating: 0,
-      building_status: [
-        {
-          // Ожидает модерации
-          stat: "Заблокировано",
-          reject_text: "",
-          // Ожидаем id от бэка
-          building: 0,
-        },
-      ],
+      // building_status: [
+      //   {
+      //     // Ожидает модерации
+      //     stat: "Заблокировано",
+      //     reject_text: "",
+      //     // Ожидаем id от бэка
+      //     building: 0,
+      //   },
+      // ],
       building_images: [formData],
       address: address,
     };
 
-    apiData
-      .createBuilding(newData)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    console.log(formData)
+    // apiData
+    //   .createBuilding(newData)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -113,7 +114,6 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
     height: 400,
   };
 
-  console.log(cardData);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>{lable}</h2>
@@ -138,6 +138,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.title : ""}
+          onChange={(e) => setCardData({ ...cardData, title: e.target.value })}
         />
         {errors.title && (
           <p role="alert" className={styles.inputError}>
@@ -170,6 +171,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.specialization : ""}
+          onChange={(e) => setCardData({ ...cardData, specialization: e.target.value })}
         />
         {errors.specialization && (
           <p role="alert" className={styles.inputError}>
@@ -202,6 +204,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.operating_hours : ""}
+          onChange={(e) => setCardData({ ...cardData, operating_hours: e.target.value })}
         />
         {errors.operating_hours && (
           <p role="alert" className={styles.inputError}>
@@ -234,6 +237,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.site : ""}
+          onChange={(e) => setCardData({ ...cardData, site: e.target.value })}
         />
         {errors.site && (
           <p role="alert" className={styles.inputError}>
@@ -266,6 +270,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.area_sum : ""}
+          onChange={(e) => setCardData({ ...cardData, area_sum: e.target.value })}
         />
         {errors.area_sum && (
           <p role="alert" className={styles.inputError}>
@@ -298,6 +303,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.area_rent : ""}
+          onChange={(e) => setCardData({ ...cardData, area_rent: e.target.value })}
         />
         {errors.area_rent && (
           <p role="alert" className={styles.inputError}>
@@ -330,6 +336,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.features : ""}
+          onChange={(e) => setCardData({ ...cardData, features: e.target.value })}
         />
         {errors.features && (
           <p role="alert" className={styles.inputError}>
@@ -362,6 +369,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.additional_information : ""}
+          onChange={(e) => setCardData({ ...cardData, additional_information: e.target.value })}
         />
         {errors.additional_information && (
           <p role="alert" className={styles.inputError}>
@@ -394,6 +402,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.capacity : ""}
+          onChange={(e) => setCardData({ ...cardData, capacity: e.target.value })}
         />
         {errors.capacity && (
           <p role="alert" className={styles.inputError}>
@@ -426,6 +435,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.cost : ""}
+          onChange={(e) => setCardData({ ...cardData, cost: e.target.value })}
         />
         {errors.cost && (
           <p role="alert" className={styles.inputError}>
@@ -458,6 +468,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.booking : ""}
+          onChange={(e) => setCardData({ ...cardData, booking: e.target.value })}
         />
         {errors.booking && (
           <p role="alert" className={styles.inputError}>
@@ -490,6 +501,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.entity : ""}
+          onChange={(e) => setCardData({ ...cardData, entity: e.target.value })}
         />
         {errors.entity && (
           <p role="alert" className={styles.inputError}>
@@ -522,6 +534,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.phone : ""}
+          onChange={(e) => setCardData({ ...cardData, phone: e.target.value })}
         />
         {errors.phone && (
           <p role="alert" className={styles.inputError}>
@@ -554,6 +567,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.email : ""}
+          onChange={(e) => setCardData({ ...cardData, email: e.target.value })}
         />
         {errors.email && (
           <p role="alert" className={styles.inputError}>
@@ -586,6 +600,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.inn : ""}
+          onChange={(e) => setCardData({ ...cardData, inn: e.target.value })}
         />
         {errors.inn && (
           <p role="alert" className={styles.inputError}>
@@ -599,7 +614,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           Описание
         </label>
         <textarea
-          {...register("desc", {
+          {...register("description", {
             required: "Обязательное поле",
             minLength: {
               value: 2,
@@ -614,6 +629,7 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           value={cardData ? cardData.desc : ""}
+          onChange={(e) => setCardData({ ...cardData, desc: e.target.value })}
         />
         {errors.description && (
           <p role="alert" className={styles.inputError}>
@@ -642,7 +658,8 @@ export const ObjectForm = ({ lable = "", edit = false }) => {
           autoComplete="off"
           disabled={isDisabled}
           ref={searchRef}
-          value={cardData ? cardData.address : ""}
+          // value={cardData ? cardData.address : ""}
+          onChange={(e) => setCardData({ ...cardData, address: e.target.value })}
         />
         {errors.address && (
           <p role="alert" className={styles.inputError}>
