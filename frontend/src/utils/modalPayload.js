@@ -54,3 +54,13 @@ export const requestSendedError = {
   status: error,
 };
 
+
+export const userRegisterSuccess = {
+  text: "Заявка успешно отправленна",
+  status: success,
+};
+
+export const userRegisterError = {
+  text: "Заявка успешно отправленна",
+  status: success,
+};

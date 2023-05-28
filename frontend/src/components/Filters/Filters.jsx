@@ -90,7 +90,8 @@ export const Filters = () => {
           />
         </div>
 
-        <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
+        {/* <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} /> */}
+        <ButtonDefault lable="Найти" action={(e) => alert('Не реализовано')} />
         <button className={styles.reset} onClick={(e) => handleReset(e)}>
           <img src={resetIcon} alt="сбросить фильтр" />
         </button>

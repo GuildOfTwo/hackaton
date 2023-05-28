@@ -80,7 +80,7 @@ const dispatch = useDispatch()
     .catch(err => dispatch(openModal(cardCreatedError)))
     .finally(() => {setTimeout(function(){
       navigate('/')
-  }, 5000);})
+  }, 5000);}) 
   };
 
   useEffect(() => {

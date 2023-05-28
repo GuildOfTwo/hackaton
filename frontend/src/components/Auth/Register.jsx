@@ -9,6 +9,8 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { apiAuth } from "../../utils/api/apiAuth";
 import { useDispatch } from "react-redux";
 import { setToken, setLoggedIn } from "../../store/authSlice";
+import { openModal } from "../../store/modalSlice";
+import { userRegisterError, userRegisterSuccess } from "../../utils/modalPayload";
 
 export const Register = () => {
   const {
@@ -36,12 +38,12 @@ export const Register = () => {
     apiAuth
       .register(authData)
       .then((res) => {
-        console.log(res);
+        dispatch(openModal(userRegisterSuccess))
       })
       .then(() => {
         login(authData);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => dispatch(openModal(userRegisterError)));
   };
 
   const handleShowPass = () => {

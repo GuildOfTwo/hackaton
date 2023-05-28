@@ -33,7 +33,7 @@
 
 .description
 
-    font-size: 2em
+    font-size: 1.5em
 
 .infobar
     width: 100%
@@ -70,3 +70,18 @@
     padding-bottom: 20px
     font-size: 2em
     font-weight: 600
+
+@media screen and (max-width: 1200px)
+    .wrapper
+        flex-direction: column-reverse
+        justify-content: center
+        align-items: center
+        width: 100%
+    .grid
+        width: 100%
+        display: flex
+        flex-direction: column
+        max-width: 80%
+        gap: 10px
+        justify-content: center
+        align-items: center

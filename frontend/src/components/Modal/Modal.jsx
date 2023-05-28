@@ -4,6 +4,7 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 import { closeModal } from "../../store/modalSlice";
 import error from "../../assets/images/error.png";
 import success from "../../assets/images/success.png";
+import { useEffect } from "react";
 
 export const Modal = () => {
   const { status, title, modalIsOpened } = useSelector((state) => state.modal);
@@ -12,6 +13,10 @@ export const Modal = () => {
 
     dispatch(closeModal());
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleClose);
+  }, []);
 
   if (modalIsOpened) {
     return (
