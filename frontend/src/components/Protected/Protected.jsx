@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-export const Protected = ({children}) => {
+export function Protected  ({children}) {
 
   let isLoggedIn = localStorage.getItem("logIn") && true;
   if (!isLoggedIn) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/auth" />;
   }
   return children;
 };
