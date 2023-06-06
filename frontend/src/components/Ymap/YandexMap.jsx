@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 export const YandexMap = ({prop}) => {
   const [newData, setNewData] = useState([]);
   const mapState = {
-    center: [55.76, 37.64],
+    center: [55.751063, 37.616494],
     zoom: 12,
     behaviors: ["default"],
     
@@ -68,13 +68,13 @@ useEffect(() => {
               }}
             />
           ))}
-        {/* <ZoomControl
+        <ZoomControl
           options={{
             float: "left",
-            position: { right: 30, bottom: 300 },
+            position: { right: 50, bottom: 250},
             size: "small",
           }}
-        /> */}
+        />
       </Map>
     </section>
   );

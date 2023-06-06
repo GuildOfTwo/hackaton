@@ -9,21 +9,30 @@
     position: relative
     padding: 0 30px 20px
 
-.ymaps-2-1-79-ground-pane
- 
-.ymaps-2-1-79-inner-panes
+.ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__control
     display: none
 
-.ymaps-2-1-79-inner-panes  .ymaps-2-1-79-controls-pane
-    mix-blend-mode: difference
+.ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__bottom > .ymaps-2-1-79-controls__control > ymaps > .ymaps-2-1-79-zoom
+    height: 100px !important
+
 .ymaps-2-1-79-ground-pane
     mix-blend-mode: difference
     filter: grayscale(2)
-.ymaps-2-1-79-controls__toolbar_right, .ymaps-2-1-79-map-copyrights-promo, .ymaps-2-1-79-controls__toolbar, .ymaps-2-1-79-map-bg, .ymaps-2-1-79-controls__bottom
+
+.ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__bottom > .ymaps-2-1-79-controls__control > ymaps > .ymaps-2-1-79-zoom ymaps
+    width: 100%
+    border: none
+.ymaps-2-1-79-controls__toolbar_right, .ymaps-2-1-79-map-copyrights-promo, .ymaps-2-1-79-controls__toolbar, .ymaps-2-1-79-map-bg
     display: none
 
+.ymaps-2-1-79-float-button-icon
+
+.ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__bottom > .ymaps-2-1-79-controls__control > ymaps > .ymaps-2-1-79-zoom ymaps
+    height: 50px
+    width: 50px
+    background-color: #000000
 .ymaps-2-1-79-map
-    background-size: 1px
+    background-size: 0.1px
 
 .container
     border-radius: inherit
@@ -39,7 +48,7 @@
 .description
     // max-width: 600px
     padding-top: 10px
-  
+
     // margin-bottom: 20px
 
 .button
