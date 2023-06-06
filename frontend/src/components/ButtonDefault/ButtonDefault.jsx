@@ -28,9 +28,11 @@ export const ButtonDefault = ({
           onClick={action}
           disabled={disabled}
           style={{
-            width: width,
+            width: '25px',
             background: `url(${img}) no-repeat`,
             backgroundSize: 'contain',
+            backgroundPosition: 'center'
+
           }}
         ></button>
         {/* <p className={styles.btnText}>{lable}</p> */}
