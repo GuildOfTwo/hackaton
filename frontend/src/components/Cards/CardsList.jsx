@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardItem } from "./CardItem";
 import styles from "./styles.module.sass";
 // import { data } from "../../TEMP_DATA/DATA";
@@ -6,27 +6,28 @@ import { useSelector } from "react-redux";
 
 export const CardsList = () => {
   const data = useSelector((state) => state.cards.objects);
-  const [state, setState] = useState({ size: 3 });
+  const [state, setState] = useState(3);
 
   const handleScroll = () => {
-    document.addEventListener("scroll", () => {
-      let scrollTop = document.documentElement.scrollTop,
-        windowHeight = window.innerHeight,
-        height = document.body.scrollHeight - windowHeight,
-        scrollPercentage = scrollTop / height;
-      if (scrollPercentage > 0.9) {
-        let newSize = state.size + 3;
-        setState(newSize);
-      }
-    });
+    let scrollTop = document.documentElement.scrollTop,
+      windowHeight = window.innerHeight,
+      height = document.body.scrollHeight - windowHeight,
+      scrollPercentage = scrollTop / height;
+    if (scrollPercentage > 0.9) {
+      setState(state + 3);
+      document.removeEventListener("scroll", handleScroll);
+    }
   };
 
   useEffect(() => {
-    handleScroll();
-  }, []);
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [state]);
 
   let disp;
-  const items = data.length && data?.slice(0, state.size);
+  const items = data.length && data?.slice(0, state);
   if (items) {
     disp = items.map((el, index) => {
       return <CardItem data={el} key={index} />;
@@ -39,8 +40,6 @@ export const CardsList = () => {
 
       <ul className={styles.listWrapper}>
         {disp}
-        {/* {data.length &&
-          data?.map((el, index) => <CardItem data={el} key={index} />)} */}
       </ul>
     </section>
   );
