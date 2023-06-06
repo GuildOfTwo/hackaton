@@ -14,6 +14,7 @@ import { apiAuth } from "./utils/api/apiAuth";
 import { setAllUsers, setUserData } from "./store/userSlice";
 import { apiObjects } from "./utils/api/objectsApi";
 import { apiComments } from "./utils/api/commentsApi";
+import { Footer } from "./layout/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function App() {
       apiAuth
         .getUserData(token)
         .then((res) => {
-          console.log(res, 'user DATA')
+          console.log(res, "user DATA");
           dispatch(setUserData(res));
           localStorage.setItem("role", res.role);
         })
@@ -62,6 +63,7 @@ function App() {
     <>
       <Header />
       <Main />
+      <Footer />
     </>
   );
 }
