@@ -50,7 +50,6 @@ export const YandexMap = ({ prop }) => {
       >
         <Clusterer
           options={{
-            preset: "islands#invertedVioletClusterIcons",
             groupByCoordinates: false,
             preset: "islands#redClusterIcons",
           }}
@@ -70,7 +69,6 @@ export const YandexMap = ({ prop }) => {
                 }}
                 properties={{
                   balloonContentBody: item.body,
-                  // iconCaption: item.name ? item.name : null,
                   hintContent: item.name,
                 }}
               />
