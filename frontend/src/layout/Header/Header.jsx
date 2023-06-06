@@ -7,6 +7,7 @@ import { apiAuth } from '../../utils/api/apiAuth';
 import { setLoggedOut, deleteToken } from '../../store/authSlice';
 import useMediaQuery from '../../utils/hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
+import loginIcon from '../../assets/icons/loginIcon.png'
 
 export const Header = () => {
   const navigate = useNavigate();

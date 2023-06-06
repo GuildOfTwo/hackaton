@@ -1,36 +1,39 @@
-import styles from "./styles.module.sass";
+import styles from './styles.module.sass';
 
 export const ButtonDefault = ({
-  lable = "text",
+  lable = 'text',
   action,
   disabled = false,
-  width = "",
+  width = '',
   img = {},
-  isMobile= false
+  isMobile = false,
 }) => {
-  
-  if(!isMobile) {
+
+  if (!isMobile) {
     return (
       <button
         className={disabled ? styles.disabled : styles.button}
         onClick={action}
         disabled={disabled}
-        style={{width: width}}
+        style={{ width: width }}
       >
         {lable}
       </button>
     );
-  } else return (
-  <div className={styles.btnWrap}>
-  <button
-    className={styles.mobileButton}
-    onClick={action}
-    disabled={disabled}
-    style={{ width: width, background: `url(${img}) no-repeat`, backgroundSize: 'contain'}}
-  >
-    
-  </button>
-  <p className={styles.btnText}>{lable}</p>
-  </div>)
-  
+  } else
+    return (
+      <div className={styles.btnWrap}>
+        <button
+          className={styles.mobileButton}
+          onClick={action}
+          disabled={disabled}
+          style={{
+            width: width,
+            background: `url(${img}) no-repeat`,
+            backgroundSize: 'contain',
+          }}
+        ></button>
+        <p className={styles.btnText}>{lable}</p>
+      </div>
+    );
 };
