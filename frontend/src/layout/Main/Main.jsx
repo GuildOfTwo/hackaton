@@ -48,7 +48,7 @@ export const Main = () => {
 
           <Route
             exact
-            path="lk"
+            path="lk/*"
             element={
               <Protected>
                 {" "}

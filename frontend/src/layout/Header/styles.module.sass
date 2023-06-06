@@ -38,14 +38,12 @@
     height: 6px
     border-radius: 50px
     position: absolute
-    right: 21px
-    bottom: 6px
     display: none
 
 .circle
     background-color: #e74362
-    width: 6px
-    height: 6px
+    width: 7px
+    height: 7px
     border-radius: 50px
     position: absolute
     right: 21px
@@ -64,14 +62,27 @@
         width: 100px
         object-fit: cover
 
+
+@media screen and (max-width: 1024px)
+    .circle 
+        display: block
+        right: -10px
+        bottom: 20px
+
+    .title
+        font-size: 45px
+
 @media screen and (max-width: 850px)
     .title
-        margin: 0 30px
         text-align: center
         line-height: 100%
 
     .wrapper
         padding: 15px 30px 40px
+
+    .circle 
+        bottom: 8px
+        right: -12px
 
 @media screen and (max-width: 773px)
     .title
@@ -80,8 +91,13 @@
     .logo
         width: 80px
 
-    .circle
-        display: block
+    .circle 
+        bottom: 6px
+
+    .btnWrapper
+        gap: 25px
+
+
         
 
 

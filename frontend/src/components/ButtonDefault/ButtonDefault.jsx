@@ -32,7 +32,6 @@ export const ButtonDefault = ({
             background: `url(${img}) no-repeat`,
             backgroundSize: 'contain',
             backgroundPosition: 'center'
-
           }}
         ></button>
         {/* <p className={styles.btnText}>{lable}</p> */}

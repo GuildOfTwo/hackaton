@@ -16,6 +16,7 @@ import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
 import { useSelector } from "react-redux";
 import { Feedback } from "../../components/Feedbacks/Feedback/Feedback";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from 'react-router-dom';
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ export const SpacePage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
   const dataComments = useSelector((state) => state.cards.comments);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data.length && dataComments) {
@@ -57,6 +59,7 @@ export const SpacePage = () => {
         <meta name="description" content="App Description" />
         <meta name="theme-color" content="#008f68" />
       </Helmet>
+      <button onClick={() => navigate(-1)}>Назад</button>
       <h2 className={styles.title}>{card.title}</h2>
       <div className={styles.infobar}>
         <div className={styles.iconWrapper}>
