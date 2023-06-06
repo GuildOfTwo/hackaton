@@ -11,19 +11,26 @@
     gap: 40px
     background-color: rgba(87,136,200,.15)
     border-radius: 7px
-    padding: 40px 30px
+    padding: 40px 10px
 
 .formGroup
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
-    max-width: fit-content
+    width: fit-content
 
-img
-    width: 40px
-    height: 40px
-    background-size: contain
-.btnWrap
-    display: flex
-    gap: 20px
+
+@media screen and (max-width: 1240px)
+    .findIcon
+        width: 40px
+
+    .form
+        gap: 20px
+
+@media screen and (max-width: 950px)
+    .form
+        padding: 20px 10px
+
+
+

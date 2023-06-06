@@ -179,18 +179,10 @@ ${price}`}
           </label>
         </div>
 
-        <div className={styles.btnWrap}>
-          <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
-          {/* <ButtonDefault
-          lable="Найти"
-          action={(e) => {
-            e.preventDefault(), handleSubmit();
-          }}
-        /> */}
-          <button className={styles.reset} onClick={(e) => handleReset(e)}>
-            <img src={resetIcon} alt="сбросить фильтр" />
-          </button>
-        </div>
+        <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
+        <button className={styles.reset} onClick={(e) => handleReset(e)}>
+          <img src={resetIcon} alt="сбросить фильтр" className={styles.findIcon} />
+        </button>
       </form>
     </section>
   );

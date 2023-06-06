@@ -28,7 +28,7 @@ export const CardItem = ({data}) => {
             <h2 className={styles.cardItem__title}>{title}</h2>
 
         <div className={styles.imgWrapper}>
-            <img src={building_images && building_images[0].image} alt="" className={styles.img}/>
+            {/* <img src={building_images[0].image} alt="" className={styles.img}/> */}
             </div>
    
             

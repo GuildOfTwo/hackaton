@@ -20,6 +20,12 @@
     width: 100%
     max-width: 20%
 
+.titleWrapper
+    position: relative
+
+.titleWrapper
+    position: relative
+
 .title
     font-size: 2.3em
     font-weight: 600
@@ -27,17 +33,57 @@
     text-align: center
     padding: 0 20px
 
+.circle
+    background-color: #e74362
+    width: 6px
+    height: 6px
+    border-radius: 50px
+    position: absolute
+    right: 21px
+    bottom: 6px
+    display: none
+
+.circle
+    background-color: #e74362
+    width: 6px
+    height: 6px
+    border-radius: 50px
+    position: absolute
+    right: 21px
+    bottom: 6px
+    display: none
+
 .btnWrapper
     display: flex
     gap: 40px
 
-@media screen and (max-width: 999px)
+@media screen and (max-width: 1240px)
     .title
-        font-size: 1.8em
+        font-size: 30px
 
-@media screen and (max-width: 800px)
-    img
-        width: 20%
+    .logo
+        width: 100px
+        object-fit: cover
 
+@media screen and (max-width: 850px)
     .title
-        font-size: 1.5em
+        margin: 0 30px
+        text-align: center
+        line-height: 100%
+
+    .wrapper
+        padding: 15px 30px 40px
+
+@media screen and (max-width: 773px)
+    .title
+        font-size: 34px
+
+    .logo
+        width: 80px
+
+    .circle
+        display: block
+        
+
+
+

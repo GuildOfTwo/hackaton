@@ -1,21 +1,22 @@
-import styles from "./styles.module.sass";
-import logo from "../../assets/images/headerLogo.svg";
-import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { apiAuth } from "../../utils/api/apiAuth";
-import { setLoggedOut, deleteToken } from "../../store/authSlice";
-import useMediaQuery from "../../utils/hooks/useMediaQuery";
-import lkIcon from '../../assets/icons/lkIcon.png'
-import loginIcon from '../../assets/icons/loginIcon.png'
+import styles from './styles.module.sass';
+import logo from '../../assets/images/headerLogo.svg';
+import { ButtonDefault } from '../../components/ButtonDefault/ButtonDefault';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiAuth } from '../../utils/api/apiAuth';
+import { setLoggedOut, deleteToken } from '../../store/authSlice';
+import useMediaQuery from '../../utils/hooks/useMediaQuery';
+import { useEffect, useState } from 'react';
 
 export const Header = () => {
   const navigate = useNavigate();
   const logedIn = useSelector((state) => state.auth.loggedIn);
 
-  const isMobile = useMediaQuery("(max-width: 850px)");
+  const [title, setTitle] = useState('Креативные площадки Москвы');
 
-  const token = localStorage.getItem("token");
+  const isMobile = useMediaQuery('(max-width: 773px)');
+
+  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -26,7 +27,7 @@ export const Header = () => {
     dispatch(deleteToken(token));
     localStorage.clear();
     // console.log(res);
-    navigate("/");
+    navigate('/');
     apiAuth.logout(token);
     //   })
     //   .catch((err) => console.log(err));
@@ -34,22 +35,28 @@ export const Header = () => {
 
   
   const location = useLocation();
+
+  useEffect(() => {
+    isMobile ? setTitle('КПМ') : setTitle('Креативные площадки Москвы');
+  }, [isMobile]);
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
-        <img src={logo} />
-        <h1 className={styles.title} onClick={() => navigate("/")}>
-          Креативные площадки Москвы
-        </h1>
-        
+        <img src={logo} className={styles.logo} />
+        <div className={styles.titleWrapper}>
+          <h1 className={styles.title} onClick={() => navigate('/')}>
+            {title}
+          </h1>
+          <div className={styles.circle} />
+        </div>
+
         {logedIn ? (
           <div className={styles.btnWrapper}>
-            {location.pathname !== "/lk" && (
+            {location.pathname !== '/lk' && (
               <ButtonDefault
                 lable="Личный кабинет"
-                isMobile={isMobile}
-                img={lkIcon}
-                action={() => navigate("/lk")}
+                action={() => navigate('/lk')}
               />
             )}
 
@@ -57,8 +64,7 @@ export const Header = () => {
                 img={loginIcon} action={() => handleLogout()} />
           </div>
         ) : (
-          <ButtonDefault lable="Войти" isMobile={isMobile}
-          img={loginIcon} action={() => navigate("/auth")} />
+          <ButtonDefault lable="Войти" action={() => navigate('/auth')} />
         )}
       </div>
     </header>
