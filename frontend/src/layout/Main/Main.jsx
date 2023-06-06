@@ -36,10 +36,10 @@ export const Main = () => {
             exact
             path="/auth"
             element={
-              <Protected>
+              <Redirect>
              
                 <AuthPage />
-                </Protected>
+                </Redirect>
             }
           />
           <Route path="/*" element={<NotFoundPage />} />
