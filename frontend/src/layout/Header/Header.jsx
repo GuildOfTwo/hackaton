@@ -58,6 +58,8 @@ export const Header = () => {
               <ButtonDefault
                 lable="Личный кабинет"
                 action={() => navigate('/lk')}
+                isMobile={isMobile}
+                img={loginIcon}
               />
             )}
 
@@ -65,7 +67,8 @@ export const Header = () => {
                 img={loginIcon} action={() => handleLogout()} />
           </div>
         ) : (
-          <ButtonDefault lable="Войти" action={() => navigate('/auth')} />
+          <ButtonDefault lable="Войти" action={() => navigate('/auth')} isMobile={isMobile}
+          img={loginIcon}/>
         )}
       </div>
     </header>

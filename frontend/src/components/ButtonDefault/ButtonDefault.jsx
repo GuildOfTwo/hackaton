@@ -33,7 +33,7 @@ export const ButtonDefault = ({
             backgroundSize: 'contain',
           }}
         ></button>
-        <p className={styles.btnText}>{lable}</p>
+        {/* <p className={styles.btnText}>{lable}</p> */}
       </div>
     );
 };
