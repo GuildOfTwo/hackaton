@@ -7,7 +7,9 @@ import { apiAuth } from '../../utils/api/apiAuth';
 import { setLoggedOut, deleteToken } from '../../store/authSlice';
 import useMediaQuery from '../../utils/hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
-import loginIcon from '../../assets/icons/loginIcon.png'
+import loginIcon from '../../assets/icons/login.svg';
+import loginOutIcon from '../../assets/icons/logout.svg';
+import userIcon from '../../assets/icons/user.svg';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ export const Header = () => {
   const [title, setTitle] = useState('Креативные площадки Москвы');
 
   const isMobile = useMediaQuery('(max-width: 773px)');
+  const isTablet = useMediaQuery('(max-width: 1024px)');
 
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
@@ -34,12 +37,11 @@ export const Header = () => {
     //   .catch((err) => console.log(err));
   };
 
-  
   const location = useLocation();
 
   useEffect(() => {
-    isMobile ? setTitle('КПМ') : setTitle('Креативные площадки Москвы');
-  }, [isMobile]);
+    isTablet ? setTitle('КПМ') : setTitle('Креативные площадки Москвы');
+  }, [isTablet]);
 
   return (
     <header className={styles.header}>
@@ -54,21 +56,29 @@ export const Header = () => {
 
         {logedIn ? (
           <div className={styles.btnWrapper}>
-            {location.pathname !== '/lk' && (
+            {location.pathname !== '/lk' && location.pathname !== '/lk/profile'  && (
               <ButtonDefault
                 lable="Личный кабинет"
                 action={() => navigate('/lk')}
                 isMobile={isMobile}
-                img={loginIcon}
+                img={userIcon}
               />
             )}
 
-            <ButtonDefault lable="Выйти" isMobile={isMobile}
-                img={loginIcon} action={() => handleLogout()} />
+            <ButtonDefault
+              lable="Выйти"
+              isMobile={isMobile}
+              img={loginOutIcon}
+              action={() => handleLogout()}
+            />
           </div>
         ) : (
-          <ButtonDefault lable="Войти" action={() => navigate('/auth')} isMobile={isMobile}
-          img={loginIcon}/>
+          <ButtonDefault
+            lable="Войти"
+            action={() => navigate('/auth')}
+            isMobile={isMobile}
+            img={loginIcon}
+          />
         )}
       </div>
     </header>
