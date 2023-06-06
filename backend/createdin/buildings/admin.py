@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from buildings.models import Building, BuildingImage, Status
+from buildings.models import Building, BuildingImage, Status, Bookings
 
 
 class BuildingImageAdmin(admin.StackedInline):
@@ -22,4 +22,17 @@ class StatusAdmin(admin.ModelAdmin):
         'building',
     )
 
+class BookingsAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'owner',
+        'renter',
+        'building',
+        'check_in',
+        'check_out',
+        'message',
+        'approve'
+    )
+
 admin.site.register(Status, StatusAdmin)
+admin.site.register(Bookings, BookingsAdmin)

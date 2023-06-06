@@ -5,13 +5,14 @@ from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
-from buildings.models import Building, Status
+from buildings.models import Building, Status, Bookings
 from api.serializers import (CommentSerializer,
                              BuildingGetSerializer,
                              BuildingPostSerializer,
                              RenterProfileSerializer,
                              LandlordProfileSerializer,
-                             StatusSerializer)
+                             StatusSerializer,
+                             BookingsSerializer)
 from comments.models import Comment
 from users.models import (RenterProfile,
                           LandlordProfile)
@@ -68,3 +69,8 @@ class StatusViewSet(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('building',)
+
+
+class BookingsViewSet(viewsets.ModelViewSet):
+    queryset = Bookings.objects.all()
+    serializer_class = BookingsSerializer

@@ -6,7 +6,7 @@ from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
 from buildings.models import Building, BuildingImage, Status
 from users.models import (Renter, RenterProfile, Landlord, LandlordProfile)
-from buildings.models import Building, BuildingImage
+from buildings.models import Building, BuildingImage, Bookings
 
 
 
@@ -143,3 +143,18 @@ class BuildingPostSerializer(ModelSerializer):
             BuildingImage.objects.create(building=building, image=image_data)
         Status.objects.create(building=building, stat='На модерации')
         return building
+    
+
+class BookingsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bookings
+        fields = (
+            'owner',
+            'renter',
+            'building',
+            'check_in',
+            'check_out',
+            'message',
+            'approve'
+        )

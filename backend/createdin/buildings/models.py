@@ -1,12 +1,12 @@
 from django.db import models
-from users.models import Landlord
+from users.models import Landlord, Renter
 import json
 
 
 class Building(models.Model):
     owner = models.ForeignKey(
         Landlord,
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         related_name='buildings',
         verbose_name='Владелец',
         help_text='Выберите контактное лицо/владельца обьекта'
@@ -179,3 +179,44 @@ class Status(models.Model):
 
     def __str__(self):
         return self.building.title
+    
+
+class Bookings(models.Model):
+    owner = models.ForeignKey(
+        Landlord,
+        on_delete=models.DO_NOTHING,
+        related_name='bookings_owner',
+        verbose_name='Владелец объекта',
+        help_text='Выберите владельца обьекта'
+    )
+    renter = models.ForeignKey(
+        Renter,
+        on_delete=models.DO_NOTHING,
+        related_name='bookings_renter',
+        verbose_name='Арендатор объекта',
+        help_text='Выберите арендатора обьекта'
+    ) 
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.DO_NOTHING,
+        related_name='bookings_object',
+        verbose_name='Объект',
+        help_text='Выберите обьект'
+    )
+    check_in = models.DateField(
+            verbose_name='Дата начала аренды',
+            help_text='Введите дату начала аренды'
+    )
+    check_out = models.DateField(
+            verbose_name='Дата окончания аренды',
+            help_text='Введите дату окончания аренды'
+    )
+    message = models.TextField(
+            verbose_name='Сообщение владельцу',
+            help_text='Введите текст сообщения',
+            blank=True,
+    )
+    approve = models.BooleanField(
+            default=False,
+            verbose_name='Подтверждение владельца',
+            help_text='Подтвердил или нет бронь владелец')
