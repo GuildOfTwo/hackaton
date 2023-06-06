@@ -26,7 +26,7 @@ export const YandexMap = ({ prop }) => {
           <p class="description">${el.desc}</p>
           <div class="contacts">
             <p class="adress">${el.address}</p>
-            <a href="tel:${el.phone}" class="tel">${el.phone}</a>
+
           </div>
         </div>
         <a class="button" href='../space/${el.id}' target="_blank">Открыть</a>
