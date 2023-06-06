@@ -14,13 +14,10 @@ export const Hero = ({prop}) => {
       sequence={[
         'Добро пожаловать в мир креативных пространств Москвы! Наша интерактивная карта поможет вам найти идеальное место для вашего проекта. Нажмите на кнопку ниже, чтобы начать свой поиск уже сегодня!', // Types 'One'
         1000, // Waits 1s
-        () => {
-          console.log('Sequence completed'); // Place optional callbacks anywhere in the array
-        }
       ]}
       wrapper="p"
       cursor={true}
-      repeat={Infinity}
+      repeat={false}
       className={styles.text}
       // style={{ fontSize: '2em', display: 'inline-block' }}
     />
