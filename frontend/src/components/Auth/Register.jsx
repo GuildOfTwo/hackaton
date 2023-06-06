@@ -155,7 +155,7 @@ export const Register = () => {
           )}
         </div>
         <div className={styles.inputGroupRadio}>
-          <label className={styles.lable}>Вы регистрируетесь как..</label>
+          <label className={styles.lable}>Вы регистрируетесь как...</label>
 
           <div className={styles.buttons}>
             <button 
@@ -177,6 +177,7 @@ export const Register = () => {
         </div>
 
         <ButtonDefault type="submit" lable="Зарегистрироваться" />
+        
         <Link to="/agreement" className={styles.link}>
           Регистрируясь вы принимаете условия пользовательского соглашения
         </Link>
