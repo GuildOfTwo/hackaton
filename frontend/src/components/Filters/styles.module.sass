@@ -1,6 +1,6 @@
 .section
     width: 100%
-    padding-bottom: 20px
+    padding: 0 30px 20px
 
 .form
     height: 100%
@@ -11,10 +11,26 @@
     gap: 40px
     background-color: rgba(87,136,200,.15)
     border-radius: 7px
-    padding: 40px 0
+    padding: 40px 10px
 
 .formGroup
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
+    width: fit-content
+
+
+@media screen and (max-width: 1240px)
+    .findIcon
+        width: 40px
+
+    .form
+        gap: 20px
+
+@media screen and (max-width: 950px)
+    .form
+        padding: 20px 10px
+
+
+

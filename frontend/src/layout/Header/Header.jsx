@@ -1,16 +1,22 @@
-import styles from "./styles.module.sass";
-import logo from "../../assets/images/headerLogo.svg";
-import { ButtonDefault } from "../../components/ButtonDefault/ButtonDefault";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { apiAuth } from "../../utils/api/apiAuth";
-import { setLoggedOut, deleteToken } from "../../store/authSlice";
+import styles from './styles.module.sass';
+import logo from '../../assets/images/headerLogo.svg';
+import { ButtonDefault } from '../../components/ButtonDefault/ButtonDefault';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiAuth } from '../../utils/api/apiAuth';
+import { setLoggedOut, deleteToken } from '../../store/authSlice';
+import useMediaQuery from '../../utils/hooks/useMediaQuery';
+import { useEffect, useState } from 'react';
 
 export const Header = () => {
   const navigate = useNavigate();
   const logedIn = useSelector((state) => state.auth.loggedIn);
 
-  const token = localStorage.getItem("token");
+  const [title, setTitle] = useState('Креативные площадки Москвы');
+
+  const isMobile = useMediaQuery('(max-width: 773px)');
+
+  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -21,32 +27,41 @@ export const Header = () => {
     dispatch(deleteToken(token));
     localStorage.clear();
     // console.log(res);
-    navigate("/");
+    navigate('/');
     apiAuth.logout(token);
     //   })
     //   .catch((err) => console.log(err));
   };
   const location = useLocation();
+
+  useEffect(() => {
+    isMobile ? setTitle('КПМ') : setTitle('Креативные площадки Москвы');
+  }, [isMobile]);
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
-        <img src={logo} />
-        <h1 className={styles.title} onClick={() => navigate("/")}>
-          Креативные площадки Москвы
-        </h1>
+        <img src={logo} className={styles.logo} />
+        <div className={styles.titleWrapper}>
+          <h1 className={styles.title} onClick={() => navigate('/')}>
+            {title}
+          </h1>
+          <div className={styles.circle} />
+        </div>
+
         {logedIn ? (
           <div className={styles.btnWrapper}>
-            {location.pathname !== "/lk" && (
+            {location.pathname !== '/lk' && (
               <ButtonDefault
                 lable="Личный кабинет"
-                action={() => navigate("/lk")}
+                action={() => navigate('/lk')}
               />
             )}
 
             <ButtonDefault lable="Выйти" action={() => handleLogout()} />
           </div>
         ) : (
-          <ButtonDefault lable="Войти" action={() => navigate("/auth")} />
+          <ButtonDefault lable="Войти" action={() => navigate('/auth')} />
         )}
       </div>
     </header>

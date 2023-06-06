@@ -18,11 +18,55 @@
 
 .logo
 
+.titleWrapper
+    position: relative
+
 .title
     font-size: 40px
     font-weight: 600
     cursor: pointer
 
+.circle
+    background-color: #e74362
+    width: 6px
+    height: 6px
+    border-radius: 50px
+    position: absolute
+    right: 21px
+    bottom: 6px
+    display: none
+
 .btnWrapper
     display: flex
     gap: 40px
+
+@media screen and (max-width: 1240px)
+    .title
+        font-size: 30px
+
+    .logo
+        width: 100px
+        object-fit: cover
+
+@media screen and (max-width: 850px)
+    .title
+        margin: 0 30px
+        text-align: center
+        line-height: 100%
+
+    .wrapper
+        padding: 15px 30px 40px
+
+@media screen and (max-width: 773px)
+    .title
+        font-size: 34px
+
+    .logo
+        width: 80px
+
+    .circle
+        display: block
+        
+
+
+
