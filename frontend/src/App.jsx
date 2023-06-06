@@ -15,6 +15,7 @@ import { setAllUsers, setUserData } from "./store/userSlice";
 import { apiObjects } from "./utils/api/objectsApi";
 import { apiComments } from "./utils/api/commentsApi";
 import { Footer } from "./layout/Footer/Footer";
+import { Preloader } from "./components/Preloader/Preloader";
 
 function App() {
   const dispatch = useDispatch();
