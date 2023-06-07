@@ -74,3 +74,6 @@ class StatusViewSet(viewsets.ModelViewSet):
 class BookingsViewSet(viewsets.ModelViewSet):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(renter=self.request.user)
