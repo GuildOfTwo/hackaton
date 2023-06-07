@@ -560,11 +560,11 @@ const dispatch = useDispatch()
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="description" className={styles.lable}>
+        <label htmlFor="desc" className={styles.lable}>
           Описание
         </label>
         <textarea
-          {...register("description", {
+          {...register("desc", {
             required: "Обязательное поле",
             minLength: {
               value: 2,
@@ -572,16 +572,16 @@ const dispatch = useDispatch()
             },
           })}
           className={styles.input}
-          name="description"
-          id="description"
+          name="desc"
+          id="desc"
           type="text"
           placeholder="Описание"
           autoComplete="off"
           disabled={isDisabled}
         />
-        {errors.description && (
+        {errors.desc && (
           <p role="alert" className={styles.inputError}>
-            {errors.description.message}
+            {errors.desc.message}
           </p>
         )}
       </div>
