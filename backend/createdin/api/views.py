@@ -82,14 +82,15 @@ class BookingsViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         email = get_object_or_404(User, id=request.data["owner"]).email
+        building = get_object_or_404(Building, id=request.data["building"]).title
         send_mail(
             subject='Новое бронирование',
-            message=f'Арендатор {request.user} оставил заявку на бронирование вашего объекта {request.data["building"]}'
-                    f'в следующие даты: с {request.data["check_in"]} по {request.data["check_out"]}.'
-                    f'Так же он оставил сообщение: {request.data["message"]}'
-                    f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование'
-                    f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}',
-            from_email=f'sender@whitebell.ru',
+            message=f'Вам оставили заявку на бронирование вашего объекта {building} '
+                    f'в следующие даты: с {request.data["check_in"]} по {request.data["check_out"]}. \n'
+                    f'Арендатор оставил сообщение: {request.data["message"]} \n'
+                    f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование. \n'
+                    f'Для согласования дополнительных условий бронирования Вы можете связаться с арендатором по почте {request.user.email}',
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email, ],
             fail_silently=False
         )
