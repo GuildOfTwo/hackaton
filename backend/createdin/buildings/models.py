@@ -1,9 +1,6 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from users.models import Landlord, Renter
 import json
-
 
 
 class Building(models.Model):
@@ -131,7 +128,6 @@ class Building(models.Model):
         return self.title
 
 
-
 class BuildingImage(models.Model):
     building = models.ForeignKey(
         Building,
@@ -183,12 +179,6 @@ class Status(models.Model):
 
     def __str__(self):
         return self.building.title
-
-
-@receiver(post_save, sender=Building)
-def create_building_status(sender, instance, created, **kwargs):
-    if created:
-        Status.objects.create(stat='На модерации', building=instance)
     
 
 class Bookings(models.Model):
