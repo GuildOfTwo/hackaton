@@ -17,7 +17,7 @@ from api.serializers import (CommentSerializer,
                              BookingsSerializer)
 from comments.models import Comment
 from users.models import (RenterProfile,
-                          LandlordProfile)
+                          LandlordProfile, User)
 
 
 class RenterProfileViewSet(viewsets.ModelViewSet):
@@ -81,8 +81,7 @@ class BookingsViewSet(viewsets.ModelViewSet):
         serializer.save(renter=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        # test = get_object_or_404(LandlordProfile, id=request.data["owner"])
-        # print(test)
+        email = get_object_or_404(User, id=request.data["owner"]).email
         send_mail(
             subject='Новое бронирование',
             message=f'Арендатор {request.user} оставил заявку на бронирование вашего объекта {request.data["building"]}'
@@ -90,8 +89,8 @@ class BookingsViewSet(viewsets.ModelViewSet):
                     f'Так же он оставил сообщение: {request.data["message"]}'
                     f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование'
                     f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}',
-            from_email=f'{request.user.email}',
-            recipient_list=[f'{request.data["owner"]}', ],
+            from_email=f'sender@whitebell.ru',
+            recipient_list=[email, ],
             fail_silently=False
         )
         serializer = self.get_serializer(data=request.data)
