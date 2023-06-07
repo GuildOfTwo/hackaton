@@ -150,6 +150,7 @@ class BookingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = (
+            'id',
             'owner',
             'renter',
             'building',
