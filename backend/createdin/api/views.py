@@ -85,3 +85,17 @@ class BookingsViewSet(viewsets.ModelViewSet):
     #     serializer = RecipeGetSerializer(instance=serializer.instance)
     #     return Response(serializer.data,
     #                     status=status.HTTP_201_CREATED)
+
+    def create(self, request, *args, **kwargs):
+        send_mail(
+            subject='Новое бронирование',
+            message=f'Арендатор {request.user} оставил заявку на бронирование вашего объекта {request.data["building"]}'
+                    f'в следующие даты: с {request.data["check_in"]} по {request.data["check_out"]}.'
+                    f'Так же он оставил сообщение: {request.message}'
+                    f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование'
+                    f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}'
+            from_email=f'{request.user.email}',
+            recipient_list=[f'{request.data["email"]}', ],
+            fail_silently=False
+        )
+        return super().update(request, *args, **kwargs)
