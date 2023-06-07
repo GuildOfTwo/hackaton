@@ -5,12 +5,15 @@ import { ObjectsList } from './objectsList';
 import { FormRenter } from './FormRenter';
 import { Routes, Route } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { ButtonBack } from '../ButtonDefault/ButtonBack';
 
 export const PersonalPage = () => {
   const role = localStorage.getItem('role');
 
   return (
     <div className={styles.element}>
+      <ButtonBack />
+      
       {role == 'RENTER' ? (
         <FormRenter />
       ) : (
