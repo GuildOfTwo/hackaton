@@ -36,14 +36,14 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
   const { id } = useParams();
 
-  useEffect(() => {
-    if (edit == true) {
-      if (data.length) {
-        let itemData = data.find((el) => el.id == id);
-        setCardData(itemData);
-      }
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (edit == true) {
+  //     if (data.length) {
+  //       let itemData = data.find((el) => el.id == id);
+  //       setCardData(itemData);
+  //     }
+  //   }
+  // }, [data]);
   const [files, setFiles] = useState([]);
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });

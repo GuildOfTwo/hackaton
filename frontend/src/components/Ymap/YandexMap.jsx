@@ -48,12 +48,12 @@ export const YandexMap = ({ prop }) => {
           // balloonPanelMaxMapArea: Infinity,
         }}
       >
-        <Clusterer
+        {/* <Clusterer
           options={{
             groupByCoordinates: false,
             preset: "islands#redClusterIcons",
           }}
-        >
+        > */}
           {newData &&
             newData.map((item) => (
               <Placemark
@@ -73,7 +73,7 @@ export const YandexMap = ({ prop }) => {
                 }}
               />
             ))}
-        </Clusterer>
+        {/* </Clusterer> */}
         <ZoomControl
           options={{
             float: "left",
