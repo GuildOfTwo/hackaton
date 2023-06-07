@@ -81,6 +81,7 @@
   border: 1px solid var(--border-color);
   /* padding: 0 30px;
   margin-bottom: 80px; */
+
 }
 
 .calendar .calendarHeader {
@@ -177,16 +178,18 @@
   opacity: 0.3;
   transition: 0.5s ease-in;
 }
+
 .calendar .selected .number {
   opacity: 0;
 }
 
 .calendar .col {
- 
+
   flex-basis: calc(100% / 7);
   width: calc(100% / 7);
-  
+
 }
+
 .cell {
   cursor: pointer;
 }
@@ -198,9 +201,11 @@
   justify-content: center;
   text-align: center;
 }
+
 .activeDay {
   background-color: red;
 }
+
 /* 
 button {
   cursor: pointer;
@@ -227,3 +232,9 @@ button:hover {
 button:active {
   box-shadow: none;
 } */
+
+@media screen and (max-width: 475px) {
+  .calendar .cell {
+    height: 3em;
+  }
+}

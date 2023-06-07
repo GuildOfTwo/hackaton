@@ -1,6 +1,7 @@
 import { Map, Placemark, ZoomControl } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
 import "./yandexMap.sass";
+import useMediaQuery from '../../utils/hooks/useMediaQuery';
 
 // import { data } from "../../TEMP_DATA/DATA";
 import { useEffect, useState } from "react";
@@ -12,12 +13,25 @@ export const YandexMapSpace = ({ data= [] }) => {
     behaviors: ["default", "scrollZoom"],
   };
 
+  const [heightMap, setHeightMap] = useState(400)
+
+  const isMobile = useMediaQuery('max-width: 450px')
+
+  useEffect(() => {
+    if(isMobile) {
+      setHeightMap(300)
+    } else {
+      setHeightMap(400)
+    }
+
+  },[isMobile])
+
   return (
     <section className="section">
       <Map
         defaultState={mapState}
-        width={"100%"}
-        height={400}
+        width={500}
+        height={heightMap}
         options={{
           balloonPanelMaxMapArea: 0,
         }}

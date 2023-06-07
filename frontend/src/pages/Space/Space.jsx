@@ -1,21 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 // import { data } from "../../TEMP_DATA/DATA";
-import styles from "./styles.module.sass";
-import { useEffect, useState } from "react";
+import styles from './styles.module.sass';
+import { useEffect, useState } from 'react';
 
-import adress from "../../assets/icons/adress.png";
-import people from "../../assets/icons/people.png";
-import email from "../../assets/icons/email.png";
-import ruble from "../../assets/icons/ruble.png";
-import phone from "../../assets/icons/phone.png";
-import site from "../../assets/icons/site.png";
-import ratingIcon from "../../assets/icons/rating.png";
-import square from "../../assets/icons/square.png";
-import { Calendar } from "../../components/Calendar/Calendar";
-import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
-import { useSelector } from "react-redux";
-import { Feedback } from "../../components/Feedbacks/Feedback/Feedback";
-import { Helmet } from "react-helmet-async";
+import adress from '../../assets/icons/adress.png';
+import people from '../../assets/icons/people.png';
+import email from '../../assets/icons/email.png';
+import ruble from '../../assets/icons/ruble.png';
+import phone from '../../assets/icons/phone.png';
+import site from '../../assets/icons/site.png';
+import ratingIcon from '../../assets/icons/rating.png';
+import square from '../../assets/icons/square.png';
+import { Calendar } from '../../components/Calendar/Calendar';
+import { YandexMapSpace } from '../../components/Ymap/YandexMapSpace';
+import { useSelector } from 'react-redux';
+import { Feedback } from '../../components/Feedbacks/Feedback/Feedback';
+import { Helmet } from 'react-helmet-async';
 import { ButtonBack } from '../../components/ButtonDefault/ButtonBack';
 
 export const SpacePage = () => {
@@ -39,14 +39,14 @@ export const SpacePage = () => {
       setComments(commentsData);
 
       const string = itemData.booking;
-      const array = Array.from(string.split(",").map((str) => str.trim()));
+      const array = Array.from(string.split(',').map((str) => str.trim()));
       setBooking(array);
     }
   }, [data]);
 
   console.log(rating);
   let locationArray = card.coordinates
-    ? card.coordinates.split(",").map(Number)
+    ? card.coordinates.split(',').map(Number)
     : [];
 
   return (
@@ -93,27 +93,30 @@ export const SpacePage = () => {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.leftSide}>
+          {!localStorage.getItem('logIn') ? (
+            <p className={styles.contactsPlug}>
+              Контакты доступны только авторизованным пользователям
+            </p>
+          ) : (
+            <div className={styles.contacts}>
+              <h3 className={styles.contactsTitle}>Контактная информация</h3>
+              <div className={styles.contactsWrapper}>
+                <div className={styles.iconWrapper}>
+                  <img src={phone} alt="" className={styles.iconImg} />
+                  <a className={styles.iconText} href={`tel:${card.phone}`}>
+                    {card.phone}
+                  </a>
+                </div>
 
-{!localStorage.getItem("logIn") ? <p className={styles.contactsPlug}>Контакты доступны только авторизованным пользователям</p>: (<div className={styles.contacts}>
-            <h3 className={styles.contactsTitle}>Контактная информация</h3>
-            <div className={styles.contactsWrapper}>
-            <div className={styles.iconWrapper}>
-              <img src={phone} alt="" className={styles.iconImg} />
-              <a className={styles.iconText} href={`tel:${card.phone}`}>
-                {card.phone}
-              </a>
+                <div className={styles.iconWrapper}>
+                  <img src={email} alt="" className={styles.iconImg} />
+                  <a className={styles.iconText} href={`mailto:${card.email}`}>
+                    {card.email}
+                  </a>
+                </div>
+              </div>
             </div>
-
-            <div className={styles.iconWrapper}>
-              <img src={email} alt="" className={styles.iconImg} />
-              <a className={styles.iconText} href={`mailto:${card.email}`}>
-                {card.email}
-              </a>
-            </div>
-          </div>
-          </div>)}
-          
-
+          )}
 
           <p className={styles.description}>{card.desc}</p>
 

@@ -7,7 +7,7 @@
     margin: 0 auto
     padding-bottom: 20px
     position: relative
-    padding: 0 30px 20px
+    // padding: 0 30px 20px
 
 .ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__control
     display: none
@@ -24,7 +24,6 @@
     border: none
 .ymaps-2-1-79-controls__toolbar_right, .ymaps-2-1-79-map-copyrights-promo, .ymaps-2-1-79-controls__toolbar, .ymaps-2-1-79-map-bg
     display: none
-
 
 .ymaps-2-1-79-controls-pane > .ymaps-2-1-79-controls__bottom > .ymaps-2-1-79-controls__control > ymaps > .ymaps-2-1-79-zoom ymaps
     height: 50px
@@ -71,8 +70,18 @@
     position: relative
     text-align: center
     margin-left: 40px
+
 .contacts
     display: flex
     flex-direction: row
     gap: 40px
     padding-top: 10px
+
+@media screen and (max-width: 650px)
+    .section
+        border-radius: 7px
+        overflow: hidden
+
+@media screen and (max-width: 450px)
+    .section
+        height: 300px
