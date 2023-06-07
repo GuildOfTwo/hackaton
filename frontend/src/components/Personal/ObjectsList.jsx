@@ -1,8 +1,8 @@
-import styles from "./styles.module.sass";
+import styles from './styles.module.sass';
 // import { data } from "../../TEMP_DATA/DATA";
-import { useEffect, useState } from "react";
-import { ObjectItem } from "./ObjectItem";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { ObjectItem } from './ObjectItem';
+import { useSelector } from 'react-redux';
 
 export const ObjectsList = ({ id }) => {
   let tempId = 16;
@@ -19,12 +19,16 @@ export const ObjectsList = ({ id }) => {
   }, [data.length]);
 
   return (
-    <>
+    <ul className={styles.listGrid}>
       {cards?.length >= 1 ? (
-        cards.map((el, index) => <ObjectItem data={el} key={index} />)
+        cards.map((el, index) => (
+          <li key={tempId}>
+            <ObjectItem data={el} key={index} />
+          </li>
+        ))
       ) : (
         <div className={styles.emptyObjects}>Нет добавленных объектов</div>
       )}
-    </>
+    </ul>
   );
 };

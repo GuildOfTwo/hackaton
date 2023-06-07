@@ -29,6 +29,7 @@ export const ObjectItem = ({ data }) => {
       <img
         src={building_images && building_images[0]?.image}
         className={styles.img}
+        alt={title}
         style={
           building_status[0]?.reject_text.length >= 1 ? { filter: css`grayscale(1)` } : {}
         }
