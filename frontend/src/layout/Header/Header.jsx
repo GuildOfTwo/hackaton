@@ -62,7 +62,7 @@ export const Header = () => {
                 action={() => navigate('/lk')}
                 isMobile={isMobile}
                 img={userIcon}
-                width='25px'
+                width={isMobile ? '25px' : ""}
               />
             )}
 
@@ -71,7 +71,7 @@ export const Header = () => {
               isMobile={isMobile}
               img={loginOutIcon}
               action={() => handleLogout()}
-              width='25px'
+              width={isMobile ? '25px' : ""}
             />
           </div>
         ) : (
@@ -80,7 +80,7 @@ export const Header = () => {
             action={() => navigate('/auth')}
             isMobile={isMobile}
             img={loginIcon}
-            width='25px'
+            width={isMobile ? '25px' : ""}
           />
         )}
       </div>
