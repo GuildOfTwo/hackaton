@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Header } from "./layout/Header/Header";
 import { Main } from "./layout/Main/Main";
 import { useDispatch } from "react-redux";
-import { setObjects, setComments } from "./store/dataSlice";
+import { setObjects, setComments, setBooking } from "./store/dataSlice";
 // import { data } from "./TEMP_DATA/DATA";
 import {
   setLoggedIn,
@@ -57,6 +57,14 @@ function App() {
       .then((res) => {
         console.log(res, "пользователи");
         dispatch(setAllUsers(res));
+      })
+      .catch((err) => console.log(err));
+
+    apiObjects
+      .getBookingList()
+      .then((res) => {
+        console.log(res, "Букинг");
+        dispatch(setBooking(res));
       })
       .catch((err) => console.log(err));
   }, []);

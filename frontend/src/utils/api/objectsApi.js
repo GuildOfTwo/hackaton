@@ -25,6 +25,15 @@ class Objects {
       },
     }).then(getResponse);
   }
+  getBookingList() {
+    return fetch(`${this._base_url}bookings/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(getResponse);
+  }
 }
 
 export const apiObjects = new Objects();
