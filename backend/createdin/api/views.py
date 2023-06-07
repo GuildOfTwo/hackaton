@@ -76,6 +76,8 @@ class StatusViewSet(viewsets.ModelViewSet):
 class BookingsViewSet(viewsets.ModelViewSet):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('building', 'renter', 'approve')
 
     def perform_create(self, serializer):
         serializer.save(renter=self.request.user)
