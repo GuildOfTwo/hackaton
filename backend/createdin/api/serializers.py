@@ -146,7 +146,7 @@ class BuildingPostSerializer(ModelSerializer):
     
 
 class BookingsSerializer(serializers.ModelSerializer):
-    # renter = RenterProfileSerializer(read_only=True)
+    renter = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Bookings
