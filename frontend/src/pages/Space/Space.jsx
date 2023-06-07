@@ -16,7 +16,7 @@ import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
 import { useSelector } from "react-redux";
 import { Feedback } from "../../components/Feedbacks/Feedback/Feedback";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -34,7 +34,6 @@ export const SpacePage = () => {
       let itemData = data.find((el) => el.id == id);
       setCard(itemData);
       let intg = Math.floor(itemData.rating);
-      console.log(itemData)
       setRating(intg);
 
       let commentsData = dataComments.filter((el) => el.building == id);
@@ -46,8 +45,7 @@ export const SpacePage = () => {
     }
   }, [data]);
 
-  
-  console.log(rating)
+  console.log(rating);
   let locationArray = card.coordinates
     ? card.coordinates.split(",").map(Number)
     : [];
@@ -56,7 +54,7 @@ export const SpacePage = () => {
     <section className={styles.section}>
       <Helmet>
         <title>{card.title}</title>
-        <meta name="description" content="App Description" />
+        <meta name="description" content={card.desc} />
         <meta name="theme-color" content="#008f68" />
       </Helmet>
       <button onClick={() => navigate(-1)}>Назад</button>
@@ -83,20 +81,6 @@ export const SpacePage = () => {
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={phone} alt="" className={styles.iconImg} />
-          <a className={styles.iconText} href={`tel:${card.phone}`}>
-            {card.phone}
-          </a>
-        </div>
-
-        <div className={styles.iconWrapper}>
-          <img src={email} alt="" className={styles.iconImg} />
-          <a className={styles.iconText} href={`mailto:${card.email}`}>
-            {card.email}
-          </a>
-        </div>
-
-        <div className={styles.iconWrapper}>
           <img src={site} alt="" className={styles.iconImg} />
           <a className={styles.iconText} href={card.site} target="_blank">
             Сайт
@@ -110,9 +94,32 @@ export const SpacePage = () => {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.leftSide}>
+
+{!localStorage.getItem("logIn") ? <p className={styles.contactsPlug}>Контакты доступны только авторизованным пользователям</p>: (<div className={styles.contacts}>
+            <h3 className={styles.contactsTitle}>Контактная информация</h3>
+            <div className={styles.contactsWrapper}>
+            <div className={styles.iconWrapper}>
+              <img src={phone} alt="" className={styles.iconImg} />
+              <a className={styles.iconText} href={`tel:${card.phone}`}>
+                {card.phone}
+              </a>
+            </div>
+
+            <div className={styles.iconWrapper}>
+              <img src={email} alt="" className={styles.iconImg} />
+              <a className={styles.iconText} href={`mailto:${card.email}`}>
+                {card.email}
+              </a>
+            </div>
+          </div>
+          </div>)}
+          
+
+
           <p className={styles.description}>{card.desc}</p>
+
           <div className={styles.calendarWrapper}>
-            <p className={styles.cta}>Выбирите дату и оставьте заявку</p>
+            <p className={styles.cta}>Выберите дату и оставьте заявку</p>
             {card.coordinates && (
               <Calendar
                 data={booking}
