@@ -93,7 +93,7 @@ class BookingsViewSet(viewsets.ModelViewSet):
                     f'в следующие даты: с {request.data["check_in"]} по {request.data["check_out"]}.'
                     f'Так же он оставил сообщение: {request.message}'
                     f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование'
-                    f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}'
+                    f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}',
             from_email=f'{request.user.email}',
             recipient_list=[f'{request.data["email"]}', ],
             fail_silently=False
