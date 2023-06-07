@@ -152,7 +152,6 @@ class BookingsSerializer(serializers.ModelSerializer):
         model = Bookings
         fields = (
             'id',
-            'owner',
             'renter',
             'building',
             'check_in',

@@ -81,8 +81,8 @@ class BookingsViewSet(viewsets.ModelViewSet):
         serializer.save(renter=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        email = get_object_or_404(User, id=request.data["owner"]).email
         building = get_object_or_404(Building, id=request.data["building"]).title
+        email = get_object_or_404(Building, id=request.data["building"]).owner.email
         send_mail(
             subject='Новое бронирование',
             message=f'Вам оставили заявку на бронирование вашего объекта {building} '

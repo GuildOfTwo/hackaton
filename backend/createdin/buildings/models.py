@@ -182,13 +182,6 @@ class Status(models.Model):
     
 
 class Bookings(models.Model):
-    owner = models.ForeignKey(
-        Landlord,
-        on_delete=models.DO_NOTHING,
-        related_name='bookings_owner',
-        verbose_name='Владелец объекта',
-        help_text='Выберите владельца обьекта'
-    )
     renter = models.ForeignKey(
         Renter,
         on_delete=models.DO_NOTHING,

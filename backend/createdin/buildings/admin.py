@@ -25,7 +25,6 @@ class StatusAdmin(admin.ModelAdmin):
 class BookingsAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'owner',
         'renter',
         'building',
         'check_in',
