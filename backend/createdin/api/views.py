@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from buildings.models import Building, Status, Bookings
 from api.serializers import (CommentSerializer,
@@ -78,24 +80,23 @@ class BookingsViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(renter=self.request.user)
 
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     serializer = RecipeGetSerializer(instance=serializer.instance)
-    #     return Response(serializer.data,
-    #                     status=status.HTTP_201_CREATED)
-
     def create(self, request, *args, **kwargs):
+        # test = get_object_or_404(LandlordProfile, id=request.data["owner"])
+        # print(test)
         send_mail(
             subject='Новое бронирование',
             message=f'Арендатор {request.user} оставил заявку на бронирование вашего объекта {request.data["building"]}'
                     f'в следующие даты: с {request.data["check_in"]} по {request.data["check_out"]}.'
-                    f'Так же он оставил сообщение: {request.message}'
+                    f'Так же он оставил сообщение: {request.data["message"]}'
                     f'Для подтверждения бронирования Вам необходимо в личном кабинете утвердить заявку на бронирование'
                     f'Для согласования дополнительных условий бронирования Вы можете связаться с ним по почте {request.user.email}',
             from_email=f'{request.user.email}',
-            recipient_list=[f'{request.data["email"]}', ],
+            recipient_list=[f'{request.data["owner"]}', ],
             fail_silently=False
         )
-        return super().update(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        serializer = BookingsSerializer(instance=serializer.instance)
+        return Response(serializer.data,
+                        status=status.HTTP_201_CREATED)
