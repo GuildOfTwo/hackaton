@@ -220,3 +220,7 @@ class Bookings(models.Model):
             default=False,
             verbose_name='Подтверждение владельца',
             help_text='Подтвердил или нет бронь владелец')
+    
+    class Meta:
+        verbose_name = "Бронирование"
+        verbose_name_plural = "Бронирования"
