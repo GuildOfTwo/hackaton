@@ -14,8 +14,8 @@ export const ToTop = () => {
 
   function scrollFunction() {
     if (
-      document.body.scrollTop > 700 ||
-      document.documentElement.scrollTop > 700
+      document.body.scrollTop > 1550 ||
+      document.documentElement.scrollTop > 1550
     ) {
       setIsVisible(true);
     } else {

@@ -28,7 +28,7 @@ export const ButtonDefault = ({
           onClick={action}
           disabled={disabled}
           style={{
-            width: '25px',
+            width: width,
             background: `url(${img}) no-repeat`,
             backgroundSize: 'contain',
             backgroundPosition: 'center'

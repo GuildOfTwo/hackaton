@@ -1,26 +1,29 @@
-import styles from "./styles.module.sass";
+import styles from './styles.module.sass';
 
-import { set, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { Map, Placemark } from "@pbe/react-yandex-maps";
-import icon from "../../assets/icons/marker.svg";
-import { ImagesUpload } from "./ImagesUpload";
-import { useDispatch, useSelector } from "react-redux";
-import { apiData } from "../../utils/api/dataApi";
-import { openModal } from "../../store/modalSlice";
-import { cardCreatedSuccess } from "../../utils/modalPayload";
-import { cardCreatedError } from "../../utils/modalPayload";
-import DatePicker from "react-multi-date-picker";
-import gregorian_ru_lowercase from "./locale";
-import './picker.sass'
+import { set, useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
+import { Map, Placemark } from '@pbe/react-yandex-maps';
+import icon from '../../assets/icons/marker.svg';
+import { ImagesUpload } from './ImagesUpload';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiData } from '../../utils/api/dataApi';
+import { openModal } from '../../store/modalSlice';
+import { cardCreatedSuccess } from '../../utils/modalPayload';
+import { cardCreatedError } from '../../utils/modalPayload';
+import DatePicker from 'react-multi-date-picker';
+import gregorian_ru_lowercase from './locale';
+import './picker.sass';
+import useMediaQuery from '../../utils/hooks/useMediaQuery';
+import doneIcon from '../../assets/icons/tick-square.svg';
+import cancelIcon from '../../assets/icons/close-square.svg';
 
 export const ObjectForm = ({ lable = null, edit = false }) => {
-  let today = new Date
+  let today = new Date();
   const [value, setValue] = useState([today]);
   const initialState = {
-    title: "",
+    title: '',
     center: [55.755864, 37.617698],
     zoom: 12,
   };
@@ -28,6 +31,8 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
   const [cardData, setCardData] = useState();
   const data = useSelector((state) => state.cards.state);
   const user = useSelector((state) => state.user.user);
+
+  const isMobile = useMediaQuery('(max-width: 650px)');
 
   const { id } = useParams();
 
@@ -43,8 +48,8 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
-  const [address, setAddress] = useState("");
-  const [type, setType] = useState('Лофт')
+  const [address, setAddress] = useState('');
+  const [type, setType] = useState('Лофт');
 
   const {
     handleSubmit,
@@ -52,11 +57,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
     watch,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(edit);
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleEdit = () => {};
 
   const handleCreate = () => {};
@@ -71,32 +76,34 @@ const dispatch = useDispatch()
         } else formData.append(`building_image`, file.image, file.name);
       });
     }
-    formData.append("owner", user.id);
-    formData.append("coordinates", state.center.toString());
-    formData.append("rating", "0");
-    formData.append("address", address);
-    formData.append("specialization", type);
+    formData.append('owner', user.id);
+    formData.append('coordinates', state.center.toString());
+    formData.append('rating', '0');
+    formData.append('address', address);
+    formData.append('specialization', type);
 
     for (const [key, value] of Object.entries(data)) {
-      if (key !== "address" && key !== 'specialization') {
+      if (key !== 'address' && key !== 'specialization') {
         formData.append(key, value);
       }
     }
     apiData
-    .createBuilding(formData)
-    .then(res => dispatch(openModal(cardCreatedSuccess)))
-    .catch(err => dispatch(openModal(cardCreatedError)))
-    .finally(() => {setTimeout(function(){
-      navigate('/')
-  }, 5000);}) 
+      .createBuilding(formData)
+      .then((res) => dispatch(openModal(cardCreatedSuccess)))
+      .catch((err) => dispatch(openModal(cardCreatedError)))
+      .finally(() => {
+        setTimeout(function () {
+          navigate('/');
+        }, 5000);
+      });
   };
 
   useEffect(() => {
     if (mapConstructor) {
       new mapConstructor.SuggestView(searchRef.current).events.add(
-        "select",
+        'select',
         function (e) {
-          const selectedName = e.get("item").value;
+          const selectedName = e.get('item').value;
           setAddress(selectedName);
           mapConstructor.geocode(selectedName).then((result) => {
             const newCoords = result.geoObjects
@@ -110,10 +117,10 @@ const dispatch = useDispatch()
   }, [mapConstructor]);
 
   const mapOptions = {
-    modules: ["geocode", "SuggestView"],
+    modules: ['geocode', 'SuggestView'],
     // defaultOptions: { suppressMapOpenBlock: true },
-    width: 600,
-    height: 400,
+    width: '100%',
+    height: '100%',
   };
 
   return (
@@ -125,11 +132,11 @@ const dispatch = useDispatch()
           Название
         </label>
         <input
-          {...register("title", {
-            required: "Обязательное поле",
+          {...register('title', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
           })}
           className={styles.input}
@@ -148,38 +155,42 @@ const dispatch = useDispatch()
       </div>
 
       <div className={styles.inputGroup}>
-          <label htmlFor="name" className={styles.lable}>
-            Тип площадки
-          </label>
-          <select name="select" onChange={(e) => setType(e.target.value)} className={styles.input}>
-            <option value="Арт">Лофт</option>
-            <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
-            <option value="Реклама">Реклама</option>
-            <option value="Дизайн">Дизайн</option>
-            <option value="Мода">Мода</option>
-            <option value="Кино и анимация">Кино и анимация</option>
-            <option value="Телерадиовещание и новые медиа">
-              Телерадиовещание и медиа
-            </option>
-            <option value="Издательское дело">Издательское дело</option>
-            <option value="Архитектура">Архитектура</option>
-            <option value="Музыка">Музыка</option>
-            <option value="Исполнительские искусства">
-              Исполнительские искусства
-            </option>
-          </select>
-        </div>
+        <label htmlFor="name" className={styles.lable}>
+          Тип площадки
+        </label>
+        <select
+          name="select"
+          onChange={(e) => setType(e.target.value)}
+          className={styles.input}
+        >
+          <option value="Арт">Лофт</option>
+          <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
+          <option value="Реклама">Реклама</option>
+          <option value="Дизайн">Дизайн</option>
+          <option value="Мода">Мода</option>
+          <option value="Кино и анимация">Кино и анимация</option>
+          <option value="Телерадиовещание и новые медиа">
+            Телерадиовещание и медиа
+          </option>
+          <option value="Издательское дело">Издательское дело</option>
+          <option value="Архитектура">Архитектура</option>
+          <option value="Музыка">Музыка</option>
+          <option value="Исполнительские искусства">
+            Исполнительские искусства
+          </option>
+        </select>
+      </div>
 
       <div className={styles.inputGroup}>
         <lable htmlFor="operating_hours" className={styles.lable}>
           Режим работы
         </lable>
         <input
-          {...register("operating_hours", {
+          {...register('operating_hours', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -206,11 +217,11 @@ const dispatch = useDispatch()
           Сайт
         </lable>
         <input
-          {...register("site", {
+          {...register('site', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -237,11 +248,11 @@ const dispatch = useDispatch()
           Общая площадь (кв. м)
         </lable>
         <input
-          {...register("area_sum", {
-            required: "Обязательное поле",
+          {...register('area_sum', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -268,11 +279,11 @@ const dispatch = useDispatch()
           Свободная площадь (кв. м)
         </lable>
         <input
-          {...register("area_rent", {
-            required: "Обязательное поле",
+          {...register('area_rent', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -299,11 +310,11 @@ const dispatch = useDispatch()
           Особенности
         </lable>
         <textarea
-          {...register("features", {
+          {...register('features', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 500,
@@ -330,11 +341,11 @@ const dispatch = useDispatch()
           Дополнительная информация
         </lable>
         <textarea
-          {...register("additional_information", {
+          {...register('additional_information', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 500,
@@ -361,11 +372,11 @@ const dispatch = useDispatch()
           Вместимость, чел.
         </lable>
         <input
-          {...register("capacity", {
-            required: "Обязательное поле",
+          {...register('capacity', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -392,11 +403,11 @@ const dispatch = useDispatch()
           Стоимость
         </lable>
         <input
-          {...register("cost", {
-            required: "Обязательное поле",
+          {...register('cost', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 50,
@@ -423,11 +434,11 @@ const dispatch = useDispatch()
           Даты бронирования
         </lable>
         <DatePicker
-            multiple
-            value={value}
-            onChange={setValue}
-            locale={gregorian_ru_lowercase}
-          />
+          multiple
+          value={value}
+          onChange={setValue}
+          locale={gregorian_ru_lowercase}
+        />
         {errors.booking && (
           <p role="alert" className={styles.inputError}>
             {errors.booking.message}
@@ -440,11 +451,11 @@ const dispatch = useDispatch()
           Юр. название
         </lable>
         <input
-          {...register("entity", {
-            required: "Обязательное поле",
+          {...register('entity', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 500,
@@ -471,11 +482,11 @@ const dispatch = useDispatch()
           Контактный телефон
         </lable>
         <input
-          {...register("phone", {
-            required: "Обязательное поле",
+          {...register('phone', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 30,
@@ -502,11 +513,11 @@ const dispatch = useDispatch()
           Адрес электронной почты
         </lable>
         <input
-          {...register("email", {
-            required: "Обязательное поле",
+          {...register('email', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
             maxLength: {
               value: 30,
@@ -533,11 +544,11 @@ const dispatch = useDispatch()
           ИНН
         </lable>
         <input
-          {...register("inn", {
-            required: "Обязательное поле",
+          {...register('inn', {
+            required: 'Обязательное поле',
             minLength: {
               value: 12,
-              message: "This input must exceed 12 characters",
+              message: 'This input must exceed 12 characters',
             },
             maxLength: {
               value: 12,
@@ -564,11 +575,11 @@ const dispatch = useDispatch()
           Описание
         </label>
         <textarea
-          {...register("desc", {
-            required: "Обязательное поле",
+          {...register('desc', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
           })}
           className={styles.input}
@@ -591,11 +602,11 @@ const dispatch = useDispatch()
           Адрес
         </label>
         <input
-          {...register("address", {
+          {...register('address', {
             // required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
           })}
           className={styles.input}
@@ -619,9 +630,9 @@ const dispatch = useDispatch()
         <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
           <Placemark
             geometry={state.center}
-            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
             options={{
-              iconLayout: "default#imageWithContent",
+              iconLayout: 'default#imageWithContent',
               iconImageHref: icon,
               iconImageSize: [20, 60],
               iconImageOffset: [-20, -40],
@@ -635,11 +646,20 @@ const dispatch = useDispatch()
         {!isDisabled ? (
           <>
             <ButtonDefault
-              lable={edit ? "Сохранить изменения" : "Отправить на проверку"}
+              lable={edit ? 'Сохранить изменения' : 'Отправить на проверку'}
               disabled={false}
+              isMobile={isMobile}
+              img={doneIcon}
+              width={isMobile ? '50px' : ''}
               // action={() => alert("хер тебе, а не сохранение")}
             />
-            <ButtonDefault lable="Отмена" action={() => setIsDisabled(true)} />
+            <ButtonDefault
+              lable="Отмена"
+              action={() => setIsDisabled(true)}
+              isMobile={isMobile}
+              img={cancelIcon}
+              width={isMobile ? '50px' : ''}
+            />
           </>
         ) : (
           <ButtonDefault
