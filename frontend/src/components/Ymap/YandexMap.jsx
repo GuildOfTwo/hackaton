@@ -37,43 +37,40 @@ export const YandexMap = ({ prop }) => {
   }, [data, filteredData]);
   return (
     <section className="section" ref={prop}>
-      <Map
+     {newData &&  <Map
         instanceRef={(ref) => {
           ref && ref.behaviors.disable("scrollZoom");
         }}
         defaultState={mapState}
         width={"100%"}
         height={600}
-        options={{
-          // balloonPanelMaxMapArea: Infinity,
-        }}
+
       >
-        {/* <Clusterer
+        <Clusterer
           options={{
             groupByCoordinates: false,
             preset: "islands#redClusterIcons",
           }}
-        > */}
-          {newData &&
-            newData.map((item) => (
-              <Placemark
-                defaultGeometry={item.coordinates}
-                key={item.id}
-                modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
-                options={{
-                  iconLayout: "default#imageWithContent",
-                  iconImageHref: icon,
-                  iconImageSize: [20, 60],
-                  iconImageOffset: [-20, -40],
-                  iconCaptionMaxWidth: 500,
-                }}
-                properties={{
-                  balloonContentBody: item.body,
-                  hintContent: item.name,
-                }}
-              />
-            ))}
-        {/* </Clusterer> */}
+        >
+          {newData.map((item) => (
+            <Placemark
+              defaultGeometry={item.coordinates}
+              key={item.id}
+              modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+              options={{
+                iconLayout: "default#imageWithContent",
+                iconImageHref: icon,
+                iconImageSize: [20, 60],
+                iconImageOffset: [-20, -40],
+                iconCaptionMaxWidth: 500,
+              }}
+              properties={{
+                balloonContentBody: item.body,
+                hintContent: item.name,
+              }}
+            />
+          ))}
+        </Clusterer>
         <ZoomControl
           options={{
             float: "left",
@@ -81,7 +78,7 @@ export const YandexMap = ({ prop }) => {
             size: "small",
           }}
         />
-      </Map>
+      </Map>}
     </section>
   );
 };
