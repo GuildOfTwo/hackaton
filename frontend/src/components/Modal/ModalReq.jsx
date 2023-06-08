@@ -56,9 +56,13 @@ export const ModalReq = ({ setMessage, dateReq, handleSendReq }) => {
             rows="10"
             onChange={(e) => handleMessage(e)}
           ></textarea>
-          {/* контент тут */}
-          <ButtonDefault lable="Закрыть" action={() => handleClose()} />
-          <ButtonDefault lable="Отправить заявку" action={() => handlePost()} />
+          <div className={styles.btnWrap}>
+            <ButtonDefault lable="Закрыть" action={() => handleClose()} />
+            <ButtonDefault
+              lable="Отправить заявку"
+              action={() => handlePost()}
+            />
+          </div>
         </div>
       </div>
     );
