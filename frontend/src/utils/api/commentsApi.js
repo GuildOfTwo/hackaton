@@ -16,13 +16,13 @@ class Comments {
     }).then(getResponse);
   }
 
-  postComment(data) {
+  postComment(data, token) {
     return fetch(`${this._base_url}comments/`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        authorization: `token 278db318f019381fe0994e2f751ea8cae1780466`,
+        authorization: `token ${token}`,
       },
       body: JSON.stringify(data),
     }).then(getResponse);

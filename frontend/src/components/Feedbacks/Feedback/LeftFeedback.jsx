@@ -16,7 +16,7 @@ export const LeftFeedback = () => {
 
   let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const { id } = useParams();
-
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const handlePostFeedback = () => {
     let data = {
@@ -29,7 +29,7 @@ export const LeftFeedback = () => {
 
     console.log(data);
     apiComments
-      .postComment(data)
+      .postComment(data, token)
       .then((res) => dispatch(openModal(reviewSendedSuccess)))
       .catch((err) => dispatch(openModal(reviewSendedError)));
   };

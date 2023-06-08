@@ -63,6 +63,7 @@ export class Calendar extends React.Component {
     let bookedDates = [];
     let nextMonthDates = [];
     let dates = this.props.data;
+    console.log(dates)
     for (let i = 0; i < dates.length; i++) {
       let date = new Date(dates[i]);
       const day = new Date(dates[i]).getDate();

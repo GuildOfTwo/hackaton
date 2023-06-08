@@ -20,8 +20,8 @@ import { ButtonBack } from "../../components/ButtonDefault/ButtonBack";
 import { ModalReq } from "../../components/Modal/ModalReq";
 import { openModalReq, openModal } from "../../store/modalSlice";
 import { apiBooking } from "../../utils/api/bookingApi";
-import { requestSendedSuccess } from '../../utils/modalPayload';
-import { requestSendedError } from '../../utils/modalPayload';
+import { requestSendedSuccess } from "../../utils/modalPayload";
+import { requestSendedError } from "../../utils/modalPayload";
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -32,11 +32,12 @@ export const SpacePage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
   const dataComments = useSelector((state) => state.cards.comments);
-  const modal = useSelector((state) => state.modal);
+  const bookingData = useSelector((state) => state.cards.booking);
+  // console.log(bookingData)
+
   const [dateReq, setDateReq] = useState("");
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     if (data.length && dataComments) {
@@ -46,9 +47,9 @@ export const SpacePage = () => {
       setRating(intg);
       let commentsData = dataComments.filter((el) => el.building == id);
       setComments(commentsData);
-      const string = itemData.booking;
-      const array = Array.from(string.split(",").map((str) => str.trim()));
-      setBooking(array);
+      let bookingDate = bookingData.filter((el) => el.building == id);
+      const checkInArray = bookingDate.map((booking) => booking.check_in);
+      setBooking(checkInArray);
     }
   }, [data]);
 
@@ -60,7 +61,6 @@ export const SpacePage = () => {
     dispatch(openModalReq());
   };
   const handleSendReq = () => {
-
     const date = new Date(dateReq);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -76,8 +76,9 @@ export const SpacePage = () => {
     apiBooking
       .postBooking(obj, token)
       .then((res) => dispatch(openModal(requestSendedSuccess)))
-      .catch((err) => dispatch(openModal(requestSendedError)))
+      .catch((err) => dispatch(openModal(requestSendedError)));
   };
+  // console.log(booking)
 
   return (
     <section className={styles.section}>
