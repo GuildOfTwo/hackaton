@@ -11,10 +11,6 @@ from buildings.models import Building, BuildingImage, Bookings
 
 
 class RenterProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        slug_field='email',
-        read_only=True
-    )
 
     class Meta:
         model = RenterProfile
@@ -22,10 +18,6 @@ class RenterProfileSerializer(serializers.ModelSerializer):
 
 
 class LandlordProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        slug_field='email',
-        read_only=True
-    )
 
     class Meta:
         model = LandlordProfile

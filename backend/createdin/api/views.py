@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from django.db.models import Avg
 from django.shortcuts import render
-from rest_framework import status
+from rest_framework import filters, status
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from buildings.models import Building, Status, Bookings
@@ -23,11 +23,15 @@ from users.models import (RenterProfile,
 class RenterProfileViewSet(viewsets.ModelViewSet):
     queryset = RenterProfile.objects.all()
     serializer_class = RenterProfileSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__id',) 
 
 
 class LandlordProfileViewSet(viewsets.ModelViewSet):
     queryset = LandlordProfile.objects.all()
     serializer_class = LandlordProfileSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__id',) 
 
 
 class CommentViewSet(viewsets.ModelViewSet):
