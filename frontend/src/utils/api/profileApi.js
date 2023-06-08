@@ -22,11 +22,10 @@ class Profiles {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-      },body: JSON.stringify(data)
-      
+      },
+      body: JSON.stringify(data),
     }).then(getResponse);
   }
-
 }
 
 export const apiProfiles = new Profiles();

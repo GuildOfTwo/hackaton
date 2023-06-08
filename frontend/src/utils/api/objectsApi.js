@@ -37,5 +37,3 @@ class Objects {
 }
 
 export const apiObjects = new Objects();
-
-
