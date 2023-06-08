@@ -97,7 +97,7 @@ class BuildingPostSerializer(ModelSerializer):
         source='buildingimage_set',
         many=True, read_only=True
     )
-    building_status = StatusSerializer(many=True, read_only=True)
+    building_status = StatusSerializer(read_only=True)
 
     
     class Meta:
@@ -133,7 +133,6 @@ class BuildingPostSerializer(ModelSerializer):
         building = Building.objects.create(**validated_data)
         for image_data in images_data.values():
             BuildingImage.objects.create(building=building, image=image_data)
-        Status.objects.create(building=building, stat='На модерации')
         return building
     
 
@@ -149,5 +148,6 @@ class BookingsSerializer(serializers.ModelSerializer):
             'check_in',
             'check_out',
             'message',
-            'approve'
+            'approve',
+            'status'
         )

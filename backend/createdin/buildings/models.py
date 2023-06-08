@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from users.models import Landlord, Renter
 import json
 
@@ -147,7 +149,7 @@ class BuildingImage(models.Model):
 
     def __str__(self):
         return self.building.title
-    
+
 
 class Status(models.Model):
     CHOICES = [
@@ -181,6 +183,12 @@ class Status(models.Model):
         return self.building.title
     
 
+@receiver(post_save, sender=Building)
+def create_building_status(sender, instance, created, **kwargs):
+    if created:
+        Status.objects.create(stat='На модерации', building=instance)
+
+
 class Bookings(models.Model):
     renter = models.ForeignKey(
         Renter,
@@ -213,6 +221,11 @@ class Bookings(models.Model):
             default=False,
             verbose_name='Подтверждение владельца',
             help_text='Подтвердил или нет бронь владелец')
+    status = models.BooleanField(
+            default=False,
+            verbose_name='Рассмотрение владельцем',
+            help_text='Рассмотрел или нет заявку владелец')
+    
     
     class Meta:
         verbose_name = "Бронирование"
