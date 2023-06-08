@@ -33,7 +33,6 @@ export const ButtonDefault = ({
             backgroundSize: 'contain',
             backgroundPosition: 'center'
           }}
-          type={type}
         ></button>
         {/* <p className={styles.btnText}>{lable}</p> */}
       </div>
