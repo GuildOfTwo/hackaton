@@ -35,6 +35,10 @@
   padding-right: 0.25em;
 }
 
+.picked {
+  color: rgb(199, 14, 14);
+  font-weight: 600;
+}
 /* GRID */
 
 .row {
@@ -81,7 +85,6 @@
   border: 1px solid var(--border-color);
   /* padding: 0 30px;
   margin-bottom: 80px; */
-
 }
 
 .calendar .calendarHeader {
@@ -184,16 +187,13 @@
 }
 
 .calendar .col {
-
   flex-basis: calc(100% / 7);
   width: calc(100% / 7);
-
 }
 
 .cell {
   cursor: pointer;
 }
-
 
 .buttonWrapper {
   padding: 20px 0;

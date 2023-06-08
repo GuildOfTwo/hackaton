@@ -177,6 +177,7 @@ export class Calendar extends React.Component {
                 ? "selected"
                 : ""
             }
+            ${this.state.day && isSameDay(currentDate, this.state.day) ? 'picked' : ''}
             ${isBefore(currentDate, thisDay) ? "disabled" : ""}`}
             key={currentDate}
             id={currentDate}
