@@ -4,7 +4,12 @@ import { useForm } from 'react-hook-form';
 import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
 import { useSelector } from 'react-redux';
 import { apiProfiles } from '../../utils/api/profileApi';
-import { phoneRegExp, numbersRegExp, nameRegExp, emailRegExp } from '../../utils/regExp';
+import {
+  phoneRegExp,
+  numbersRegExp,
+  nameRegExp,
+  emailRegExp,
+} from '../../utils/regExp';
 
 export const FormLandlord = () => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -32,6 +37,25 @@ export const FormLandlord = () => {
 
   const user = useSelector((state) => state.user.user);
 
+  const [radioBtns, setRadioBtns] = useState({ ooo: true, ip: false });
+  const [radioValue, setRadioValue] = useState('ORGANIZATION');
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setRadioValue(value);
+    if (value === 'IP') {
+      setRadioBtns({
+        ooo: false,
+        ip: true,
+      });
+    } else {
+      setRadioBtns({
+        ooo: true,
+        ip: false,
+      });
+    }
+  };
+
   useEffect(() => {
     if (user.id) {
       apiProfiles
@@ -45,8 +69,9 @@ export const FormLandlord = () => {
   }, [user]);
 
   const onSubmit = (data) => {
+    const dataToSend = { ...data, organization_type: radioValue };
     apiProfiles
-      .updateProfileDataLandlord(data)
+      .updateProfileDataLandlord(dataToSend)
       .then(() => setIsDisabled(true))
       .catch((err) => console.log(err));
   };
@@ -56,6 +81,18 @@ export const FormLandlord = () => {
       if (key) {
         setValue(key, landlordData[key]);
       }
+    }
+
+    if (landlordData.organization_type === 'IP') {
+      setRadioBtns({
+        ooo: false,
+        ip: true,
+      });
+    } else {
+      setRadioBtns({
+        ooo: true,
+        ip: false,
+      });
     }
   }, [landlordData]);
 
@@ -176,7 +213,7 @@ export const FormLandlord = () => {
         </label>
         <input
           {...register('contact_email', {
-            required: "Обязательное поле",
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
               message: 'Минимум два символа',
@@ -299,6 +336,36 @@ export const FormLandlord = () => {
       </div>
 
       <div className={styles.inputGroup}>
+        <label htmlFor="organization_type" className={styles.lable}>
+          Орг. форма
+        </label>
+        <div className={styles.radioGroup}>
+          <input
+            type="radio"
+            id="organization_type_ooo"
+            className={styles.inputRadio}
+            value="ORGANIZATION"
+            checked={radioBtns.ooo}
+            onChange={(event) => handleChange(event)}
+            disabled={isDisabled}
+          />
+          <label htmlFor="organization_type_ooo" className={styles.labelRadio}>
+            ООО
+          </label>
+          <input
+            type="radio"
+            id="organization_type_ip"
+            className={styles.inputRadio}
+            value="IP"
+            checked={radioBtns.ip}
+            onChange={(event) => handleChange(event)}
+            disabled={isDisabled}
+          />
+          <label htmlFor="organization_type_ip">ИП</label>
+        </div>
+      </div>
+
+      <div className={styles.inputGroup}>
         <label htmlFor="inn" className={styles.lable}>
           ИНН
         </label>
@@ -333,7 +400,11 @@ export const FormLandlord = () => {
       <div className={styles.buttons}>
         {!isDisabled ? (
           <>
-            <ButtonDefault lable="Сохранить изменения" disabled={!isValid} action={handleSubmit(onSubmit)} />
+            <ButtonDefault
+              lable="Сохранить изменения"
+              disabled={!isValid}
+              action={handleSubmit(onSubmit)}
+            />
             <ButtonDefault lable="Отмена" action={() => setIsDisabled(true)} />
           </>
         ) : (
