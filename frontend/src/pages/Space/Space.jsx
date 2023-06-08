@@ -73,7 +73,6 @@ export const SpacePage = () => {
       message: message,
       approve: false,
     };
-console.log(formattedDate)
     apiBooking
       .postBooking(obj, token)
       .then((res) => dispatch(openModal(requestSendedSuccess)))
