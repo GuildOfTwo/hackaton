@@ -14,30 +14,38 @@ export const RequestList = () => {
     if (Array.isArray(obj)) {
       apiBooking.getBookings(token).then((res) => {
         let renter = res.filter((el) => el.renter == id);
-        let result = renter.filter((obj1) =>
-          obj.some((obj2) => obj1.building === obj2.id)
-        );
+        // let result = renter.filter((obj1) =>
+        //   obj.some((obj2) => obj1.building === obj2.id)
+        // );
+        const result = renter
+          .filter((obj1) => obj.some((obj2) => obj1.building === obj2.id))
+          .map((obj1) => {
+            const obj2 = obj.find((obj2) => obj1.building === obj2.id);
+            return { ...obj1, title: obj2.title };
+          });
         setBooking(result);
       });
     }
   }, [id, obj]);
 
-
   return (
     <section className={requestList.section}>
       <h2 className={requestList.title}>Все заявки</h2>
 
-{booking.map((el, index) => (
-    <div className={requestList.item} key={index}>
-        <p className={requestList.date}>{el.check_in}</p>
-        <p className={requestList.status}>{el.approve}</p>
-        <NavLink to={el.building} className={requestList.navLink}>
-          название
-        </NavLink>
-      </div>
-))}
-      
-
+      {booking.map((el, index) => (
+        <div
+          className={el.approve ? requestList.item : requestList.itemFalse}
+          key={index}
+        >
+          <NavLink to={`/space/${el.building}`} className={requestList.navLink}>
+            {el.title}
+          </NavLink>
+          <p className={requestList.date}>{el.check_in}</p>
+          <p className={requestList.status}>
+            {el.approve ? "Поддтвержденно" : "Ожидайте ответа"}
+          </p>
+        </div>
+      ))}
     </section>
   );
 };
