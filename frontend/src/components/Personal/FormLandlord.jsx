@@ -61,7 +61,6 @@ export const FormLandlord = () => {
       apiProfiles
         .getProfileDataLandlord(user.id)
         .then((res) => {
-          console.log(res[0]);
           setLandlordData({ ...res[0], contact_email: user.email });
         })
         .catch((err) => console.log(err));
