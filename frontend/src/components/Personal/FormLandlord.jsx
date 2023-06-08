@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
 import { useSelector } from 'react-redux';
 import { apiProfiles } from '../../utils/api/profileApi';
+import { phoneRegExp, numbersRegExp, nameRegExp, emailRegExp } from '../../utils/regExp';
 
 export const FormLandlord = () => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -30,7 +31,6 @@ export const FormLandlord = () => {
   });
 
   const user = useSelector((state) => state.user.user);
-  console.log(errors, '!!!');
 
   useEffect(() => {
     if (user.id) {
@@ -45,17 +45,6 @@ export const FormLandlord = () => {
   }, [user]);
 
   const onSubmit = (data) => {
-    // // Формируем новый объект
-    // const newData = {
-    //   ...data,
-    //   owner: user.id,
-    //   coordinates: state.center.toString(),
-    //   rating: 0,
-    //   // building_images: formData,
-    //   building_images: [{images: 'https://kartinkof.club/uploads/posts/2022-05/1653010381_5-kartinkof-club-p-kartinka-zastavka-schaste-5.jpg'}],
-    //   address: address,
-    // };
-
     apiProfiles
       .updateProfileDataLandlord(data)
       .then(() => setIsDisabled(true))
@@ -83,7 +72,15 @@ export const FormLandlord = () => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
             },
           })}
           className={styles.input}
@@ -101,6 +98,7 @@ export const FormLandlord = () => {
           </p>
         )}
       </div>
+
       <div className={styles.inputGroup}>
         <label htmlFor="first_name" className={styles.lable}>
           Имя
@@ -110,7 +108,15 @@ export const FormLandlord = () => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
             },
           })}
           className={styles.input}
@@ -120,10 +126,6 @@ export const FormLandlord = () => {
           placeholder="Имя"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.first_name}
-          // onChange={(e) =>
-          //   setLandlordData({ ...landlordData, first_name: e.target.value })
-          // }
           aria-invalid={errors.first_name ? 'true' : 'false'}
         />
         {errors.first_name && (
@@ -142,7 +144,15 @@ export const FormLandlord = () => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
             },
           })}
           className={styles.input}
@@ -152,10 +162,6 @@ export const FormLandlord = () => {
           placeholder="Отчество"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.middle_name}
-          // onChange={(e) =>
-          //   setLandlordData({ ...landlordData, middle_name: e.target.value })
-          // }
         />
         {errors.middle_name && (
           <p role="alert" className={styles.inputError}>
@@ -170,10 +176,14 @@ export const FormLandlord = () => {
         </label>
         <input
           {...register('contact_email', {
-            required: false,
+            required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 5 characters',
+              message: 'Минимум два символа',
+            },
+            pattern: {
+              value: emailRegExp,
+              message: 'Некорректный email',
             },
           })}
           className={styles.input}
@@ -183,10 +193,6 @@ export const FormLandlord = () => {
           placeholder="email"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.contact_email}
-          // onChange={(e) =>
-          //   setLandlordData({ ...landlordData, contact_email: e.target.value })
-          // }
         />
         {errors.contact_email && (
           <p role="alert" className={styles.inputError}>
@@ -204,7 +210,11 @@ export const FormLandlord = () => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 8 characters',
+              message: 'Минимум два символа',
+            },
+            pattern: {
+              value: phoneRegExp,
+              message: 'Номер в формате +79123456789',
             },
           })}
           className={styles.input}
@@ -214,10 +224,6 @@ export const FormLandlord = () => {
           placeholder="+79123456789"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.phone_number}
-          // onChange={(e) =>
-          //   setLandlordData({ ...landlordData, phone_number: e.target.value })
-          // }
         />
         {errors.phone_number && (
           <p role="alert" className={styles.inputError}>
@@ -235,20 +241,24 @@ export const FormLandlord = () => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 8 characters',
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 300,
+              message: 'Не более 300 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы, цифры и знаки',
             },
           })}
           className={styles.input}
           name="adress"
           id="adress"
           type="text"
-          placeholder="Адресс"
+          placeholder="Адрес"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.adress}
-          // onChange={(e) =>
-          //   setLandlordData({ ...landlordData, adress: e.target.value })
-          // }
         />
         {errors.adress && (
           <p role="alert" className={styles.inputError}>
@@ -266,7 +276,11 @@ export const FormLandlord = () => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 8 characters',
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 300,
+              message: 'Не более 300 символов',
             },
           })}
           className={styles.input}
@@ -276,13 +290,6 @@ export const FormLandlord = () => {
           placeholder="Название организации"
           autoComplete="off"
           disabled={isDisabled}
-          // value={landlordData.organization_name}
-          // onChange={(e) =>
-          //   setLandlordData({
-          //     ...landlordData,
-          //     organization_name: e.target.value,
-          //   })
-          // }
         />
         {errors.organization_name && (
           <p role="alert" className={styles.inputError}>
@@ -291,24 +298,49 @@ export const FormLandlord = () => {
         )}
       </div>
 
+      <div className={styles.inputGroup}>
+        <label htmlFor="inn" className={styles.lable}>
+          ИНН
+        </label>
+        <input
+          {...register('inn', {
+            required: false,
+            minLength: {
+              value: 10,
+              message: 'Введите 10 символов',
+            },
+            pattern: {
+              value: numbersRegExp,
+              message: 'Только цифры',
+            },
+          })}
+          className={styles.input}
+          name="inn"
+          id="inn"
+          type="text"
+          placeholder="ИНН"
+          autoComplete="off"
+          disabled={isDisabled}
+          maxLength="10"
+        />
+        {errors.inn && (
+          <p role="alert" className={styles.inputError}>
+            {errors.inn.message}
+          </p>
+        )}
+      </div>
+
       <div className={styles.buttons}>
         {!isDisabled ? (
           <>
-            <ButtonDefault
-              lable="Сохранить изменения"
-              // action={() => alert("хер тебе, а не сохранение")}
-            />
-            <ButtonDefault
-              lable="Отмена"
-              action={() => {
-                setIsDisabled(true);
-              }}
-            />
+            <ButtonDefault lable="Сохранить изменения" disabled={!isValid} action={handleSubmit(onSubmit)} />
+            <ButtonDefault lable="Отмена" action={() => setIsDisabled(true)} />
           </>
         ) : (
           <ButtonDefault
             lable="Редактировать"
             action={() => setIsDisabled(false)}
+            type="button"
           />
         )}
       </div>

@@ -7,6 +7,7 @@ export const ButtonDefault = ({
   width = '',
   img = {},
   isMobile = false,
+  type = "button"
 }) => {
 
   if (!isMobile) {
@@ -16,6 +17,7 @@ export const ButtonDefault = ({
         onClick={action}
         disabled={disabled}
         style={{ width: width }}
+        type={type}
       >
         {lable}
       </button>
@@ -33,6 +35,7 @@ export const ButtonDefault = ({
             backgroundSize: 'contain',
             backgroundPosition: 'center'
           }}
+          type={type}
         ></button>
         {/* <p className={styles.btnText}>{lable}</p> */}
       </div>

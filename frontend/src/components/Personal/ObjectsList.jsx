@@ -5,7 +5,7 @@ import { ObjectItem } from './ObjectItem';
 import { useSelector } from 'react-redux';
 
 export const ObjectsList = () => {
-  const id = localStorage.getItem("id"); 
+  const id = localStorage.getItem('id');
   const [cards, setCards] = useState([]);
   const data = useSelector((state) => state.cards.objects);
 
@@ -19,16 +19,18 @@ export const ObjectsList = () => {
   }, [data.length]);
 
   return (
-    <ul className={styles.listGrid}>
+    <>
       {cards?.length >= 1 ? (
-        cards.map((el, index) => (
-          <li key={index}>
-            <ObjectItem data={el} key={index} />
-          </li>
-        ))
+        <ul className={styles.listGrid}>
+          {cards.map((el, index) => (
+            <li key={index}>
+              <ObjectItem data={el} key={index} />
+            </li>
+          ))}
+        </ul>
       ) : (
         <div className={styles.emptyObjects}>Нет добавленных объектов</div>
       )}
-    </ul>
+    </>
   );
 };

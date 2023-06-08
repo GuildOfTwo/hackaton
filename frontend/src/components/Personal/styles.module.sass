@@ -18,6 +18,7 @@
     font-size: 1em
 
 .input
+    font-weight: 600
 
 .inputError
     position: absolute
@@ -125,10 +126,13 @@
     display: flex
     justify-content: center
 
+.input::placeholder
+    color: #e74362
+    font-weight: 300
+
 @media screen and (max-width: 1160px)
     .input
         width: 60%
-
 
 @media screen and (max-width: 950px)
     .nav
@@ -141,7 +145,6 @@
         width: 80%
     .listGrid
         grid-template-columns: 300px 300px
-      
 
 @media screen and (max-width: 680px)
     .listGrid
