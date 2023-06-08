@@ -117,9 +117,10 @@ export const Register = () => {
             name="password"
             id="password"
             type={showPass ? "text" : "password"}
-            placeholder="******"
+            placeholder="Придумайте пароль"
             autoComplete="off"
           />
+          <button className={styles.showPass} type="button" onClick={handleShowPass} />
           {errors.password && (
             <p role="alert" className={styles.inputError}>
               {errors.password.message}
@@ -145,9 +146,10 @@ export const Register = () => {
             // name="passwordCheck"
             id="passwordCheck"
             type={showPass ? "text" : "password"}
-            placeholder="******"
+            placeholder="Повторите пароль"
             autoComplete="off"
           />
+          <button className={styles.showPass} type="button" onClick={handleShowPass} />
           {errors.passwordCheck && (
             <p role="alert" className={styles.inputError}>
               {errors.passwordCheck.message}

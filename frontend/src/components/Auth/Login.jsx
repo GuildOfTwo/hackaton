@@ -8,6 +8,8 @@ import { apiAuth } from "../../utils/api/apiAuth";
 import { setToken, setLoggedIn } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/userSlice";
+import { emailRegExp } from '../../utils/regExp';
+
 export const Login = () => {
   const {
     handleSubmit,
@@ -59,6 +61,15 @@ export const Login = () => {
           <input
             {...register("email", {
               required: "Обязательное поле",
+              minLength: {
+                value: 2,
+                message: 'Минимум два символа',
+              },
+              pattern: {
+                value: emailRegExp,
+                message: 'Некорректный email',
+              },
+
             })}
             className={styles.input}
             name="email"
@@ -87,9 +98,10 @@ export const Login = () => {
             name="password"
             id="password"
             type={showPass ? "text" : "password"}
-            placeholder="******"
+            placeholder="Введите пароль"
             autoComplete="off"
           />
+          <button className={styles.showPass} type="button" onClick={handleShowPass} />
           {errors.password && (
             <p role="alert" className={styles.inputError}>
               {errors.password.message}
