@@ -3,40 +3,14 @@ import { Header } from "./layout/Header/Header";
 import { Main } from "./layout/Main/Main";
 import { useDispatch } from "react-redux";
 import { setObjects, setComments, setBooking } from "./store/dataSlice";
-// import { data } from "./TEMP_DATA/DATA";
-import {
-  setLoggedIn,
-  setToken,
-  setLoggedOut,
-  deleteToken,
-} from "./store/authSlice";
-import { apiAuth } from "./utils/api/apiAuth";
-import { setAllUsers, setUserData } from "./store/userSlice";
+import { setAllUsers } from "./store/userSlice";
 import { apiObjects } from "./utils/api/objectsApi";
 import { apiComments } from "./utils/api/commentsApi";
 import { Footer } from "./layout/Footer/Footer";
 import { Preloader } from "./components/Preloader/Preloader";
 
-function App() {
+const App = () => {
   const dispatch = useDispatch();
-
-  let isLoggedIn = localStorage.getItem("logIn") && true;
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (isLoggedIn) {
-      dispatch(setLoggedIn(true));
-      dispatch(setToken(token));
-      apiAuth
-        .getUserData(token)
-        .then((res) => {
-          console.log(res, "user DATA");
-          dispatch(setUserData(res));
-          localStorage.setItem("role", res.role);
-          localStorage.setItem("id", res.id);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [isLoggedIn]);
 
   useEffect(() => {
     apiObjects
@@ -76,6 +50,6 @@ function App() {
       <Footer />
     </>
   );
-}
+};
 
 export default App;

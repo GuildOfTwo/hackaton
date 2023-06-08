@@ -11,11 +11,11 @@ import { Dropdown } from "./Dropdown";
 export const Filters = () => {
   // let today = new Date
   // const [value, setValue] = useState([today]);
-  const [price, setPrice] = useState(20000);
+  const [price, setPrice] = useState(0);
   const [type, setType] = useState("Лофт");
-  const [capacity, setCapacity] = useState(800);
-  const [areaSum, setAreaSum] = useState(4000);
-  const [areaRent, setAreaRent] = useState(700);
+  const [capacity, setCapacity] = useState(0);
+  const [areaSum, setAreaSum] = useState(0);
+  const [areaRent, setAreaRent] = useState(0);
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cards.objects);
 
