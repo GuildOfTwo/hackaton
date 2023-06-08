@@ -47,12 +47,12 @@ export const YandexMap = ({ prop }) => {
         height={600}
 
       >
-        <Clusterer
+        {/* <Clusterer
           options={{
             groupByCoordinates: false,
             preset: "islands#redClusterIcons",
           }}
-        >
+        > */}
           {newData.map((item) => (
             <Placemark
               defaultGeometry={item.coordinates}
@@ -71,7 +71,7 @@ export const YandexMap = ({ prop }) => {
               }}
             />
           ))}
-        </Clusterer>
+        {/* </Clusterer> */}
         <ZoomControl
           options={{
             float: "left",

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export const CardsList = () => {
   const data = useSelector((state) => state.cards.objects);
-  const [state, setState] = useState(3);
+  const [state, setState] = useState(6);
 
   const handleScroll = () => {
     let scrollTop = document.documentElement.scrollTop,
