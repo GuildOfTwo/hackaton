@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react';
 import { ObjectItem } from './ObjectItem';
 import { useSelector } from 'react-redux';
 
-export const ObjectsList = ({ id }) => {
-  let tempId = 16;
+export const ObjectsList = () => {
+  const id = localStorage.getItem("id"); 
   const [cards, setCards] = useState([]);
   const data = useSelector((state) => state.cards.objects);
 
   useEffect(() => {
     let objects;
     if (data.length) {
-      objects = data?.filter((el) => el.owner == tempId);
+      objects = data?.filter((el) => el.owner == id);
     }
 
     setCards(objects);
@@ -22,7 +22,7 @@ export const ObjectsList = ({ id }) => {
     <ul className={styles.listGrid}>
       {cards?.length >= 1 ? (
         cards.map((el, index) => (
-          <li key={tempId}>
+          <li key={index}>
             <ObjectItem data={el} key={index} />
           </li>
         ))

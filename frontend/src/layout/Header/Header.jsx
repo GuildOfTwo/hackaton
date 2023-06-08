@@ -56,7 +56,7 @@ export const Header = () => {
 
         {logedIn ? (
           <div className={styles.btnWrapper}>
-            {location.pathname !== '/lk' && location.pathname !== '/lk/profile'  && (
+            {location.pathname !== '/lk' && location.pathname !== '/lk/profile'  && location.pathname !== '/lk/requests'&& (
               <ButtonDefault
                 lable="Личный кабинет"
                 action={() => navigate('/lk')}
