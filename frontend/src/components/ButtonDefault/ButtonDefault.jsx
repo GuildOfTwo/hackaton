@@ -7,7 +7,6 @@ export const ButtonDefault = ({
   width = '',
   img = {},
   isMobile = false,
-  type = "button"
 }) => {
 
   if (!isMobile) {
@@ -17,7 +16,6 @@ export const ButtonDefault = ({
         onClick={action}
         disabled={disabled}
         style={{ width: width }}
-        type={type}
       >
         {lable}
       </button>
