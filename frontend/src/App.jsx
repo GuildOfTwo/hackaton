@@ -32,6 +32,7 @@ function App() {
           console.log(res, "user DATA");
           dispatch(setUserData(res));
           localStorage.setItem("role", res.role);
+          localStorage.setItem("id", res.id);
         })
         .catch((err) => console.log(err));
     }

@@ -18,6 +18,17 @@ class Booking {
     }).then(getResponse);
   }
 
+  getBookings( token) {
+    return fetch(`${this._base_url}bookings/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        authorization: `token ${token}`
+      }
+    }).then(getResponse);
+  }
+
 
 }
 
