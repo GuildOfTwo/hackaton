@@ -1,22 +1,27 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 // import { data } from "../../TEMP_DATA/DATA";
-import styles from './styles.module.sass';
-import { useEffect, useState } from 'react';
+import styles from "./styles.module.sass";
+import { useEffect, useState } from "react";
 
-import adress from '../../assets/icons/adress.png';
-import people from '../../assets/icons/people.png';
-import email from '../../assets/icons/email.png';
-import ruble from '../../assets/icons/ruble.png';
-import phone from '../../assets/icons/phone.png';
-import site from '../../assets/icons/site.png';
-import ratingIcon from '../../assets/icons/rating.png';
-import square from '../../assets/icons/square.png';
-import { Calendar } from '../../components/Calendar/Calendar';
-import { YandexMapSpace } from '../../components/Ymap/YandexMapSpace';
-import { useSelector } from 'react-redux';
-import { Feedback } from '../../components/Feedbacks/Feedback/Feedback';
-import { Helmet } from 'react-helmet-async';
-import { ButtonBack } from '../../components/ButtonDefault/ButtonBack';
+import adress from "../../assets/icons/adress.png";
+import people from "../../assets/icons/people.png";
+import email from "../../assets/icons/email.png";
+import ruble from "../../assets/icons/ruble.png";
+import phone from "../../assets/icons/phone.png";
+import site from "../../assets/icons/site.png";
+import ratingIcon from "../../assets/icons/rating.png";
+import square from "../../assets/icons/square.png";
+import { Calendar } from "../../components/Calendar/Calendar";
+import { YandexMapSpace } from "../../components/Ymap/YandexMapSpace";
+import { useDispatch, useSelector } from "react-redux";
+import { Feedback } from "../../components/Feedbacks/Feedback/Feedback";
+import { Helmet } from "react-helmet-async";
+import { ButtonBack } from "../../components/ButtonDefault/ButtonBack";
+import { ModalReq } from "../../components/Modal/ModalReq";
+import { openModalReq, openModal } from "../../store/modalSlice";
+import { apiBooking } from "../../utils/api/bookingApi";
+import { requestSendedSuccess } from '../../utils/modalPayload';
+import { requestSendedError } from '../../utils/modalPayload';
 
 export const SpacePage = () => {
   const { id } = useParams();
@@ -27,6 +32,11 @@ export const SpacePage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const data = useSelector((state) => state.cards.objects);
   const dataComments = useSelector((state) => state.cards.comments);
+  const modal = useSelector((state) => state.modal);
+  const [dateReq, setDateReq] = useState("");
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     if (data.length && dataComments) {
@@ -34,20 +44,41 @@ export const SpacePage = () => {
       setCard(itemData);
       let intg = Math.floor(itemData.rating);
       setRating(intg);
-
       let commentsData = dataComments.filter((el) => el.building == id);
       setComments(commentsData);
-
       const string = itemData.booking;
-      const array = Array.from(string.split(',').map((str) => str.trim()));
+      const array = Array.from(string.split(",").map((str) => str.trim()));
       setBooking(array);
     }
   }, [data]);
 
-  console.log(rating);
   let locationArray = card.coordinates
-    ? card.coordinates.split(',').map(Number)
+    ? card.coordinates.split(",").map(Number)
     : [];
+  const token = localStorage.getItem("token");
+  const handlePostReq = (date) => {
+    dispatch(openModalReq());
+  };
+  const handleSendReq = () => {
+
+    const date = new Date(dateReq);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString();
+    const formattedDate = `${year}-${month}-${day}`;
+    let obj = {
+      building: id,
+      check_in: formattedDate,
+      check_out: formattedDate,
+      message: message,
+      approve: false,
+    };
+console.log(formattedDate)
+    apiBooking
+      .postBooking(obj, token)
+      .then((res) => dispatch(openModal(requestSendedSuccess)))
+      .catch((err) => dispatch(openModal(requestSendedError)))
+  };
 
   return (
     <section className={styles.section}>
@@ -93,7 +124,7 @@ export const SpacePage = () => {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.leftSide}>
-          {!localStorage.getItem('logIn') ? (
+          {!localStorage.getItem("logIn") ? (
             <p className={styles.contactsPlug}>
               Контакты доступны только авторизованным пользователям
             </p>
@@ -127,6 +158,10 @@ export const SpacePage = () => {
                 data={booking}
                 currentMonth={currentMonth}
                 onChangeMonth={setCurrentMonth}
+                handlePostReq={handlePostReq}
+                setDateReq={setDateReq}
+                message={message}
+                id={id}
               />
             )}
           </div>
@@ -143,6 +178,11 @@ export const SpacePage = () => {
       </div>
 
       <Feedback comments={comments} />
+      <ModalReq
+        setMessage={setMessage}
+        dateReq={dateReq}
+        handleSendReq={handleSendReq}
+      />
     </section>
   );
 };

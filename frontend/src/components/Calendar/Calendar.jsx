@@ -21,6 +21,8 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 export class Calendar extends React.Component {
   constructor(props) {
     super(props);
+    this.handlePostReq = props.handlePostReq
+    this.setDataReq = props.setDateReq
   }
 
   state = {
@@ -51,8 +53,9 @@ export class Calendar extends React.Component {
     }
   }
 
-  handlePostReq() {
-    console.log(this.state.day)
+  handlePost() {
+    this.handlePostReq(this.state.day)
+    this.setDataReq(this.state.day)
   }
 
   generateBooking = () => {
@@ -103,7 +106,7 @@ export class Calendar extends React.Component {
         (
           this.state.day ? <ButtonDefault
             lable="Оставить заявку"
-            action={(e) => this.handlePostReq()}
+            action={(e) => this.handlePost()}
           /> : <p className="textPlug">Выберите дату</p>
         )
        
