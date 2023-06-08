@@ -11,11 +11,11 @@ import { Dropdown } from "./Dropdown";
 export const Filters = () => {
   // let today = new Date
   // const [value, setValue] = useState([today]);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState();
   const [type, setType] = useState("Лофт");
-  const [capacity, setCapacity] = useState(0);
-  const [areaSum, setAreaSum] = useState(0);
-  const [areaRent, setAreaRent] = useState(0);
+  const [capacity, setCapacity] = useState();
+  const [areaSum, setAreaSum] = useState();
+  const [areaRent, setAreaRent] = useState();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cards.objects);
 
@@ -40,7 +40,10 @@ export const Filters = () => {
   const handleReset = (e) => {
     e.preventDefault();
     setType("Лофт");
-    setPrice("20000");
+    setPrice();
+    setAreaRent()
+    setCapacity()
+    setAreaSum()
   };
 
   return (
