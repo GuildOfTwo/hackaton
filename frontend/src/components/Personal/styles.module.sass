@@ -11,8 +11,8 @@
 
 .inputGroup
     display: flex
-
     justify-content: space-between
+    position: relative
 
 .lable
     font-size: 1em
@@ -20,6 +20,10 @@
 .input
 
 .inputError
+    position: absolute
+    right: 0
+    bottom: -25px
+    color: #e74362
 
 .inputPass
 
@@ -120,6 +124,11 @@
     width: 300px
     display: flex
     justify-content: center
+
+@media screen and (max-width: 1160px)
+    .input
+        width: 60%
+
 
 @media screen and (max-width: 950px)
     .nav

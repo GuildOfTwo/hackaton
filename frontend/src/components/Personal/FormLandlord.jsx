@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import styles from "./styles.module.sass";
-import { useForm } from "react-hook-form";
-import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { useSelector } from "react-redux";
-import { apiProfiles } from "../../utils/api/profileApi";
+import { useEffect, useState } from 'react';
+import styles from './styles.module.sass';
+import { useForm } from 'react-hook-form';
+import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
+import { useSelector } from 'react-redux';
+import { apiProfiles } from '../../utils/api/profileApi';
 
 export const FormLandlord = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [landlordData, setLandlordData] = useState({
-    inn: "",
-    first_name: "",
-    last_name: "",
-    middle_name: "",
-    phone_number: "",
-    contact_email: "",
-    organization_name: "",
-    adress: "",
+    inn: '',
+    first_name: '',
+    last_name: '',
+    middle_name: '',
+    phone_number: '',
+    contact_email: '',
+    organization_name: '',
+    adress: '',
   });
   const data = useSelector((state) => state.user.state);
   const {
@@ -24,25 +24,27 @@ export const FormLandlord = () => {
     watch,
     reset,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
-    mode: "onChange",
+    mode: 'all',
   });
 
   const user = useSelector((state) => state.user.user);
+  console.log(errors, '!!!');
 
   useEffect(() => {
     if (user.id) {
       apiProfiles
         .getProfileDataLandlord(user.id)
-        .then((res) => setLandlordData(res))
+        .then((res) => {
+          console.log(res[0]);
+          setLandlordData({ ...res[0], contact_email: user.email });
+        })
         .catch((err) => console.log(err));
     }
   }, [user]);
 
-  const onSubmit = (landlordData) => {
-
-    console.log(landlordData)
+  const onSubmit = (data) => {
     // // Формируем новый объект
     // const newData = {
     //   ...data,
@@ -53,7 +55,20 @@ export const FormLandlord = () => {
     //   building_images: [{images: 'https://kartinkof.club/uploads/posts/2022-05/1653010381_5-kartinkof-club-p-kartinka-zastavka-schaste-5.jpg'}],
     //   address: address,
     // };
+
+    apiProfiles
+      .updateProfileDataLandlord(data)
+      .then(() => setIsDisabled(true))
+      .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    for (let key in landlordData) {
+      if (key) {
+        setValue(key, landlordData[key]);
+      }
+    }
+  }, [landlordData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -64,24 +79,21 @@ export const FormLandlord = () => {
           Фамилия
         </label>
         <input
-          {...register("last_name", {
-            required: "Обязательное поле",
+          {...register('last_name', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
           })}
           className={styles.input}
-          name="lastName"
+          name="last_name"
           id="lastName"
           type="text"
           placeholder="Фамилия"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.last_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, last_name: e.target.value })
-          }
+          aria-invalid={errors.last_name ? 'true' : 'false'}
         />
         {errors.last_name && (
           <p role="alert" className={styles.inputError}>
@@ -94,6 +106,13 @@ export const FormLandlord = () => {
           Имя
         </label>
         <input
+          {...register('first_name', {
+            required: 'Обязательное поле',
+            minLength: {
+              value: 2,
+              message: 'This input must exceed 2 characters',
+            },
+          })}
           className={styles.input}
           name="first_name"
           id="first_name"
@@ -101,10 +120,11 @@ export const FormLandlord = () => {
           placeholder="Имя"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.first_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, first_name: e.target.value })
-          }
+          // value={landlordData.first_name}
+          // onChange={(e) =>
+          //   setLandlordData({ ...landlordData, first_name: e.target.value })
+          // }
+          aria-invalid={errors.first_name ? 'true' : 'false'}
         />
         {errors.first_name && (
           <p role="alert" className={styles.inputError}>
@@ -118,11 +138,11 @@ export const FormLandlord = () => {
           Отчество
         </label>
         <input
-          {...register("middle_name", {
+          {...register('middle_name', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'This input must exceed 2 characters',
             },
           })}
           className={styles.input}
@@ -132,10 +152,10 @@ export const FormLandlord = () => {
           placeholder="Отчество"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.middle_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, middle_name: e.target.value })
-          }
+          // value={landlordData.middle_name}
+          // onChange={(e) =>
+          //   setLandlordData({ ...landlordData, middle_name: e.target.value })
+          // }
         />
         {errors.middle_name && (
           <p role="alert" className={styles.inputError}>
@@ -149,11 +169,11 @@ export const FormLandlord = () => {
           Email
         </label>
         <input
-          {...register("contact_email", {
+          {...register('contact_email', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 5 characters",
+              message: 'This input must exceed 5 characters',
             },
           })}
           className={styles.input}
@@ -163,10 +183,10 @@ export const FormLandlord = () => {
           placeholder="email"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.contact_email}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, contact_email: e.target.value })
-          }
+          // value={landlordData.contact_email}
+          // onChange={(e) =>
+          //   setLandlordData({ ...landlordData, contact_email: e.target.value })
+          // }
         />
         {errors.contact_email && (
           <p role="alert" className={styles.inputError}>
@@ -180,24 +200,24 @@ export const FormLandlord = () => {
           Телефон
         </label>
         <input
-          {...register("phone_number", {
+          {...register('phone_number', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'This input must exceed 8 characters',
             },
           })}
           className={styles.input}
           name="phone_number"
           id="phone_number"
           type="text"
-          placeholder="Телефон"
+          placeholder="+79123456789"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.phone_number}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, phone_number: e.target.value })
-          }
+          // value={landlordData.phone_number}
+          // onChange={(e) =>
+          //   setLandlordData({ ...landlordData, phone_number: e.target.value })
+          // }
         />
         {errors.phone_number && (
           <p role="alert" className={styles.inputError}>
@@ -211,11 +231,11 @@ export const FormLandlord = () => {
           Адрес
         </label>
         <input
-          {...register("adress", {
+          {...register('adress', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'This input must exceed 8 characters',
             },
           })}
           className={styles.input}
@@ -225,10 +245,10 @@ export const FormLandlord = () => {
           placeholder="Адресс"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.adress}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, adress: e.target.value })
-          }
+          // value={landlordData.adress}
+          // onChange={(e) =>
+          //   setLandlordData({ ...landlordData, adress: e.target.value })
+          // }
         />
         {errors.adress && (
           <p role="alert" className={styles.inputError}>
@@ -242,11 +262,11 @@ export const FormLandlord = () => {
           Название
         </label>
         <input
-          {...register("organization_name", {
+          {...register('organization_name', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'This input must exceed 8 characters',
             },
           })}
           className={styles.input}
@@ -256,13 +276,13 @@ export const FormLandlord = () => {
           placeholder="Название организации"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.organization_name}
-          onChange={(e) =>
-            setLandlordData({
-              ...landlordData,
-              organization_name: e.target.value,
-            })
-          }
+          // value={landlordData.organization_name}
+          // onChange={(e) =>
+          //   setLandlordData({
+          //     ...landlordData,
+          //     organization_name: e.target.value,
+          //   })
+          // }
         />
         {errors.organization_name && (
           <p role="alert" className={styles.inputError}>
