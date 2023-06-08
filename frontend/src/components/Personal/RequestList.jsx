@@ -14,7 +14,7 @@ export const RequestList = () => {
     if (Array.isArray(obj)) {
       apiBooking.getBookings(token).then((res) => {
         let renter = res.filter((el) => el.renter == id);
-  
+        console.log(id)
         const result = renter
           .filter((obj1) => obj.some((obj2) => obj1.building === obj2.id))
           .map((obj1) => {
@@ -24,7 +24,7 @@ export const RequestList = () => {
         setBooking(result);
       });
     }
-  }, [id, obj]);
+  }, [id,obj]);
 
   return (
     <section className={requestList.section}>
@@ -40,7 +40,11 @@ export const RequestList = () => {
           </NavLink>
           <p className={requestList.date}>{el.check_in}</p>
           <p className={requestList.status}>
-            {!el.status ? "Ожидайте ответа" : el.approve ? 'Подтверждено' : "Отклонено" }
+            {!el.status
+              ? "Ожидайте ответа"
+              : el.approve
+              ? "Подтверждено"
+              : "Отклонено"}
           </p>
         </div>
       ))}
