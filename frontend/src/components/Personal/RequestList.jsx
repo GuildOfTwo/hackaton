@@ -30,6 +30,7 @@ export const RequestList = () => {
     <section className={requestList.section}>
       <h2 className={requestList.title}>Все заявки</h2>
 
+<div className={requestList.wrapper}>
       {booking.map((el, index) => (
         <div
           className={el.approve ? requestList.item : requestList.itemFalse}
@@ -48,6 +49,7 @@ export const RequestList = () => {
           </p>
         </div>
       ))}
+      </div>
     </section>
   );
 };

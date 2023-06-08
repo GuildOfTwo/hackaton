@@ -1,6 +1,5 @@
 import { HomePage } from "../../pages/Home/Home";
 import styles from "./styles.module.sass";
-import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { AuthPage } from "../../pages/Auth/Auth";
@@ -14,6 +13,12 @@ import { Redirect } from "../../components/Protected/Redirect";
 import { useSelector } from "react-redux";
 import { Modal } from "../../components/Modal/Modal";
 
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { apiAuth } from "../../utils/api/apiAuth";
+import { setUserData } from "../../store/userSlice";
+import { setLoggedIn, setToken } from "../../store/authSlice";
+
 export const Main = () => {
   const { pathname } = useLocation();
 
@@ -24,6 +29,27 @@ export const Main = () => {
       behavior: "smooth",
     });
   }, [pathname]);
+
+  const dispatch = useDispatch();
+  let isLoggedIn = localStorage.getItem("logIn") && true;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (isLoggedIn) {
+      console.log('test', token)
+      dispatch(setLoggedIn(true));
+      dispatch(setToken(token));
+      apiAuth
+        .getUserData(token)
+        .then((res) => {
+          console.log(res, "user DATA");
+          dispatch(setUserData(res));
+          localStorage.setItem("role", res.role);
+          localStorage.setItem("id", res.id);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoggedIn]);
 
 
 

@@ -22,7 +22,7 @@ export const Header = () => {
 
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
-
+console.log(logedIn)
   const handleLogout = () => {
     // apiAuth
     //   .logout(token)
@@ -42,6 +42,8 @@ export const Header = () => {
   useEffect(() => {
     isTablet ? setTitle('КПМ') : setTitle('Креативные площадки Москвы');
   }, [isTablet]);
+
+  console.log(logedIn)
 
   return (
     <header className={styles.header}>
