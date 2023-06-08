@@ -21,8 +21,8 @@ export const Filters = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(data);
-    const filteredData = data.filter((item) => {
+    let dataMod = data.filter(el => el.building_status[0]?.stat == "Опубликовано")
+    const filteredData = dataMod.filter((item) => {
       return (
         (type ? item.specialization === type : true) &&
         (price ? item.cost > 0 && item.cost <= price : true) &&

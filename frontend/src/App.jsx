@@ -17,6 +17,9 @@ const App = () => {
       .getObjectsList()
       .then((res) => {
         console.log(res, "объекты");
+        let array = res.filter(
+          (el) => el.building_status[0]?.stat == "Опубликовано"
+        );
         dispatch(setObjects(res));
       })
       .catch((err) => console.log(err));

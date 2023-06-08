@@ -17,7 +17,8 @@ export const YandexMap = ({ prop }) => {
   const filteredData = useSelector((state) => state.filtered.filtered);
   useEffect(() => {
     if (data.length >= 1) {
-      let array = (filteredData.length ? filteredData : data).map((el) => ({
+      let dataMod = data.filter(el => el.building_status[0]?.stat == "Опубликовано")
+      let array = (filteredData.length ? filteredData : dataMod).map((el) => ({
         ...el,
         coordinates: el.coordinates.split(",").map(Number),
         body: `<div class='container'>

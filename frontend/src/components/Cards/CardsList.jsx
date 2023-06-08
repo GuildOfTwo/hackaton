@@ -30,6 +30,7 @@ export const CardsList = () => {
   const items = data.length && data?.slice(0, state);
   if (items) {
     disp = items.map((el, index) => {
+      if(el.building_status[0]?.stat == "Опубликовано")
       return <CardItem data={el} key={index} />;
     });
   }

@@ -6,7 +6,7 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 
 export const ObjectItem = ({ data }) => {
   const [isHovering, setIsHovering] = useState(false);
-
+console.log(data);
   const {building_status, title, id, building_images} = data
 
 
@@ -31,19 +31,20 @@ export const ObjectItem = ({ data }) => {
         className={styles.img}
         alt={title}
         style={
-          building_status[0]?.reject_text.length >= 1 ? { filter: css`grayscale(1)` } : {}
+          // building_status[0]?.stat === "Заблокировано" || "Снято с публикации" || "На модерации" ? { filter: css`grayscale(1)` } : {}
+          building_status[0]?.stat === "На модерации" ? { filter: css`grayscale(1)` } : {}
         }
       />
       <p className={styles.infobar}>
-        {building_status[0]?.reject_text.length >= 1
-          ? building_status[0]?.reject_text
+        {building_status[0]?.stat == "Заблокировано"  || "Снято с публикации" || "На модерации"
+          ? building_status[0]?.stat
           : building_status.stat}
       </p>
       <p className={styles.cardTitle}>{title}</p>
       {isHovering  &&
         (
           <div className={styles.hoverWrapper}>
-            {building_status[0]?.reject_text.length <= 0 &&   <ButtonDefault
+            {building_status[0]?.stat == "Опубликовано" &&   <ButtonDefault
               lable="К карточке"
               action={() => navigate(`/space/${id}`)}
             /> }
