@@ -51,7 +51,7 @@
   opacity: 1;
 }
 
-.icon {
+.iconDr {
   background: url("../../assets/icons/chevron.png") no-repeat;
   width: 20px;
   height: 20px;
@@ -61,6 +61,6 @@
   background-size: contain;
 }
 
-.icon.open {
+.iconDr.open {
   transform: rotate(90deg);
 }

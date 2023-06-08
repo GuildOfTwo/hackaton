@@ -17,7 +17,7 @@ export const Dropdown = ({ children, lable }) => {
     <div className="dropdown">
       <div className="dropdown-header" onClick={toggleDropdown}>
         {lable && lable}
-        <i className={`icon ${isOpen && "open"}`}></i>
+        <i className={`iconDr ${isOpen && "open"}`}></i>
       </div>
       <div className={`dropdown-body ${isOpen && "open"}`}>{children}</div>
     </div>
