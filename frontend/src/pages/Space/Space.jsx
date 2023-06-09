@@ -91,35 +91,47 @@ export const SpacePage = () => {
       <h2 className={styles.title}>{card.title}</h2>
       <div className={styles.infobar}>
         <div className={styles.iconWrapper}>
-          <img src={adress} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.address}</p>
+          <div className={styles.iconValueWrap}>
+            <p className={styles.iconValue}>{card.capacity}</p>
+          </div>
+          <p className={styles.iconText}>Вместимость человек</p>
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={people} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.capacity}</p>
+          <div className={styles.iconValueWrap}>
+            <p className={styles.iconValue}>{card.area_rent}</p>
+          </div>
+          <p className={styles.iconText}>Доступно для аренды м2</p>
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={square} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{card.area_rent}</p>
+          <div className={styles.iconValueWrap}>
+            <p className={styles.iconValue}>{card.area_sum}</p>
+          </div>
+          <p className={styles.iconText}>Всего м2</p>
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={ratingIcon} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>{rating}</p>
+        <div className={styles.iconValueWrap}>
+            <p className={styles.iconValue}>{card.rating ? card.rating : "Не задан"}</p>
+          </div>
+          <p className={styles.iconText}>Рейтинг</p>
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={site} alt="" className={styles.iconImg} />
-          <a className={styles.iconText} href={card.site} target="_blank">
-            Сайт
-          </a>
+        <div className={styles.iconValueWrap}>
+        <a className={styles.iconText} href={card.site} target="_blank">
+            Кликни
+          </a> 
+          </div>
+          <p className={styles.iconText}>Сайт</p>
         </div>
 
         <div className={styles.iconWrapper}>
-          <img src={ruble} alt="" className={styles.iconImg} />
-          <p className={styles.iconText}>Целый день: {card?.cost}&#8381;</p>
+        <div className={styles.iconValueWrap}>
+            <p className={styles.iconValue}>{card.cost} &#8381;</p>
+          </div>
+          <p className={styles.iconText}>Цена за день</p>
         </div>
       </div>
       <div className={styles.wrapper}>
@@ -137,6 +149,13 @@ export const SpacePage = () => {
                   <a className={styles.iconText} href={`tel:${card.phone}`}>
                     {card.phone}
                   </a>
+                </div>
+
+                <div className={styles.iconWrapper}>
+                  <img src={adress} alt="" className={styles.iconImg} />
+
+                  {/* <p className={styles.iconText}>Адрес</p> */}
+                  <p className={styles.iconText}>{card.address}</p>
                 </div>
 
                 <div className={styles.iconWrapper}>
