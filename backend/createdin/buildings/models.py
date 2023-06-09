@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from users.models import Landlord, Renter
 import json
@@ -230,3 +233,22 @@ class Bookings(models.Model):
     class Meta:
         verbose_name = "Бронирование"
         verbose_name_plural = "Бронирования"
+
+
+@receiver(post_save, sender=Bookings)
+def send_confirmation_email(sender, instance, created, **kwargs):
+    if instance.approve is True:
+        email = get_object_or_404(
+            Renter, 
+            email=instance.renter.email).renterprofile.contact_email,
+        send_mail(
+            subject='Подтверждение бронирования',
+            message=f'Ваша заявка на бронирование объекта {instance.building.title} '
+                    f'в следующие даты: с {instance.check_in} по {instance.check_out} '
+                    f'одобрена. \n'
+                    f'Ознакомится с офертой можно по ссылке '
+                    f'http://valzet.beget.tech/oferta/{instance.building.id}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email, ],
+            fail_silently=False
+        )
