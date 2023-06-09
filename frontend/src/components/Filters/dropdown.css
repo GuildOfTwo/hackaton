@@ -66,3 +66,9 @@
 .iconDr.open {
   transform: rotate(90deg);
 }
+
+@media screen and (max-width: 500px) {
+  .dropdown {
+    width: 100%;
+  }
+}

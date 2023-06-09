@@ -86,7 +86,7 @@ export const RequestLandlordList = () => {
             {el.title}
           </NavLink>
           <p className={requestList.date}>{el.check_in}</p>
-          <p>{el.message}</p>
+          <p className={requestList.message}>{el.message}</p>
           <div className={requestList.btnWrap}>
             {!el.status && (
               <>
