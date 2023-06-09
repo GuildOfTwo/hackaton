@@ -33,7 +33,7 @@ export const RequestList = () => {
       <h2 className={requestList.title}>Все заявки</h2>
 
       <div className={requestList.wrapper}>
-        {booking.map((el, index) => (
+      {booking.length !== 0 ? booking.map((el, index) => (
           <div
             className={el.approve ? requestList.item : requestList.itemFalse}
             key={index}
@@ -52,9 +52,9 @@ export const RequestList = () => {
                 ? "Подтверждено"
                 : "Отклонено"}
             </p>
-            <p>{el.status && <NavLink to={`/oferta/${el.building}`}>Оферта</NavLink>}</p>
+            <p className={requestList.oferta}>{el.approve && <NavLink to={`/oferta/${el.building}`}>Ознакомиться с офертой</NavLink>}</p>
           </div>
-        ))}
+        )) : <p className={requestList.result}>Вы еще не оставляли заявок</p>}
       </div>
     </section>
   );

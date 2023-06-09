@@ -75,7 +75,7 @@ export const RequestLandlordList = () => {
     <section className={requestList.section}>
       <h2 className={requestList.title}>Все заявки</h2>
 
-      {booking.map((el, index) => (
+      {booking.length !== 0 ?booking.map((el, index) => (
         <div
           className={el.approve ? requestList.item : requestList.itemFalse}
           key={index}
@@ -101,9 +101,10 @@ export const RequestLandlordList = () => {
             )}
 
             {el.status && "Заявка обработана"}
+            <p className={requestList.oferta}>{el.approve && <NavLink to={`/oferta/${el.building}`}>Ознакомиться с офертой</NavLink>}</p>
           </div>
         </div>
-      ))}
+      )) : "Список заявок пуст"}
     </section>
   );
 };
