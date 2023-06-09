@@ -13,7 +13,7 @@ export const CardsList = () => {
       windowHeight = window.innerHeight,
       height = document.body.scrollHeight - windowHeight,
       scrollPercentage = scrollTop / height;
-    if (scrollPercentage > 0.9) {
+    if (scrollPercentage > 0.6) {
       setState(state + 3);
       document.removeEventListener("scroll", handleScroll);
     }

@@ -2,7 +2,7 @@
 import "./dropdown.css";
 
 import { useState } from "react";
-export const Dropdown = ({ children, lable }) => {
+export const Dropdown = ({ children, lable, value }) => {
   const [isOpen, setOpen] = useState(false);
   // const [items, setItem] = useState(1);
   // const [selectedItem, setSelectedItem] = useState(null);
@@ -24,7 +24,7 @@ export const Dropdown = ({ children, lable }) => {
     <div className="dropdown"       onMouseOver={handleMouseOver}
     onMouseOut={handleMouseOut}>
       <div className="dropdown-header" >
-        {lable && lable}
+        {value ? value : lable}
         <i className={`iconDr ${isOpen && "open"}`}></i>
       </div>
       <div className={`dropdown-body ${isOpen && "open"}`}>{children}</div>

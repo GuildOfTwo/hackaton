@@ -17,6 +17,7 @@ export const Filters = () => {
   const [areaSum, setAreaSum] = useState();
   const [areaRent, setAreaRent] = useState();
   const [rating, setRating] = useState();
+  const [result, setResult] = useState()
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cards.objects);
   function handleSubmit(e) {
@@ -34,10 +35,11 @@ export const Filters = () => {
         (rating ? item.rating > 0 && item.rating >= rating : true)
       );
     });
-    if (filteredData) {
+    if (filteredData.length >= 1) {
+      setResult(`Найдено площадок: ${filteredData.length}`)
       dispatch(setFilters(filteredData));
       console.log(filteredData);
-    }
+    } else setResult('По заданным параметрам ничего не найдено')
   }
 
   const handleReset = (e) => {
@@ -48,6 +50,7 @@ export const Filters = () => {
     setCapacity();
     setAreaSum();
     setRating();
+    setResult()
     let dataMod = data.filter(
       (el) => el.building_status[0]?.stat == "Опубликовано"
     );
@@ -58,7 +61,7 @@ export const Filters = () => {
     <section className={styles.section}>
       <form action="" className={styles.form}>
         <div className={styles.wrapper}>
-          <Dropdown lable="Вместимость от..">
+          <Dropdown lable="Вместимость от.." value={capacity}>
             <div className={styles.formGroup}>
               <input
                 className="input"
@@ -76,7 +79,7 @@ export const Filters = () => {
               </label>
             </div>
           </Dropdown>
-          <Dropdown lable="Арендная площадь от..">
+          <Dropdown lable="Арендная площадь от.." value={areaRent}>
             <div className={styles.formGroup}>
               <input
                 className="input"
@@ -94,7 +97,7 @@ export const Filters = () => {
               </label>
             </div>
           </Dropdown>
-          <Dropdown lable="Общая площадь  от..">
+          <Dropdown lable="Общая площадь  от.." value={areaSum}>
             <div className={styles.formGroup}>
               <input
                 className="input"
@@ -112,7 +115,7 @@ export const Filters = () => {
               </label>
             </div>
           </Dropdown>
-          <Dropdown lable="Тип площадки">
+          <Dropdown lable="Тип площадки" value={type}>
             <div className={styles.formGroup}>
               <select
                 name="select"
@@ -127,7 +130,7 @@ export const Filters = () => {
                 <option value="Дизайн">Дизайн</option>
                 <option value="Мода">Мода</option>
                 <option value="Кино и анимация">Кино и анимация</option>
-                <option value="Телерадиовещание и новые медиа">
+                <option value="Телерадиовещание и медиа">
                   Телерадиовещание и медиа
                 </option>
                 <option value="Издательское дело">Издательское дело</option>
@@ -140,7 +143,7 @@ export const Filters = () => {
             </div>
           </Dropdown>
 
-          <Dropdown lable="Цена до..">
+          <Dropdown lable="Цена до.." value={price}>
             <div className={styles.formGroup}>
               <input
                 className="input"
@@ -159,7 +162,7 @@ export const Filters = () => {
             </div>
           </Dropdown>
 
-          <Dropdown lable="Рейтинг  от..">
+          <Dropdown lable="Рейтинг  от.." value={rating}>
             <div className={styles.formGroup}>
               <input
                 className="input"
@@ -179,7 +182,7 @@ export const Filters = () => {
           </Dropdown>
         </div>
         <div className={styles.btn}>
-          <ButtonDefault lable="Найти" action={(e) => handleSubmit(e)} />
+          <ButtonDefault lable="ПОИСК" action={(e) => handleSubmit(e)} />
           <button className={styles.reset} onClick={(e) => handleReset(e)}>
             <img
               src={resetIcon}
@@ -188,6 +191,7 @@ export const Filters = () => {
             />
           </button>
         </div>
+        <div className={styles.error}>{result}</div>
       </form>
     </section>
   );

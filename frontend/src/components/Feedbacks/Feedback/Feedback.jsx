@@ -38,6 +38,7 @@ export const Feedback = ({ comments }) => {
     else setStatus(null);
   }, []);
 
+  console.log(newComments)
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Отзывы</h2>
@@ -48,7 +49,7 @@ export const Feedback = ({ comments }) => {
             <p className={styles.text}>{el.text}</p>
             <div className={styles.flex}>
               <div>Оценка {el.score}</div>
-              <span className={styles.author}>Автор {el.name}</span>
+              <span className={styles.author}>Автор {el.author}</span>
             </div>
           </div>
         ))
