@@ -18,32 +18,29 @@ import './picker.sass';
 import useMediaQuery from '../../utils/hooks/useMediaQuery';
 import doneIcon from '../../assets/icons/tick-square.svg';
 import cancelIcon from '../../assets/icons/close-square.svg';
+import { apiObjects } from '../../utils/api/objectsApi';
 
 export const ObjectForm = ({ lable = null, edit = false }) => {
   let today = new Date();
-  const [value, setValue] = useState([today]);
+  const [valueToday, setValueToday] = useState([today]);
   const initialState = {
     title: '',
     center: [55.755864, 37.617698],
     zoom: 12,
   };
 
-  const [cardData, setCardData] = useState();
-  const data = useSelector((state) => state.cards.state);
+  const buildingId = useParams();
+
+  const [cardData, setCardData] = useState(
+    useSelector((state) => state.cards.active)
+  );
+
   const user = useSelector((state) => state.user.user);
+
+  console.log(edit);
 
   const isMobile = useMediaQuery('(max-width: 650px)');
 
-  const { id } = useParams();
-
-  // useEffect(() => {
-  //   if (edit == true) {
-  //     if (data.length) {
-  //       let itemData = data.find((el) => el.id == id);
-  //       setCardData(itemData);
-  //     }
-  //   }
-  // }, [data]);
   const [files, setFiles] = useState([]);
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
@@ -54,14 +51,15 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
   const {
     handleSubmit,
     register,
-    watch,
-    formState: { errors },
+    setValue,
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
   });
   const navigate = useNavigate();
-  const [isDisabled, setIsDisabled] = useState(edit);
+  const [isDisabled, setIsDisabled] = useState(!edit);
   const dispatch = useDispatch();
+
   const handleEdit = () => {};
 
   const handleCreate = () => {};
@@ -82,20 +80,28 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
     formData.append('address', address);
     formData.append('specialization', type);
 
-    for (const [key, value] of Object.entries(data)) {
+    for (const [key, valueToday] of Object.entries(data)) {
       if (key !== 'address' && key !== 'specialization') {
-        formData.append(key, value);
+        formData.append(key, valueToday);
       }
     }
-    apiData
-      .createBuilding(formData)
-      .then((res) => dispatch(openModal(cardCreatedSuccess)))
-      .catch((err) => dispatch(openModal(cardCreatedError)))
-      .finally(() => {
-        setTimeout(function () {
-          navigate('/');
-        }, 5000);
-      });
+
+    if (!edit) {
+      apiData
+        .createBuilding(formData)
+        .then(() => dispatch(openModal(cardCreatedSuccess)))
+        .catch(() => dispatch(openModal(cardCreatedError)))
+        .finally(() => {
+          setTimeout(function () {
+            navigate('/');
+          }, 5000);
+        });
+    } else {
+      apiObjects
+        .updateProperBuilding(data)
+        .then(() => dispatch(openModal(cardCreatedSuccess)))
+        .catch(() => dispatch(openModal(cardCreatedError)));
+    }
   };
 
   useEffect(() => {
@@ -123,6 +129,27 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
     height: '100%',
   };
 
+  // Подставнока данных в форму если edit true для редактирования
+  useEffect(() => {
+    if (edit && cardData) {
+      for (let key in cardData) {
+        if (key) {
+          setValue(key, cardData[key]);
+        }
+      }
+    }
+  }, [cardData, edit]);
+
+  // Если в сторе нет данных выбранного места, то делаем запрос на бэк за данными
+  useEffect(() => {
+    if (!cardData) {
+      apiObjects
+        .getProperBuilding(buildingId.id)
+        .then((res) => setCardData(res))
+        .catch((err) => console.log(err));
+    }
+  }, [cardData, buildingId]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>{lable}</h2>
@@ -136,7 +163,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
           })}
           className={styles.input}
@@ -190,11 +217,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -221,11 +248,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -252,11 +279,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -283,11 +310,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -314,11 +341,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 символов',
             },
           })}
           className={styles.input}
@@ -345,11 +372,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: false,
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 смиволов',
             },
           })}
           className={styles.input}
@@ -376,11 +403,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -407,11 +434,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -435,8 +462,8 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
         </lable>
         <DatePicker
           multiple
-          value={value}
-          onChange={setValue}
+          value={valueToday}
+          onChange={setValueToday}
           locale={gregorian_ru_lowercase}
         />
         {errors.booking && (
@@ -455,11 +482,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 символов',
             },
           })}
           className={styles.input}
@@ -486,11 +513,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 30,
-              message: "This input mustn't exceed 30 characters",
+              message: 'Не более 30 символов',
             },
           })}
           className={styles.input}
@@ -517,11 +544,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 30,
-              message: "This input mustn't exceed 30 characters",
+              message: 'Не более 30 символов',
             },
           })}
           className={styles.input}
@@ -548,11 +575,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 12,
-              message: 'This input must exceed 12 characters',
-            },
-            maxLength: {
-              value: 12,
-              message: "This input mustn't exceed 12 characters",
+              message: 'Введите 12 символов',
             },
           })}
           className={styles.input}
@@ -562,6 +585,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
           placeholder="Введите ИНН"
           autoComplete="off"
           disabled={isDisabled}
+          maxLength="12"
         />
         {errors.inn && (
           <p role="alert" className={styles.inputError}>
@@ -579,7 +603,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
           })}
           className={styles.input}
@@ -606,7 +630,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             // required: "Обязательное поле",
             minLength: {
               value: 2,
-              message: 'This input must exceed 2 characters',
+              message: 'Не менее 2 символов',
             },
           })}
           className={styles.input}
@@ -647,11 +671,10 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
           <>
             <ButtonDefault
               lable={edit ? 'Сохранить изменения' : 'Отправить на проверку'}
-              disabled={false}
+              disabled={!isValid}
               isMobile={isMobile}
               img={doneIcon}
               width={isMobile ? '50px' : ''}
-              // action={() => alert("хер тебе, а не сохранение")}
             />
             <ButtonDefault
               lable="Отмена"

@@ -27,8 +27,6 @@ export const FormLandlord = () => {
   const {
     handleSubmit,
     register,
-    watch,
-    reset,
     setValue,
     formState: { errors, isValid },
   } = useForm({
@@ -340,28 +338,36 @@ export const FormLandlord = () => {
           Орг. форма
         </label>
         <div className={styles.radioGroup}>
-          <input
-            type="radio"
-            id="organization_type_ooo"
-            className={styles.inputRadio}
-            value="ORGANIZATION"
-            checked={radioBtns.ooo}
-            onChange={(event) => handleChange(event)}
-            disabled={isDisabled}
-          />
-          <label htmlFor="organization_type_ooo" className={styles.labelRadio}>
-            ООО
-          </label>
-          <input
-            type="radio"
-            id="organization_type_ip"
-            className={styles.inputRadio}
-            value="IP"
-            checked={radioBtns.ip}
-            onChange={(event) => handleChange(event)}
-            disabled={isDisabled}
-          />
-          <label htmlFor="organization_type_ip">ИП</label>
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ooo"
+              className={styles.inputRadio}
+              value="ORGANIZATION"
+              checked={radioBtns.ooo}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label
+              htmlFor="organization_type_ooo"
+              className={styles.labelRadio}
+            >
+              ООО
+            </label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ip"
+              className={styles.inputRadio}
+              value="IP"
+              checked={radioBtns.ip}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label htmlFor="organization_type_ip">ИП</label>
+          </div>
         </div>
       </div>
 

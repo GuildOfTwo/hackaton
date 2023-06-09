@@ -3,11 +3,15 @@ import { useState } from "react";
 import { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
+import { useDispatch } from 'react-redux';
+import { setActivePlace } from '../../store/dataSlice';
 
 export const ObjectItem = ({ data }) => {
   const [isHovering, setIsHovering] = useState(false);
-console.log(data);
+
   const {building_status, title, id, building_images} = data
+
+  const dispatch = useDispatch()
 
 
   const handleMouseOver = () => {
@@ -19,6 +23,12 @@ console.log(data);
   };
 
   const navigate = useNavigate();
+
+  // Обработчик клика по кнопке Внести изменения в место
+  const handleClickEdit = () => {
+    dispatch(setActivePlace(data))
+    navigate(`/edit/${id}`);
+  }
 
   return (
     <div
@@ -51,8 +61,7 @@ console.log(data);
           
             <ButtonDefault
               lable="Внести изменения"
-              // action={() => navigate(`/edit/${id}`)}
-              action={() => alert('Еще не реализовано')}
+              action={handleClickEdit}
             />
 
           </div>

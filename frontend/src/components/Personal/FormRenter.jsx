@@ -26,8 +26,6 @@ export const FormRenter = () => {
     mode: 'all',
   });
 
-  console.log(user, '***');
-
   const onSubmit = (data) => {
     const dataToSend = { ...data, organization_type: radioValue };
     apiProfiles
@@ -35,7 +33,6 @@ export const FormRenter = () => {
       .then(() => setIsDisabled(true))
       .catch((err) => console.log(err));
   };
-
 
   //Радио кнопки
   const [radioBtns, setRadioBtns] = useState({
@@ -76,15 +73,13 @@ export const FormRenter = () => {
     return statusBtn;
   };
 
-
-
   // Загрузка данных профиля с бэка по id из стора
   useEffect(() => {
     if (user.id) {
       apiProfiles
         .getProfileDataRenter(user.id)
         .then((res) => {
-          console.log(res[0])
+          console.log(res[0]);
           setRenterData({ ...res[0], contact_email: user.email });
         })
         .catch((err) => console.log(err));
@@ -98,11 +93,8 @@ export const FormRenter = () => {
       }
     }
 
-    setRadioBtns(configureRadioStatus(renterData.organization_type))
-
+    setRadioBtns(configureRadioStatus(renterData.organization_type));
   }, [renterData]);
-
-  console.log(isInd, "888")
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -351,38 +343,49 @@ export const FormRenter = () => {
           Орг. форма
         </label>
         <div className={styles.radioGroup}>
-          <input
-            type="radio"
-            id="organization_type_ooo"
-            className={styles.inputRadio}
-            value="ORGANIZATION"
-            checked={radioBtns.ooo}
-            onChange={(event) => handleChange(event)}
-            disabled={isDisabled}
-          />
-          <label htmlFor="organization_type_ooo" className={styles.labelRadio}>
-            ООО
-          </label>
-          <input
-            type="radio"
-            id="organization_type_ip"
-            className={styles.inputRadio}
-            value="IP"
-            checked={radioBtns.ip}
-            onChange={(event) => handleChange(event)}
-            disabled={isDisabled}
-          />
-          <label htmlFor="organization_type_ind">ИП</label>
-          <input
-            type="radio"
-            id="organization_type_ind"
-            className={styles.inputRadio}
-            value="INDIVIDUAL"
-            checked={radioBtns.ind}
-            onChange={(event) => handleChange(event)}
-            disabled={isDisabled}
-          />
-          <label htmlFor="organization_type_ip">Физ. лицо</label>
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ooo"
+              className={styles.inputRadio}
+              value="ORGANIZATION"
+              checked={radioBtns.ooo}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label
+              htmlFor="organization_type_ooo"
+              className={styles.labelRadio}
+            >
+              ООО
+            </label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ip"
+              className={styles.inputRadio}
+              value="IP"
+              checked={radioBtns.ip}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label htmlFor="organization_type_ind">ИП</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ind"
+              className={styles.inputRadio}
+              value="INDIVIDUAL"
+              checked={radioBtns.ind}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label htmlFor="organization_type_ip">Физ. лицо</label>
+          </div>
         </div>
       </div>
 
