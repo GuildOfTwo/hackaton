@@ -5,20 +5,23 @@ import { useEffect, useState } from "react";
 
 export const OfertaPage = () => {
   const { id } = useParams();
+  const [state, setState] = useState();
   const data = useSelector((state) => state.cards.objects);
-let object
+
   useEffect(() => {
     if (data.length) {
-      object = data?.find((el) => el.id == id);
+      let object = data?.find((el) => el.id == id);
+      setState(object)
     }
   }, [data]);
 
-  console.log(object)
+//   console.log(object);
+  console.log(data);
 
   return (
     <section className={styles.section}>
       <p className={styles.title}>
-        ДОГОВОР (ОФЕРТА) <br />о предоставлении услуг 
+        ДОГОВОР (ОФЕРТА) <br />о предоставлении услуг
       </p>
       <br />
       <br />
@@ -26,9 +29,9 @@ let object
       <br />
       <br />
       A.Настоящий Договор (оферта) является официальным предложением Общества с
-      ограниченной ответственностью {object ? object.title : ''} (в дальнейшем «Компания») для полностью
-      дееспособного физического лица или юридического лица (далее - «Участник»),
-      которое примет настоящее предложение.
+      ограниченной ответственностью {state ? state.title : ""} (в дальнейшем
+      «Компания») для полностью дееспособного физического лица или юридического
+      лица (далее - «Участник»), которое примет настоящее предложение.
       <br />
       <br />
       A.В соответствии с пунктом 2 статьи 437 Гражданского Кодекса РФ, в случае
