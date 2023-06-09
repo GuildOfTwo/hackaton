@@ -257,9 +257,10 @@ export const FormLandlord = () => {
           name="phone_number"
           id="phone_number"
           type="text"
-          placeholder="+79123456789"
+          placeholder="Мобильный номер"
           autoComplete="off"
           disabled={isDisabled}
+          maxLength="12"
         />
         {errors.phone_number && (
           <p role="alert" className={styles.inputError}>
@@ -373,7 +374,7 @@ export const FormLandlord = () => {
             required: false,
             minLength: {
               value: 10,
-              message: 'Введите 10 символов',
+              message: 'Введите от 10 символов',
             },
             pattern: {
               value: numbersRegExp,
@@ -387,7 +388,7 @@ export const FormLandlord = () => {
           placeholder="ИНН"
           autoComplete="off"
           disabled={isDisabled}
-          maxLength="10"
+          maxLength="12"
         />
         {errors.inn && (
           <p role="alert" className={styles.inputError}>
