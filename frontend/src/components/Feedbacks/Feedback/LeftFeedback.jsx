@@ -18,6 +18,7 @@ export const LeftFeedback = () => {
   const { id } = useParams();
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  
   const handlePostFeedback = () => {
     let data = {
       author_id: 'testMail55@mail.ru',

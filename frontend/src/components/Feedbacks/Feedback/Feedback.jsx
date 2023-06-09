@@ -8,7 +8,8 @@ export const Feedback = ({ comments }) => {
   const renters = useSelector((state) => state.user.users);
   const [status, setStatus] = useState(null);
   const renters1 = useSelector((state) => state.user);
-  // console.log(newComments)
+
+  const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
     if (renters.length >= 1) {
@@ -31,8 +32,12 @@ export const Feedback = ({ comments }) => {
       setStatus("Зарегистрируйтесь, что бы оставить отзыв");
     } else if (localStorage.getItem("role") == "LANDLORD") {
       setStatus("Только арендаторы могут оставлять отзывы");
-    } else setStatus(null);
+    } else if (!profile && !profile?.last_name) {
+      setStatus("Только пользователи с заполненным профилем могут оставлять отзывы")
+    } 
+    else setStatus(null);
   }, []);
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Отзывы</h2>
