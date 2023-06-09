@@ -99,7 +99,7 @@ export const FormLandlord = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="lastName" className={styles.lable}>
-          Фамилия
+          Фамилия <span className='global-span'>*</span>
         </label>
         <input
           {...register('last_name', {
