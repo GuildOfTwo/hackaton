@@ -30,7 +30,7 @@ export const YandexMap = ({ prop }) => {
 
           </div>
         </div>
-        <a class="button" href='../space/${el.id}' target="_blank">Открыть</a>
+        <a class="button" href='../space/${el.id}'>Открыть</a>
       </div>`,
       }));
       setNewData(array);

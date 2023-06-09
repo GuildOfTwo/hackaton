@@ -113,7 +113,7 @@ export const SpacePage = () => {
 
         <div className={styles.iconWrapper}>
         <div className={styles.iconValueWrap}>
-            <p className={styles.iconValue}>{card.rating ? card.rating : "Не задан"}</p>
+            <p className={styles.iconValue}>{rating ? rating : "Не задан"}</p>
           </div>
           <p className={styles.iconText}>Рейтинг</p>
         </div>
@@ -153,8 +153,6 @@ export const SpacePage = () => {
 
                 <div className={styles.iconWrapper}>
                   <img src={adress} alt="" className={styles.iconImg} />
-
-                  {/* <p className={styles.iconText}>Адрес</p> */}
                   <p className={styles.iconText}>{card.address}</p>
                 </div>
 
