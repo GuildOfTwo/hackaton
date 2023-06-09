@@ -19,11 +19,6 @@ import { apiAuth } from "../../utils/api/apiAuth";
 import { setUserData } from "../../store/userSlice";
 import { setLoggedIn, setToken } from "../../store/authSlice";
 import { OfertaPage } from "../../pages/Oferta/Oferta";
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { apiAuth } from '../../utils/api/apiAuth';
-import { setUserData } from '../../store/userSlice';
-import { setLoggedIn, setToken } from '../../store/authSlice';
 import { apiProfiles } from '../../utils/api/profileApi';
 import { setProfile } from '../../store/userSlice';
 

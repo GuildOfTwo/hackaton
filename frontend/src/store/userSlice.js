@@ -16,7 +16,7 @@ const userSlise = createSlice({
       state.users = action.payload;
     },
     setProfile(state, action) {
-      state.profile = action.payload
+      state.profile = action.payload;
     },
   },
 });
