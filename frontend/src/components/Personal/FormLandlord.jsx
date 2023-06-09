@@ -23,7 +23,7 @@ export const FormLandlord = () => {
     organization_name: '',
     adress: '',
   });
-  const data = useSelector((state) => state.user.state);
+  // const data = useSelector((state) => state.user.state);
   const {
     handleSubmit,
     register,
