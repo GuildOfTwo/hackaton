@@ -32,7 +32,7 @@ export const Feedback = ({ comments }) => {
       setStatus("Зарегистрируйтесь, что бы оставить отзыв");
     } else if (localStorage.getItem("role") == "LANDLORD") {
       setStatus("Только арендаторы могут оставлять отзывы");
-    } else if (!profile && !profile?.last_name) {
+    } else if (!profile?.last_name) {
       setStatus("Только пользователи с заполненным профилем могут оставлять отзывы")
     } 
     else setStatus(null);
