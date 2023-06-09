@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { apiAuth } from "../../utils/api/apiAuth";
 import { setUserData } from "../../store/userSlice";
 import { setLoggedIn, setToken } from "../../store/authSlice";
+import { OfertaPage } from "../../pages/Oferta/Oferta";
 
 export const Main = () => {
   const { pathname } = useLocation();
@@ -100,6 +101,10 @@ export const Main = () => {
               </Protected>
             }
           />
+          <Route exact path="oferta/:id"
+          element={
+            <OfertaPage />
+           } />
         </Routes>
         <Modal />
       </div>
