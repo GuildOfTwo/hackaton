@@ -38,11 +38,11 @@ cd frontend
 ```
 3. Установить зависимости:
 ```
-npm run dev
+npm install
 ```
 4. Запустить проект:
 ```
-npm start
+npm run preview
 ```
 
 ## Ссылки проекта
