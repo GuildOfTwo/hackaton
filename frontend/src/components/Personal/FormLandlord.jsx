@@ -135,7 +135,7 @@ export const FormLandlord = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="first_name" className={styles.lable}>
-          Имя
+          Имя <span className='global-span'>*</span>
         </label>
         <input
           {...register('first_name', {
@@ -206,7 +206,7 @@ export const FormLandlord = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="contact_email" className={styles.lable}>
-          Email
+          Email <span className='global-span'>*</span>
         </label>
         <input
           {...register('contact_email', {

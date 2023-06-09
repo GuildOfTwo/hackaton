@@ -102,7 +102,7 @@ export const FormRenter = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="lastName" className={styles.lable}>
-          Фамилия
+          Фамилия <span className='global-span'>*</span>
         </label>
         <input
           {...register('last_name', {
@@ -138,7 +138,7 @@ export const FormRenter = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="first_name" className={styles.lable}>
-          Имя
+          Имя <span className='global-span'>*</span>
         </label>
         <input
           {...register('first_name', {
@@ -209,7 +209,7 @@ export const FormRenter = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="contact_email" className={styles.lable}>
-          Email
+          Email <span className='global-span'>*</span>
         </label>
         <input
           {...register('contact_email', {
@@ -340,7 +340,7 @@ export const FormRenter = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="organization_type" className={styles.lable}>
-          Орг. форма
+          Орг. форма 
         </label>
         <div className={styles.radioGroup}>
           <div>

@@ -156,7 +156,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="title" className={styles.lable}>
-          Название
+          Название <span className='global-span'>*</span>
         </label>
         <input
           {...register('title', {
@@ -272,7 +272,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="area_sum" className={styles.lable}>
-          Общая площадь (кв. м)
+          Общая площадь (кв. м) <span className='global-span'>*</span>
         </lable>
         <input
           {...register('area_sum', {
@@ -303,7 +303,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="area_rent" className={styles.lable}>
-          Свободная площадь (кв. м)
+          Свободная площадь (кв. м) <span className='global-span'>*</span>
         </lable>
         <input
           {...register('area_rent', {
@@ -396,7 +396,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="capacity" className={styles.lable}>
-          Вместимость, чел.
+          Вместимость, чел. <span className='global-span'>*</span>
         </lable>
         <input
           {...register('capacity', {
@@ -427,7 +427,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="cost" className={styles.lable}>
-          Стоимость
+          Стоимость <span className='global-span'>*</span>
         </lable>
         <input
           {...register('cost', {
@@ -475,7 +475,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="entity" className={styles.lable}>
-          Юр. название
+          Юр. название <span className='global-span'>*</span>
         </lable>
         <input
           {...register('entity', {
@@ -506,7 +506,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="phone" className={styles.lable}>
-          Контактный телефон
+          Контактный телефон <span className='global-span'>*</span>
         </lable>
         <input
           {...register('phone', {
@@ -537,7 +537,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="email" className={styles.lable}>
-          Адрес электронной почты
+          Адрес электронной почты <span className='global-span'>*</span>
         </lable>
         <input
           {...register('email', {
@@ -568,7 +568,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="inn" className={styles.lable}>
-          ИНН
+          ИНН <span className='global-span'>*</span>
         </lable>
         <input
           {...register('inn', {
@@ -596,7 +596,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="desc" className={styles.lable}>
-          Описание
+          Описание <span className='global-span'>*</span>
         </label>
         <textarea
           {...register('desc', {
@@ -623,11 +623,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="address" className={styles.lable}>
-          Адрес
+          Адрес <span className='global-span'>*</span>
         </label>
         <input
           {...register('address', {
-            // required: "Обязательное поле",
+            required: "Обязательное поле",
             minLength: {
               value: 2,
               message: 'Не менее 2 символов',
