@@ -71,10 +71,12 @@ export const RequestLandlordList = () => {
     apiBooking.putBookingsReject(token, data).then((res) => console.log(res));
   };
 
+  console.log(booking)
   return (
     <section className={requestList.section}>
       <h2 className={requestList.title}>Все заявки</h2>
 
+<div className={requestList.wrapper}>
       {booking.length !== 0 ?booking.map((el, index) => (
         <div
           className={el.approve ? requestList.item : requestList.itemFalse}
@@ -101,10 +103,11 @@ export const RequestLandlordList = () => {
             )}
 
             {el.status && "Заявка обработана"}
-            <p className={requestList.oferta}>{el.approve && <NavLink to={`/oferta/${el.building}`}>Ознакомиться с офертой</NavLink>}</p>
+            <p className={requestList.oferta}>{el.approve && <NavLink to={`/oferta/${el.id}`}>Ознакомиться с офертой</NavLink>}</p>
           </div>
         </div>
       )) : "Список заявок пуст"}
+      </div>
     </section>
   );
 };

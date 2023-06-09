@@ -43,13 +43,13 @@ export const PersonalPage = () => {
         <>
           {" "}
           <nav className={styles.nav}>
-          <NavLink to="/lk/requests" className={styles.navLink}>
+          <NavLink to="/lk/requests" className={({ isActive }) => isActive ? styles.navLinkActive : styles.navLink }>
               Заявки
             </NavLink>
-            <NavLink to="/lk" className={styles.navLink}>
+            <NavLink exact to="/lk" className={({ isActive }) => isActive ? styles.navLinkActive : styles.navLink }>
               Список объектов
             </NavLink>
-            <NavLink to="/lk/profile" className={styles.navLink}>
+            <NavLink to="/lk/profile" className={({ isActive }) => isActive ? styles.navLinkActive : styles.navLink }>
               Редактировать профиль
             </NavLink>
           </nav>
