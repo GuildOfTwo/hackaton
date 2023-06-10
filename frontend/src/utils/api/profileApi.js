@@ -7,7 +7,7 @@ class Profiles {
   }
 
   getProfileDataLandlord(id) {
-    return fetch(`${this._base_url}landlord_profile/${id}/`, {
+    return fetch(`${this._base_url}landlord_profile/?search=${id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -22,11 +22,42 @@ class Profiles {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-      },body: JSON.stringify(data)
-      
+      },
+      body: JSON.stringify(data),
     }).then(getResponse);
   }
 
+  updateProfileDataLandlord(data) {
+    return fetch(`${this._base_url}landlord_profile/${data.id}/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(getResponse);
+  }
+
+  getProfileDataRenter(id) {
+    return fetch(`${this._base_url}renter_profile/?search=${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(getResponse);
+  }
+
+  updateProfileDataRenter(data) {
+    return fetch(`${this._base_url}renter_profile/${data.id}/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(getResponse);
+  }
 }
 
 export const apiProfiles = new Profiles();

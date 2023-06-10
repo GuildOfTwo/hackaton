@@ -15,8 +15,8 @@
     display: flex
     justify-content: space-between
     position: relative
-    
-.inputGroup, 
+
+.inputGroup,
 .inputGroup, ymaps
     color: black
 
@@ -27,7 +27,7 @@
 .title
     font-size: 2em
     text-align: center
-    
+
 input, textarea, select
     width: 60%
 
@@ -43,3 +43,46 @@ input, textarea, select
 
 .mapWrapper
     margin: 0 auto
+    width: 100%
+    height: 400px
+
+@media screen and (max-width: 1160px)
+    .inputGroup
+        flex-direction: column
+        gap: 5px
+        justify-content: center
+        align-items: center
+
+    .lable
+        width: 80%
+
+    input, textarea, select
+        width: 80%
+
+@media screen and (max-width: 850px)
+    .mapWrapper
+        height: 300px
+
+@media screen and (max-width: 775px)
+    .title
+        font-size: 1.5em
+        line-height: 100%
+
+@media screen and (max-width: 650px)
+    input, textarea, select
+        width: 100%
+
+    .lable
+        width: 100%
+
+    .mapWrapper
+        height: 250px
+
+@media screen and (max-width: 500px)
+    .form
+        width: 90%
+        padding: 20px
+
+@media screen and (max-width: 400px)
+    .mapWrapper
+        height: 200px

@@ -1,55 +1,59 @@
-import { Map, Placemark, ZoomControl } from "@pbe/react-yandex-maps";
+import { Map, Placemark, ZoomControl, Clusterer } from "@pbe/react-yandex-maps";
 import icon from "../../assets/icons/marker.svg";
 import "./yandexMap.sass";
 // import { data } from "../../TEMP_DATA/DATA";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const YandexMap = ({prop}) => {
+export const YandexMap = ({ prop }) => {
   const [newData, setNewData] = useState([]);
   const mapState = {
-    center: [55.76, 37.64],
+    center: [55.751063, 37.616494],
     zoom: 12,
     behaviors: ["default"],
-    
   };
 
-  const data = useSelector(state => state.cards.objects);
-const filteredData = useSelector(state => state.filtered.filtered);
-useEffect(() => {
-  if (data.length >= 1) {
-    let array = (filteredData.length ? filteredData : data).map((el) => ({
-      ...el,
-      coordinates: el.coordinates.split(",").map(Number),
-      body: `<div class='container'>
+  const data = useSelector((state) => state.cards.objects);
+  const filteredData = useSelector((state) => state.filtered.filtered);
+  useEffect(() => {
+    if (data.length >= 1) {
+      let dataMod = data.filter(el => el.building_status[0]?.stat == "Опубликовано")
+      let array = (filteredData.length ? filteredData : dataMod).map((el) => ({
+        ...el,
+        coordinates: el.coordinates.split(",").map(Number),
+        body: `<div class='container'>
         <div className="wrapper">
           <h2 class='bodyTitle'>${el.title}</h2>
           <p class="description">${el.desc}</p>
           <div class="contacts">
             <p class="adress">${el.address}</p>
-            <a href="tel:${el.phone}" class="tel">${el.phone}</a>
+
           </div>
         </div>
-        <a class="button" href='../space/${el.id}' target="_blank">Открыть</a>
+        <a class="button" href='../space/${el.id}'>Открыть</a>
       </div>`,
-    }));
-    setNewData(array);
-  }
-}, [data, filteredData]);
+      }));
+      setNewData(array);
+    }
+  }, [data, filteredData]);
   return (
     <section className="section" ref={prop}>
-      <Map
-      instanceRef={ref => { ref && ref.behaviors.disable('scrollZoom'); }} 
+     {newData &&  <Map
+        instanceRef={(ref) => {
+          ref && ref.behaviors.disable("scrollZoom");
+        }}
         defaultState={mapState}
         width={"100%"}
         height={600}
-        options={{
-          balloonPanelMaxMapArea: Infinity,
 
-        }}
       >
-        {newData &&
-          newData.map((item) => (
+        {/* <Clusterer
+          options={{
+            groupByCoordinates: false,
+            preset: "islands#redClusterIcons",
+          }}
+        > */}
+          {newData.map((item) => (
             <Placemark
               defaultGeometry={item.coordinates}
               key={item.id}
@@ -63,19 +67,19 @@ useEffect(() => {
               }}
               properties={{
                 balloonContentBody: item.body,
-                // iconCaption: item.name ? item.name : null,
                 hintContent: item.name,
               }}
             />
           ))}
-        {/* <ZoomControl
+        {/* </Clusterer> */}
+        <ZoomControl
           options={{
             float: "left",
-            position: { right: 30, bottom: 300 },
+            position: { right: 50, bottom: 250 },
             size: "small",
           }}
-        /> */}
-      </Map>
+        />
+      </Map>}
     </section>
   );
 };

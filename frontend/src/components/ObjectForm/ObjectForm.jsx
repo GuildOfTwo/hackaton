@@ -1,62 +1,65 @@
-import styles from "./styles.module.sass";
+import styles from './styles.module.sass';
 
-import { set, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { Map, Placemark } from "@pbe/react-yandex-maps";
-import icon from "../../assets/icons/marker.svg";
-import { ImagesUpload } from "./ImagesUpload";
-import { useDispatch, useSelector } from "react-redux";
-import { apiData } from "../../utils/api/dataApi";
-import { openModal } from "../../store/modalSlice";
-import { cardCreatedSuccess } from "../../utils/modalPayload";
-import { cardCreatedError } from "../../utils/modalPayload";
-import DatePicker from "react-multi-date-picker";
-import gregorian_ru_lowercase from "./locale";
-import './picker.sass'
+import { set, useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
+import { Map, Placemark } from '@pbe/react-yandex-maps';
+import icon from '../../assets/icons/marker.svg';
+import { ImagesUpload } from './ImagesUpload';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiData } from '../../utils/api/dataApi';
+import { openModal } from '../../store/modalSlice';
+import { cardCreatedSuccess } from '../../utils/modalPayload';
+import { cardCreatedError } from '../../utils/modalPayload';
+import DatePicker from 'react-multi-date-picker';
+import gregorian_ru_lowercase from './locale';
+import './picker.sass';
+import useMediaQuery from '../../utils/hooks/useMediaQuery';
+import doneIcon from '../../assets/icons/tick-square.svg';
+import cancelIcon from '../../assets/icons/close-square.svg';
+import { apiObjects } from '../../utils/api/objectsApi';
 
 export const ObjectForm = ({ lable = null, edit = false }) => {
-  let today = new Date
-  const [value, setValue] = useState([today]);
+  let today = new Date();
+  const [valueToday, setValueToday] = useState([today]);
   const initialState = {
-    title: "",
+    title: '',
     center: [55.755864, 37.617698],
     zoom: 12,
   };
 
-  const [cardData, setCardData] = useState();
-  const data = useSelector((state) => state.cards.state);
+  const buildingId = useParams();
+
+  const [cardData, setCardData] = useState(
+    useSelector((state) => state.cards.active)
+  );
+
   const user = useSelector((state) => state.user.user);
 
-  const { id } = useParams();
+  // console.log(edit);
 
-  useEffect(() => {
-    if (edit == true) {
-      if (data.length) {
-        let itemData = data.find((el) => el.id == id);
-        setCardData(itemData);
-      }
-    }
-  }, [data]);
+  const isMobile = useMediaQuery('(max-width: 650px)');
+
   const [files, setFiles] = useState([]);
   const [mapConstructor, setMapConstructor] = useState(null);
   const [state, setState] = useState({ ...initialState });
   const searchRef = useRef(null);
-  const [address, setAddress] = useState("");
-  const [type, setType] = useState('Лофт')
+  const [address, setAddress] = useState('');
+  const [type, setType] = useState('Лофт');
 
   const {
     handleSubmit,
     register,
-    watch,
-    formState: { errors },
+    setValue,
+    formState: { errors, isValid },
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const navigate = useNavigate();
-  const [isDisabled, setIsDisabled] = useState(edit);
-const dispatch = useDispatch()
+  const [isDisabled, setIsDisabled] = useState(!edit);
+  const dispatch = useDispatch();
+
   const handleEdit = () => {};
 
   const handleCreate = () => {};
@@ -71,32 +74,43 @@ const dispatch = useDispatch()
         } else formData.append(`building_image`, file.image, file.name);
       });
     }
-    formData.append("owner", user.id);
-    formData.append("coordinates", state.center.toString());
-    formData.append("rating", "0");
-    formData.append("address", address);
-    formData.append("specialization", type);
+    formData.append('owner', user.id);
+    formData.append('coordinates', state.center.toString());
+    formData.append('rating', '0');
+    formData.append('address', address);
+    formData.append('specialization', type);
 
-    for (const [key, value] of Object.entries(data)) {
-      if (key !== "address" && key !== 'specialization') {
-        formData.append(key, value);
+    for (const [key, valueToday] of Object.entries(data)) {
+      if (key !== 'address' && key !== 'specialization') {
+        formData.append(key, valueToday);
       }
     }
-    apiData
-    .createBuilding(formData)
-    .then(res => dispatch(openModal(cardCreatedSuccess)))
-    .catch(err => dispatch(openModal(cardCreatedError)))
-    .finally(() => {setTimeout(function(){
-      navigate('/')
-  }, 5000);}) 
-  };
 
+    if (!edit) {
+      apiData
+        .createBuilding(formData)
+        .then(() => dispatch(openModal(cardCreatedSuccess)))
+        .catch(() => dispatch(openModal(cardCreatedError)))
+        .finally(() => {
+          setTimeout(function () {
+            navigate('/');
+          }, 5000);
+        });
+    } else {
+      apiObjects
+        .updateProperBuilding(data)
+        .then(() => dispatch(openModal(cardCreatedSuccess)))
+        .catch(() => dispatch(openModal(cardCreatedError)));
+    }
+  };
+  console.log(isValid)
+  console.log(errors)
   useEffect(() => {
     if (mapConstructor) {
       new mapConstructor.SuggestView(searchRef.current).events.add(
-        "select",
+        'select',
         function (e) {
-          const selectedName = e.get("item").value;
+          const selectedName = e.get('item').value;
           setAddress(selectedName);
           mapConstructor.geocode(selectedName).then((result) => {
             const newCoords = result.geoObjects
@@ -110,26 +124,56 @@ const dispatch = useDispatch()
   }, [mapConstructor]);
 
   const mapOptions = {
-    modules: ["geocode", "SuggestView"],
+    modules: ['geocode', 'SuggestView'],
     // defaultOptions: { suppressMapOpenBlock: true },
-    width: 600,
-    height: 400,
+    width: '100%',
+    height: '100%',
   };
+
+  // Подставнока данных в форму если edit true для редактирования
+  useEffect(() => {
+    if (edit && cardData) {
+      for (let key in cardData) {
+        if (key) {
+          setValue(key, cardData[key]);
+        }
+      }
+    }
+  }, [cardData, edit]);
+
+  // Если в сторе нет данных выбранного места, то делаем запрос на бэк за данными
+  useEffect(() => {
+    if (edit && !cardData) {
+      apiObjects
+        .getProperBuilding(buildingId.id)
+        .then((res) => setCardData(res))
+        .catch((err) => console.log(err));
+    }
+  }, [cardData, buildingId]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>{lable}</h2>
 
+      <div className={styles.buttons}>
+        {isDisabled ?  (
+          <ButtonDefault
+            lable="Редактировать"
+            action={() => setIsDisabled(false)}
+          />
+        ) : ''}
+      </div>
+
       <div className={styles.inputGroup}>
         <label htmlFor="title" className={styles.lable}>
-          Название
+          Название <span className='global-span'>*</span>
         </label>
         <input
-          {...register("title", {
-            required: "Обязательное поле",
+          {...register('title', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
           })}
           className={styles.input}
@@ -148,42 +192,46 @@ const dispatch = useDispatch()
       </div>
 
       <div className={styles.inputGroup}>
-          <label htmlFor="name" className={styles.lable}>
-            Тип площадки
-          </label>
-          <select name="select" onChange={(e) => setType(e.target.value)} className={styles.input}>
-            <option value="Арт">Лофт</option>
-            <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
-            <option value="Реклама">Реклама</option>
-            <option value="Дизайн">Дизайн</option>
-            <option value="Мода">Мода</option>
-            <option value="Кино и анимация">Кино и анимация</option>
-            <option value="Телерадиовещание и новые медиа">
-              Телерадиовещание и медиа
-            </option>
-            <option value="Издательское дело">Издательское дело</option>
-            <option value="Архитектура">Архитектура</option>
-            <option value="Музыка">Музыка</option>
-            <option value="Исполнительские искусства">
-              Исполнительские искусства
-            </option>
-          </select>
-        </div>
+        <label htmlFor="name" className={styles.lable}>
+          Тип площадки
+        </label>
+        <select
+          name="select"
+          onChange={(e) => setType(e.target.value)}
+          className={styles.input}
+        >
+          <option value="Арт">Лофт</option>
+          <option value="ПО и компьютерные игры">ПО и компьютерные игры</option>
+          <option value="Реклама">Реклама</option>
+          <option value="Дизайн">Дизайн</option>
+          <option value="Мода">Мода</option>
+          <option value="Кино и анимация">Кино и анимация</option>
+          <option value="Телерадиовещание и новые медиа">
+            Телерадиовещание и медиа
+          </option>
+          <option value="Издательское дело">Издательское дело</option>
+          <option value="Архитектура">Архитектура</option>
+          <option value="Музыка">Музыка</option>
+          <option value="Исполнительские искусства">
+            Исполнительские искусства
+          </option>
+        </select>
+      </div>
 
       <div className={styles.inputGroup}>
         <lable htmlFor="operating_hours" className={styles.lable}>
           Режим работы
         </lable>
         <input
-          {...register("operating_hours", {
+          {...register('operating_hours', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -203,18 +251,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="site" className={styles.lable}>
-          Сайт
+          Сайт <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("site", {
-            required: false,
+          {...register('site', {
+            required: true,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -234,18 +282,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="area_sum" className={styles.lable}>
-          Общая площадь (кв. м)
+          Общая площадь (кв. м) <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("area_sum", {
-            required: "Обязательное поле",
+          {...register('area_sum', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -265,18 +313,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="area_rent" className={styles.lable}>
-          Свободная площадь (кв. м)
+          Свободная площадь (кв. м) <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("area_rent", {
-            required: "Обязательное поле",
+          {...register('area_rent', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -294,20 +342,20 @@ const dispatch = useDispatch()
         )}
       </div>
 
-      <div className={styles.inputGroup}>
+      {/* <div className={styles.inputGroup}>
         <lable htmlFor="features" className={styles.lable}>
           Особенности
         </lable>
         <textarea
-          {...register("features", {
+          {...register('features', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 символов',
             },
           })}
           className={styles.input}
@@ -323,22 +371,22 @@ const dispatch = useDispatch()
             {errors.features.message}
           </p>
         )}
-      </div>
+      </div> */}
 
-      <div className={styles.inputGroup}>
+      {/* <div className={styles.inputGroup}>
         <lable htmlFor="additional_information" className={styles.lable}>
           Дополнительная информация
         </lable>
         <textarea
-          {...register("additional_information", {
+          {...register('additional_information', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 смиволов',
             },
           })}
           className={styles.input}
@@ -354,22 +402,22 @@ const dispatch = useDispatch()
             {errors.additional_information.message}
           </p>
         )}
-      </div>
+      </div> */}
 
       <div className={styles.inputGroup}>
         <lable htmlFor="capacity" className={styles.lable}>
-          Вместимость, чел.
+          Вместимость, чел. <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("capacity", {
-            required: "Обязательное поле",
+          {...register('capacity', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -389,18 +437,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="cost" className={styles.lable}>
-          Стоимость
+          Стоимость <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("cost", {
-            required: "Обязательное поле",
+          {...register('cost', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 50,
-              message: "This input mustn't exceed 50 characters",
+              message: 'Не более 50 символов',
             },
           })}
           className={styles.input}
@@ -423,11 +471,11 @@ const dispatch = useDispatch()
           Даты бронирования
         </lable>
         <DatePicker
-            multiple
-            value={value}
-            onChange={setValue}
-            locale={gregorian_ru_lowercase}
-          />
+          multiple
+          value={valueToday}
+          onChange={setValueToday}
+          locale={gregorian_ru_lowercase}
+        />
         {errors.booking && (
           <p role="alert" className={styles.inputError}>
             {errors.booking.message}
@@ -437,18 +485,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="entity" className={styles.lable}>
-          Юр. название
+          Юр. название <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("entity", {
-            required: "Обязательное поле",
+          {...register('entity', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 500,
-              message: "This input mustn't exceed 500 characters",
+              message: 'Не более 500 символов',
             },
           })}
           className={styles.input}
@@ -468,18 +516,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="phone" className={styles.lable}>
-          Контактный телефон
+          Контактный телефон <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("phone", {
-            required: "Обязательное поле",
+          {...register('phone', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 30,
-              message: "This input mustn't exceed 30 characters",
+              message: 'Не более 30 символов',
             },
           })}
           className={styles.input}
@@ -499,18 +547,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="email" className={styles.lable}>
-          Адрес электронной почты
+          Адрес электронной почты <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("email", {
-            required: "Обязательное поле",
+          {...register('email', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
             maxLength: {
               value: 30,
-              message: "This input mustn't exceed 30 characters",
+              message: 'Не более 30 символов',
             },
           })}
           className={styles.input}
@@ -530,18 +578,18 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <lable htmlFor="inn" className={styles.lable}>
-          ИНН
+          ИНН <span className='global-span'>*</span>
         </lable>
         <input
-          {...register("inn", {
-            required: "Обязательное поле",
+          {...register('inn', {
+            required: 'Обязательное поле',
             minLength: {
-              value: 12,
-              message: "This input must exceed 12 characters",
+              value: 10,
+              message: 'Введите ИНН',
             },
             maxLength: {
               value: 12,
-              message: "This input mustn't exceed 12 characters",
+              message: 'Не более 12 символов',
             },
           })}
           className={styles.input}
@@ -551,6 +599,7 @@ const dispatch = useDispatch()
           placeholder="Введите ИНН"
           autoComplete="off"
           disabled={isDisabled}
+          maxLength="12"
         />
         {errors.inn && (
           <p role="alert" className={styles.inputError}>
@@ -561,14 +610,14 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <label htmlFor="desc" className={styles.lable}>
-          Описание
+          Описание <span className='global-span'>*</span>
         </label>
         <textarea
-          {...register("desc", {
-            required: "Обязательное поле",
+          {...register('desc', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Не менее 2 символов',
             },
           })}
           className={styles.input}
@@ -588,16 +637,12 @@ const dispatch = useDispatch()
 
       <div className={styles.inputGroup}>
         <label htmlFor="address" className={styles.lable}>
-          Адрес
+          Адрес <span className='global-span'>*</span>
         </label>
         <input
-          {...register("address", {
-            // required: "Обязательное поле",
-            minLength: {
-              value: 2,
-              message: "This input must exceed 2 characters",
-            },
-          })}
+          // {...register('address', {
+          //   required: "Обязательное поле",
+          // })}
           className={styles.input}
           name="address"
           id="address"
@@ -608,20 +653,21 @@ const dispatch = useDispatch()
           ref={searchRef}
           onChange={(e) => setAddress(e.target.value)}
         />
-        {errors.address && (
+        {!address && (
           <p role="alert" className={styles.inputError}>
-            {errors.address.message}
+            Укажите адрес
           </p>
         )}
       </div>
       <ImagesUpload files={files} setFiles={setFiles} />
+      <p style={{textAlign: 'center'}}>Не забудьте загрузить фотографии</p>
       <div className={styles.mapWrapper}>
         <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
           <Placemark
             geometry={state.center}
-            modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
             options={{
-              iconLayout: "default#imageWithContent",
+              iconLayout: 'default#imageWithContent',
               iconImageHref: icon,
               iconImageSize: [20, 60],
               iconImageOffset: [-20, -40],
@@ -635,18 +681,21 @@ const dispatch = useDispatch()
         {!isDisabled ? (
           <>
             <ButtonDefault
-              lable={edit ? "Сохранить изменения" : "Отправить на проверку"}
-              disabled={false}
-              // action={() => alert("хер тебе, а не сохранение")}
+              lable={edit ? 'Сохранить изменения' : 'Отправить на проверку'}
+              disabled={!isValid}
+              isMobile={isMobile}
+              img={doneIcon}
+              width={isMobile ? '50px' : ''}
             />
-            <ButtonDefault lable="Отмена" action={() => setIsDisabled(true)} />
+            <ButtonDefault
+              lable="Отмена"
+              action={() => setIsDisabled(true)}
+              isMobile={isMobile}
+              img={cancelIcon}
+              width={isMobile ? '50px' : ''}
+            />
           </>
-        ) : (
-          <ButtonDefault
-            lable="Редактировать"
-            action={() => setIsDisabled(false)}
-          />
-        )}
+        ) : '' }
       </div>
     </form>
   );

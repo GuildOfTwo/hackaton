@@ -6,24 +6,43 @@
     height: 100%
     display: flex
     flex-wrap: wrap
+    flex-direction: column
     justify-content: center
     align-items: center
-    gap: 40px
+    gap: 16px
     background-color: rgba(87,136,200,.15)
     border-radius: 7px
-    padding: 40px 30px
+    padding: 10px
+.wrapper
+    display: flex
+    flex-wrap: wrap
+    gap: 20px
+    justify-content: center
 
 .formGroup
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
-    max-width: fit-content
+    width: fit-content
 
-img
-    width: 40px
-    height: 40px
-    background-size: contain
-.btnWrap
+.btn
     display: flex
-    gap: 20px
+    gap: 40px
+
+.error
+    height: 26px
+
+@media screen and (max-width: 1240px)
+    .findIcon
+        width: 40px
+
+    .form
+        gap: 20px
+
+@media screen and (max-width: 950px)
+    .form
+        padding: 20px 10px
+
+
+

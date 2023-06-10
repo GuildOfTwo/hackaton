@@ -6,59 +6,75 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiAuth } from "../../utils/api/apiAuth";
 import { setLoggedOut, deleteToken } from "../../store/authSlice";
 import useMediaQuery from "../../utils/hooks/useMediaQuery";
-import lkIcon from '../../assets/icons/lkIcon.png'
-import loginIcon from '../../assets/icons/loginIcon.png'
+import { useEffect, useState } from "react";
+import loginIcon from "../../assets/icons/login.svg";
+import loginOutIcon from "../../assets/icons/logout.svg";
+import userIcon from "../../assets/icons/user.svg";
 
 export const Header = () => {
   const navigate = useNavigate();
   const logedIn = useSelector((state) => state.auth.loggedIn);
-
-  const isMobile = useMediaQuery("(max-width: 850px)");
+  const [title, setTitle] = useState("Креативные площадки Москвы");
+  const isMobile = useMediaQuery("(max-width: 773px)");
+  const isTablet = useMediaQuery("(max-width: 1024px)");
 
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-
   const handleLogout = () => {
-    // apiAuth
-    //   .logout(token)
-    //   .then((res) => {
     dispatch(setLoggedOut(true));
     dispatch(deleteToken(token));
     localStorage.clear();
-    // console.log(res);
     navigate("/");
     apiAuth.logout(token);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
-  
   const location = useLocation();
+
+  useEffect(() => {
+    isTablet ? setTitle("КПМ") : setTitle("Креативные площадки Москвы");
+  }, [isTablet]);
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
-        <img src={logo} />
-        <h1 className={styles.title} onClick={() => navigate("/")}>
-          Креативные площадки Москвы
-        </h1>
-        
+        <img src={logo} className={styles.logo} />
+        <div className={styles.titleWrapper}>
+          <h1 className={styles.title} onClick={() => navigate("/")}>
+            {title}
+          </h1>
+          <div className={styles.circle} />
+        </div>
+
         {logedIn ? (
           <div className={styles.btnWrapper}>
-            {location.pathname !== "/lk" && (
-              <ButtonDefault
-                lable="Личный кабинет"
-                isMobile={isMobile}
-                img={lkIcon}
-                action={() => navigate("/lk")}
-              />
-            )}
+            {location.pathname !== "/lk" &&
+              location.pathname !== "/lk/profile" &&
+              location.pathname !== "/lk/requests" && (
+                <ButtonDefault
+                  lable="Личный кабинет"
+                  action={() => navigate("/lk")}
+                  isMobile={isMobile}
+                  img={userIcon}
+                  width={isMobile ? "25px" : ""}
+                />
+              )}
 
-            <ButtonDefault lable="Выйти" isMobile={isMobile}
-                img={loginIcon} action={() => handleLogout()} />
+            <ButtonDefault
+              lable="Выйти"
+              isMobile={isMobile}
+              img={loginOutIcon}
+              action={() => handleLogout()}
+              width={isMobile ? "25px" : ""}
+            />
           </div>
         ) : (
-          <ButtonDefault lable="Войти" isMobile={isMobile}
-          img={loginIcon} action={() => navigate("/auth")} />
+          <ButtonDefault
+            lable="Войти"
+            action={() => navigate("/auth")}
+            isMobile={isMobile}
+            img={loginIcon}
+            width={isMobile ? "25px" : ""}
+          />
         )}
       </div>
     </header>

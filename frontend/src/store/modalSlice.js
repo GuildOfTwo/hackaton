@@ -4,8 +4,12 @@ const modalSlice = createSlice({
   name: "modal",
   initialState: {
     modalIsOpened: false,
+    modalReqIsOpened: false,
     title: "",
-    status: null
+    status: null,
+    message: "",
+    date: "",
+    id: ""
   },
 
   reducers: {
@@ -14,14 +18,17 @@ const modalSlice = createSlice({
       state.title = action.payload.text;
       state.status = action.payload.status
     },
-    closeModal(state, action) {
+    closeModal(state) {
       state.modalIsOpened = false;
-      state.error = false;
+      state.modalReqIsOpened = false,
       state.success = false;
       state.title = "";
+    },
+    openModalReq(state, action) {
+      state.modalReqIsOpened = true;
     }
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, openModalReq } = modalSlice.actions;
 export default modalSlice.reducer;

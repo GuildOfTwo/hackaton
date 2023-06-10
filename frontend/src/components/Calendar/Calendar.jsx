@@ -21,6 +21,8 @@ import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
 export class Calendar extends React.Component {
   constructor(props) {
     super(props);
+    this.handlePostReq = props.handlePostReq
+    this.setDataReq = props.setDateReq
   }
 
   state = {
@@ -51,8 +53,9 @@ export class Calendar extends React.Component {
     }
   }
 
-  handlePostReq() {
-    console.log(this.state.day)
+  handlePost() {
+    this.handlePostReq(this.state.day)
+    this.setDataReq(this.state.day)
   }
 
   generateBooking = () => {
@@ -60,6 +63,7 @@ export class Calendar extends React.Component {
     let bookedDates = [];
     let nextMonthDates = [];
     let dates = this.props.data;
+    console.log(dates)
     for (let i = 0; i < dates.length; i++) {
       let date = new Date(dates[i]);
       const day = new Date(dates[i]).getDate();
@@ -103,7 +107,7 @@ export class Calendar extends React.Component {
         (
           this.state.day ? <ButtonDefault
             lable="Оставить заявку"
-            action={(e) => this.handlePostReq()}
+            action={(e) => this.handlePost()}
           /> : <p className="textPlug">Выберите дату</p>
         )
        
@@ -173,6 +177,7 @@ export class Calendar extends React.Component {
                 ? "selected"
                 : ""
             }
+            ${this.state.day && isSameDay(currentDate, this.state.day) ? 'picked' : ''}
             ${isBefore(currentDate, thisDay) ? "disabled" : ""}`}
             key={currentDate}
             id={currentDate}

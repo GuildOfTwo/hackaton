@@ -38,12 +38,13 @@ cd frontend
 ```
 3. Установить зависимости:
 ```
-npm install
+
+npm i
 ```
 4. Запустить проект:
 ```
-npm run preview
-```
+npm run dev
+
 
 ## Ссылки проекта
 Проект опубликован по этому [адресу](http://valzet.beget.tech/).

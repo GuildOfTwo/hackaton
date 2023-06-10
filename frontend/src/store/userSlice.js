@@ -4,7 +4,8 @@ const userSlise = createSlice({
   name: 'user',
   initialState: {
     user: {},
-    users: {}
+    users: {},
+    profile: null,
   },
 
   reducers: {
@@ -14,9 +15,11 @@ const userSlise = createSlice({
     setAllUsers(state, action) {
       state.users = action.payload;
     },
-
+    setProfile(state, action) {
+      state.profile = action.payload;
+    },
   },
 });
 
-export const { setUserData, setAllUsers } = userSlise.actions;
+export const { setUserData, setAllUsers, setProfile } = userSlise.actions;
 export default userSlise.reducer;

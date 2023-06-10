@@ -13,31 +13,92 @@
     width: 100%
     display: flex
     justify-content: space-between
-    padding: 40px 30px
+    padding: 40px 30px 0
     align-items: center
 
 .logo
-    width: 100%
-    max-width: 20%
+    width: 187px
+    // max-width: 20%
+
+.titleWrapper
+    position: relative
+
+.titleWrapper
+    position: relative
 
 .title
     font-size: 2.3em
     font-weight: 600
     cursor: pointer
     text-align: center
-    padding: 0 20px
+
+.circle
+    background-color: #e74362
+    width: 6px
+    height: 6px
+    border-radius: 50px
+    position: absolute
+    display: none
+
+.circle
+    background-color: #e74362
+    width: 7px
+    height: 7px
+    border-radius: 50px
+    position: absolute
+    right: 21px
+    bottom: 6px
+    display: none
 
 .btnWrapper
     display: flex
     gap: 40px
 
-@media screen and (max-width: 999px)
+@media screen and (max-width: 1240px)
     .title
-        font-size: 1.8em
+        font-size: 30px
 
-@media screen and (max-width: 800px)
-    img
-        width: 20%
+    .logo
+        width: 100px
+        object-fit: cover
+
+
+@media screen and (max-width: 1024px)
+    .circle 
+        display: block
+        right: -10px
+        bottom: 20px
 
     .title
-        font-size: 1.5em
+        font-size: 45px
+
+@media screen and (max-width: 850px)
+    .title
+        text-align: center
+        line-height: 100%
+
+    .wrapper
+        padding: 15px 30px 40px
+
+    .circle 
+        bottom: 8px
+        right: -12px
+
+@media screen and (max-width: 773px)
+    .title
+        font-size: 34px
+
+    .logo
+        width: 80px
+
+    .circle 
+        bottom: 6px
+
+    .btnWrapper
+        gap: 25px
+
+
+        
+
+
+

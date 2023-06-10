@@ -4,6 +4,7 @@ const dataSlice = createSlice({
   name: 'cards',
   initialState: {
     objects: {},
+    active: null
   },
 
   reducers: {
@@ -12,10 +13,20 @@ const dataSlice = createSlice({
     },
     setComments(state, action) {
       state.comments = action.payload
+    },
+    setBooking(state, action) {
+      state.booking = action.payload
+    },
+
+    setActivePlace(state, action) {
+      state.active = action.payload
+    }, 
+    deleteActivePlace(state) {
+      state.active = null
     }
 
   },
 });
 
-export const { setObjects, setComments } = dataSlice.actions;
+export const { setObjects, setComments, setBooking, setActivePlace, deleteActivePlace } = dataSlice.actions;
 export default dataSlice.reducer;

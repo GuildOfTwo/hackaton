@@ -1,87 +1,130 @@
-import { useEffect, useState } from "react";
-import styles from "./styles.module.sass";
-import { useForm } from "react-hook-form";
-import { ButtonDefault } from "../ButtonDefault/ButtonDefault";
-import { useSelector } from "react-redux";
-import { apiProfiles } from "../../utils/api/profileApi";
+import { useEffect, useState } from 'react';
+import styles from './styles.module.sass';
+import { useForm } from 'react-hook-form';
+import { ButtonDefault } from '../ButtonDefault/ButtonDefault';
+import { useSelector } from 'react-redux';
+import { apiProfiles } from '../../utils/api/profileApi';
+import {
+  phoneRegExp,
+  numbersRegExp,
+  nameRegExp,
+  emailRegExp,
+} from '../../utils/regExp';
 
 export const FormLandlord = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [landlordData, setLandlordData] = useState({
-    inn: "",
-    first_name: "",
-    last_name: "",
-    middle_name: "",
-    phone_number: "",
-    contact_email: "",
-    organization_name: "",
-    adress: "",
+    inn: '',
+    first_name: '',
+    last_name: '',
+    middle_name: '',
+    phone_number: '',
+    contact_email: '',
+    organization_name: '',
+    adress: '',
   });
-  const data = useSelector((state) => state.user.state);
+  // const data = useSelector((state) => state.user.state);
   const {
     handleSubmit,
     register,
-    watch,
-    reset,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
-    mode: "onChange",
+    mode: 'all',
   });
 
   const user = useSelector((state) => state.user.user);
+
+  const [radioBtns, setRadioBtns] = useState({ ooo: true, ip: false });
+  const [radioValue, setRadioValue] = useState('ORGANIZATION');
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setRadioValue(value);
+    if (value === 'IP') {
+      setRadioBtns({
+        ooo: false,
+        ip: true,
+      });
+    } else {
+      setRadioBtns({
+        ooo: true,
+        ip: false,
+      });
+    }
+  };
 
   useEffect(() => {
     if (user.id) {
       apiProfiles
         .getProfileDataLandlord(user.id)
-        .then((res) => setLandlordData(res))
+        .then((res) => {
+          setLandlordData({ ...res[0], contact_email: user.email });
+        })
         .catch((err) => console.log(err));
     }
   }, [user]);
 
-  const onSubmit = (landlordData) => {
-
-    console.log(landlordData)
-    // // Формируем новый объект
-    // const newData = {
-    //   ...data,
-    //   owner: user.id,
-    //   coordinates: state.center.toString(),
-    //   rating: 0,
-    //   // building_images: formData,
-    //   building_images: [{images: 'https://kartinkof.club/uploads/posts/2022-05/1653010381_5-kartinkof-club-p-kartinka-zastavka-schaste-5.jpg'}],
-    //   address: address,
-    // };
+  const onSubmit = (data) => {
+    const dataToSend = { ...data, organization_type: radioValue };
+    apiProfiles
+      .updateProfileDataLandlord(dataToSend)
+      .then(() => setIsDisabled(true))
+      .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    for (let key in landlordData) {
+      if (key) {
+        setValue(key, landlordData[key]);
+      }
+    }
+
+    if (landlordData.organization_type === 'IP') {
+      setRadioBtns({
+        ooo: false,
+        ip: true,
+      });
+    } else {
+      setRadioBtns({
+        ooo: true,
+        ip: false,
+      });
+    }
+  }, [landlordData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h2 className={styles.title}>Изменение данных профиля арендодателя</h2>
+      <h2 className={styles.title}>Изменение данных профиля</h2>
 
       <div className={styles.inputGroup}>
         <label htmlFor="lastName" className={styles.lable}>
-          Фамилия
+          Фамилия <span className='global-span'>*</span>
         </label>
         <input
-          {...register("last_name", {
-            required: "Обязательное поле",
+          {...register('last_name', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
             },
           })}
           className={styles.input}
-          name="lastName"
+          name="last_name"
           id="lastName"
           type="text"
           placeholder="Фамилия"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.last_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, last_name: e.target.value })
-          }
+          aria-invalid={errors.last_name ? 'true' : 'false'}
         />
         {errors.last_name && (
           <p role="alert" className={styles.inputError}>
@@ -89,11 +132,27 @@ export const FormLandlord = () => {
           </p>
         )}
       </div>
+
       <div className={styles.inputGroup}>
         <label htmlFor="first_name" className={styles.lable}>
-          Имя
+          Имя <span className='global-span'>*</span>
         </label>
         <input
+          {...register('first_name', {
+            required: 'Обязательное поле',
+            minLength: {
+              value: 2,
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
+            },
+          })}
           className={styles.input}
           name="first_name"
           id="first_name"
@@ -101,10 +160,7 @@ export const FormLandlord = () => {
           placeholder="Имя"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.first_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, first_name: e.target.value })
-          }
+          aria-invalid={errors.first_name ? 'true' : 'false'}
         />
         {errors.first_name && (
           <p role="alert" className={styles.inputError}>
@@ -118,11 +174,19 @@ export const FormLandlord = () => {
           Отчество
         </label>
         <input
-          {...register("middle_name", {
+          {...register('middle_name', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 2 characters",
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 100,
+              message: 'Не более 100 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы',
             },
           })}
           className={styles.input}
@@ -132,10 +196,6 @@ export const FormLandlord = () => {
           placeholder="Отчество"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.middle_name}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, middle_name: e.target.value })
-          }
         />
         {errors.middle_name && (
           <p role="alert" className={styles.inputError}>
@@ -146,14 +206,18 @@ export const FormLandlord = () => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="contact_email" className={styles.lable}>
-          Email
+          Email <span className='global-span'>*</span>
         </label>
         <input
-          {...register("contact_email", {
-            required: false,
+          {...register('contact_email', {
+            required: 'Обязательное поле',
             minLength: {
               value: 2,
-              message: "This input must exceed 5 characters",
+              message: 'Минимум два символа',
+            },
+            pattern: {
+              value: emailRegExp,
+              message: 'Некорректный email',
             },
           })}
           className={styles.input}
@@ -163,10 +227,6 @@ export const FormLandlord = () => {
           placeholder="email"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.contact_email}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, contact_email: e.target.value })
-          }
         />
         {errors.contact_email && (
           <p role="alert" className={styles.inputError}>
@@ -180,24 +240,25 @@ export const FormLandlord = () => {
           Телефон
         </label>
         <input
-          {...register("phone_number", {
+          {...register('phone_number', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'Минимум два символа',
+            },
+            pattern: {
+              value: phoneRegExp,
+              message: 'Номер в формате +79123456789',
             },
           })}
           className={styles.input}
           name="phone_number"
           id="phone_number"
           type="text"
-          placeholder="Телефон"
+          placeholder="Мобильный номер"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.phone_number}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, phone_number: e.target.value })
-          }
+          maxLength="12"
         />
         {errors.phone_number && (
           <p role="alert" className={styles.inputError}>
@@ -211,24 +272,28 @@ export const FormLandlord = () => {
           Адрес
         </label>
         <input
-          {...register("adress", {
+          {...register('adress', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 300,
+              message: 'Не более 300 символов',
+            },
+            pattern: {
+              value: nameRegExp,
+              message: 'Только буквы, цифры и знаки',
             },
           })}
           className={styles.input}
           name="adress"
           id="adress"
           type="text"
-          placeholder="Адресс"
+          placeholder="Адрес"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.adress}
-          onChange={(e) =>
-            setLandlordData({ ...landlordData, adress: e.target.value })
-          }
         />
         {errors.adress && (
           <p role="alert" className={styles.inputError}>
@@ -242,11 +307,15 @@ export const FormLandlord = () => {
           Название
         </label>
         <input
-          {...register("organization_name", {
+          {...register('organization_name', {
             required: false,
             minLength: {
               value: 2,
-              message: "This input must exceed 8 characters",
+              message: 'Минимум два символа',
+            },
+            maxLength: {
+              value: 300,
+              message: 'Не более 300 символов',
             },
           })}
           className={styles.input}
@@ -256,17 +325,80 @@ export const FormLandlord = () => {
           placeholder="Название организации"
           autoComplete="off"
           disabled={isDisabled}
-          value={landlordData.organization_name}
-          onChange={(e) =>
-            setLandlordData({
-              ...landlordData,
-              organization_name: e.target.value,
-            })
-          }
         />
         {errors.organization_name && (
           <p role="alert" className={styles.inputError}>
             {errors.organization_name.message}
+          </p>
+        )}
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="organization_type" className={styles.lable}>
+          Орг. форма
+        </label>
+        <div className={styles.radioGroup}>
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ooo"
+              className={styles.inputRadio}
+              value="ORGANIZATION"
+              checked={radioBtns.ooo}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label
+              htmlFor="organization_type_ooo"
+              className={styles.labelRadio}
+            >
+              ООО
+            </label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              id="organization_type_ip"
+              className={styles.inputRadio}
+              value="IP"
+              checked={radioBtns.ip}
+              onChange={(event) => handleChange(event)}
+              disabled={isDisabled}
+            />
+            <label htmlFor="organization_type_ip">ИП</label>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="inn" className={styles.lable}>
+          ИНН
+        </label>
+        <input
+          {...register('inn', {
+            required: false,
+            minLength: {
+              value: 10,
+              message: 'Введите от 10 символов',
+            },
+            pattern: {
+              value: numbersRegExp,
+              message: 'Только цифры',
+            },
+          })}
+          className={styles.input}
+          name="inn"
+          id="inn"
+          type="text"
+          placeholder="ИНН"
+          autoComplete="off"
+          disabled={isDisabled}
+          maxLength="12"
+        />
+        {errors.inn && (
+          <p role="alert" className={styles.inputError}>
+            {errors.inn.message}
           </p>
         )}
       </div>
@@ -276,19 +408,16 @@ export const FormLandlord = () => {
           <>
             <ButtonDefault
               lable="Сохранить изменения"
-              // action={() => alert("хер тебе, а не сохранение")}
+              disabled={!isValid}
+              action={handleSubmit(onSubmit)}
             />
-            <ButtonDefault
-              lable="Отмена"
-              action={() => {
-                setIsDisabled(true);
-              }}
-            />
+            <ButtonDefault lable="Отмена" action={() => setIsDisabled(true)} />
           </>
         ) : (
           <ButtonDefault
             lable="Редактировать"
             action={() => setIsDisabled(false)}
+            type="button"
           />
         )}
       </div>

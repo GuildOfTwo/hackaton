@@ -117,9 +117,10 @@ export const Register = () => {
             name="password"
             id="password"
             type={showPass ? "text" : "password"}
-            placeholder="******"
+            placeholder="Придумайте пароль"
             autoComplete="off"
           />
+          <button className={styles.showPass} type="button" onClick={handleShowPass} />
           {errors.password && (
             <p role="alert" className={styles.inputError}>
               {errors.password.message}
@@ -145,9 +146,10 @@ export const Register = () => {
             // name="passwordCheck"
             id="passwordCheck"
             type={showPass ? "text" : "password"}
-            placeholder="******"
+            placeholder="Повторите пароль"
             autoComplete="off"
           />
+          <button className={styles.showPass} type="button" onClick={handleShowPass} />
           {errors.passwordCheck && (
             <p role="alert" className={styles.inputError}>
               {errors.passwordCheck.message}
@@ -155,7 +157,7 @@ export const Register = () => {
           )}
         </div>
         <div className={styles.inputGroupRadio}>
-          <label className={styles.lable}>Вы регистрируетесь как..</label>
+          <label className={styles.lable}>Вы регистрируетесь как...</label>
 
           <div className={styles.buttons}>
             <button 
@@ -177,6 +179,7 @@ export const Register = () => {
         </div>
 
         <ButtonDefault type="submit" lable="Зарегистрироваться" />
+        
         <Link to="/agreement" className={styles.link}>
           Регистрируясь вы принимаете условия пользовательского соглашения
         </Link>
