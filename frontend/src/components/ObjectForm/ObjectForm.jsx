@@ -37,7 +37,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
   const user = useSelector((state) => state.user.user);
 
-  console.log(edit);
+  // console.log(edit);
 
   const isMobile = useMediaQuery('(max-width: 650px)');
 
@@ -103,7 +103,8 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
         .catch(() => dispatch(openModal(cardCreatedError)));
     }
   };
-
+  console.log(isValid)
+  console.log(errors)
   useEffect(() => {
     if (mapConstructor) {
       new mapConstructor.SuggestView(searchRef.current).events.add(
@@ -142,7 +143,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
   // Если в сторе нет данных выбранного места, то делаем запрос на бэк за данными
   useEffect(() => {
-    if (!cardData) {
+    if (edit && !cardData) {
       apiObjects
         .getProperBuilding(buildingId.id)
         .then((res) => setCardData(res))
@@ -332,7 +333,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
         )}
       </div>
 
-      <div className={styles.inputGroup}>
+      {/* <div className={styles.inputGroup}>
         <lable htmlFor="features" className={styles.lable}>
           Особенности
         </lable>
@@ -361,9 +362,9 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             {errors.features.message}
           </p>
         )}
-      </div>
+      </div> */}
 
-      <div className={styles.inputGroup}>
+      {/* <div className={styles.inputGroup}>
         <lable htmlFor="additional_information" className={styles.lable}>
           Дополнительная информация
         </lable>
@@ -392,7 +393,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
             {errors.additional_information.message}
           </p>
         )}
-      </div>
+      </div> */}
 
       <div className={styles.inputGroup}>
         <lable htmlFor="capacity" className={styles.lable}>
@@ -574,8 +575,12 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
           {...register('inn', {
             required: 'Обязательное поле',
             minLength: {
+              value: 10,
+              message: 'Введите ИНН',
+            },
+            maxLength: {
               value: 12,
-              message: 'Введите 12 символов',
+              message: 'Не более 12 символов',
             },
           })}
           className={styles.input}
@@ -626,13 +631,9 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
           Адрес <span className='global-span'>*</span>
         </label>
         <input
-          {...register('address', {
-            required: "Обязательное поле",
-            minLength: {
-              value: 2,
-              message: 'Не менее 2 символов',
-            },
-          })}
+          // {...register('address', {
+          //   required: "Обязательное поле",
+          // })}
           className={styles.input}
           name="address"
           id="address"
@@ -643,13 +644,14 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
           ref={searchRef}
           onChange={(e) => setAddress(e.target.value)}
         />
-        {errors.address && (
+        {!address && (
           <p role="alert" className={styles.inputError}>
-            {errors.address.message}
+            Укажите адрес
           </p>
         )}
       </div>
       <ImagesUpload files={files} setFiles={setFiles} />
+      <p style={{textAlign: 'center'}}>Не забудьте загрузить фотографии</p>
       <div className={styles.mapWrapper}>
         <Map {...mapOptions} state={state} onLoad={setMapConstructor}>
           <Placemark

@@ -4,7 +4,6 @@ import imagesUpload from "./imagesUpload.module.sass";
 
 export const ImagesUpload = ({ files, setFiles }) => {
   const [selectedfile, SetSelectedFile] = useState([]);
-console.log(files)
   const InputChange = (e) => {
     let images = [];
     for (let i = 0; i < e.target.files.length; i++) {

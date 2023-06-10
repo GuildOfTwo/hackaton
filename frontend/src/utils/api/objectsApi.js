@@ -49,7 +49,7 @@ class Objects {
 
   updateProperBuilding(data) {
     return fetch(`${this._base_url}buildings/${data.id}/`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
