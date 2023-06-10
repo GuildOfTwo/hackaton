@@ -155,6 +155,15 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>{lable}</h2>
 
+      <div className={styles.buttons}>
+        {isDisabled ?  (
+          <ButtonDefault
+            lable="Редактировать"
+            action={() => setIsDisabled(false)}
+          />
+        ) : ''}
+      </div>
+
       <div className={styles.inputGroup}>
         <label htmlFor="title" className={styles.lable}>
           Название <span className='global-span'>*</span>
@@ -686,12 +695,7 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
               width={isMobile ? '50px' : ''}
             />
           </>
-        ) : (
-          <ButtonDefault
-            lable="Редактировать"
-            action={() => setIsDisabled(false)}
-          />
-        )}
+        ) : '' }
       </div>
     </form>
   );

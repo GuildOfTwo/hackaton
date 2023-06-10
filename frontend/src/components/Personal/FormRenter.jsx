@@ -95,7 +95,7 @@ export const FormRenter = () => {
 
     setRadioBtns(configureRadioStatus(renterData.organization_type));
   }, [renterData]);
-
+console.log(errors)
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2 className={styles.title}>Изменение данных профиля</h2>

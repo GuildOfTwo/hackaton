@@ -9,6 +9,6 @@ testMail55@mail.ru
 
 
 LANDLORD
-landlords@mail.ru
+landlord@mail.ru
 1234567%dD
 
