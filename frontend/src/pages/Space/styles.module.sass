@@ -126,6 +126,12 @@
         justify-content: center
         align-items: center
 
+@media screen and (max-width: 950px)
+    .infobar
+        flex-wrap: wrap
+        gap: 40px
+        justify-content: space-around
+        margin: 30px auto 0
 @media screen and (max-width: 700px)
     .img
         max-width: 500px
@@ -136,22 +142,41 @@
         border-radius: 7px
         overflow: hidden
 
-@media screen and (max-width: 650px)
-    .infobar
-        flex-wrap: wrap
-        gap: 30px
-        max-width: 500px
-        margin: 0 auto 0
-
-@media screen and (max-width: 469px)
-    .infobar
-        flex-direction: column-reverse
-        align-content: center
-
-@media screen and (max-width: 450px)
     .contactsWrapper
         flex-direction: column
         gap: 20px
+        justify-content: center
+        align-items: center
+
+    .section
+        padding-top: 20%
+
+@media screen and (max-width: 500px)
+    .infobar
+        flex-wrap: wrap
+        gap: 20px
+        justify-content: space-around
+
+    .iconValueWrap
+        border-radius: 50%
+        width: 80px
+        height: 80px
+
+    .iconWrapper
+        width: 100px
+
+@media screen and (max-width: 360px)
+    .iconWrapper
+        width: 80px
+        gap: 5px
+
+    .section
+        padding-top: 35%
+
+@media screen and (max-width: 450px)
 
     .title
         font-size: 2em
+
+    .section
+        padding-top: 25%

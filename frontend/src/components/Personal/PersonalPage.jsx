@@ -22,10 +22,10 @@ export const PersonalPage = () => {
         <>
           {" "}
           <nav className={styles.nav}>
-            <NavLink to="/lk" className={styles.navLink}>
+            <NavLink to="/lk" className={() => location.pathname == '/lk' ? styles.navLinkActive : styles.navLink }>
               Список заявок
             </NavLink>
-            <NavLink to="/lk/profile" className={styles.navLink}>
+            <NavLink to="/lk/profile" className={() => location.pathname == '/lk/profile' ? styles.navLinkActive : styles.navLink }>
               Редактировать профиль
             </NavLink>
           </nav>

@@ -98,7 +98,7 @@ export const FormRenter = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h2 className={styles.title}>Изменение данных профиля арендатора</h2>
+      <h2 className={styles.title}>Изменение данных профиля</h2>
 
       <div className={styles.inputGroup}>
         <label htmlFor="lastName" className={styles.lable}>
