@@ -20,6 +20,7 @@ export const Filters = () => {
   const [result, setResult] = useState()
   const dispatch = useDispatch();
   const data = useSelector((state) => state.cards.objects);
+
   function handleSubmit(e) {
     e.preventDefault();
     let dataMod = data.filter(
@@ -61,53 +62,42 @@ export const Filters = () => {
     <section className={styles.section}>
       <form action="" className={styles.form}>
         <div className={styles.wrapper}>
-          <Dropdown lable="Вместимость от.." value={capacity}>
+          <Dropdown lable="Вместимость от.." value={capacity && `от ${capacity} человек`}>
             <div className={styles.formGroup}>
               <input
                 className="input"
                 name="price"
                 id="price"
-                type="range"
-                min="100"
-                max="1000"
-                step="50"
+                type="number"
                 value={capacity}
+                style={{ "min-width": "100%" }}
                 onChange={(e) => setCapacity(e.target.value)}
               />
-              <label htmlFor="price" className="form-group__lable">
-                {capacity ? `${capacity} человек` : ""}
-              </label>
             </div>
           </Dropdown>
-          <Dropdown lable="Арендная площадь от.." value={areaRent}>
+          <Dropdown lable="Арендная площадь от.." value={areaRent && `аренда от ${areaRent}м2`}>
             <div className={styles.formGroup}>
               <input
                 className="input"
                 name="price"
                 id="price"
-                type="range"
-                min="50"
-                max="1000"
-                step="50"
+                type="number"
                 value={areaRent}
+                style={{ "min-width": "100%" }}
                 onChange={(e) => setAreaRent(e.target.value)}
               />
-              <label htmlFor="price" className="form-group__lable">
-                {areaRent ? `${areaRent} m2` : ""}
-              </label>
+             
             </div>
           </Dropdown>
-          <Dropdown lable="Общая площадь  от.." value={areaSum}>
+          <Dropdown lable="Общая площадь  от.." value={areaSum && `общая площадь ${areaSum}м2`}>
             <div className={styles.formGroup}>
               <input
                 className="input"
                 name="price"
                 id="price"
-                type="range"
-                min="200"
-                max="5000"
-                step="200"
+                type="number"
                 value={areaSum}
+                style={{ "min-width": "100%" }}
                 onChange={(e) => setAreaSum(e.target.value)}
               />
               <label htmlFor="price" className="form-group__lable">
@@ -143,41 +133,33 @@ export const Filters = () => {
             </div>
           </Dropdown>
 
-          <Dropdown lable="Цена до.." value={price}>
+          <Dropdown lable="Цена до.." value={price  && `цена до ${price} руб`}>
             <div className={styles.formGroup}>
               <input
                 className="input"
                 name="price"
                 id="price"
-                type="range"
-                min="0"
-                max="100000"
-                step="1000"
+                type="number"
                 value={price}
+                style={{ "min-width": "100%" }}
                 onChange={(e) => setPrice(e.target.value)}
               />
-              <label htmlFor="price" className="form-group__lable">
-                {price ? `${price} руб` : ""}
-              </label>
             </div>
           </Dropdown>
 
-          <Dropdown lable="Рейтинг  от.." value={rating}>
+          <Dropdown lable="Рейтинг  от.." value={rating &&`Рейтинг от ${rating} баллов`}>
             <div className={styles.formGroup}>
               <input
                 className="input"
                 name="rating"
                 id="rating"
                 type="range"
-                min="0"
-                max="10"
-                step="1"
                 value={rating}
+                min=""
+                max="10"
                 onChange={(e) => setRating(e.target.value)}
               />
-              <label htmlFor="rating" className="form-group__lable">
-                {rating ? `${rating} баллов` : ""}
-              </label>
+
             </div>
           </Dropdown>
         </div>
