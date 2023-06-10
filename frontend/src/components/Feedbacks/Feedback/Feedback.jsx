@@ -28,6 +28,7 @@ export const Feedback = ({ comments }) => {
   }, [comments, renters]);
 
   useEffect(() => {
+    console.log('testsssssssss', !localStorage.getItem("logIn"))
     if (!localStorage.getItem("logIn")) {
       setStatus("Зарегистрируйтесь, что бы оставить отзыв");
     } else if (localStorage.getItem("role") == "LANDLORD") {
@@ -36,7 +37,7 @@ export const Feedback = ({ comments }) => {
       setStatus("Только пользователи с заполненным профилем могут оставлять отзывы")
     } 
     else setStatus(null);
-  }, []);
+  }, [profile]);
 
   console.log(newComments)
   return (
