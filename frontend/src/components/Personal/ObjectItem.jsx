@@ -61,7 +61,7 @@ export const ObjectItem = ({ data }) => {
           
             <ButtonDefault
               lable="Внести изменения"
-              action={handleClickEdit}
+              action={() => alert('не успели доделать')}
             />
 
           </div>

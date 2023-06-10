@@ -242,11 +242,11 @@ export const ObjectForm = ({ lable = null, edit = false }) => {
 
       <div className={styles.inputGroup}>
         <lable htmlFor="site" className={styles.lable}>
-          Сайт
+          Сайт <span className='global-span'>*</span>
         </lable>
         <input
           {...register('site', {
-            required: false,
+            required: true,
             minLength: {
               value: 2,
               message: 'Не менее 2 символов',
