@@ -97,7 +97,10 @@ class BuildingPostSerializer(ModelSerializer):
         source='buildingimage_set',
         many=True, read_only=True
     )
-    building_status = StatusSerializer(read_only=True)
+    building_status = StatusSerializer(
+        read_only=True,
+        source='status_set'
+    )
 
     
     class Meta:
@@ -126,7 +129,6 @@ class BuildingPostSerializer(ModelSerializer):
             'inn',
             'building_status'
         )
-
 
     def create(self, validated_data):
         images_data = self.context.get('view').request.FILES
