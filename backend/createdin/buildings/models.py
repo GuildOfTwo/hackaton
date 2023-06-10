@@ -1,12 +1,17 @@
+from django.conf import settings
 from django.db import models
-from users.models import Landlord
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+from users.models import Landlord, Renter
 import json
 
 
 class Building(models.Model):
     owner = models.ForeignKey(
         Landlord,
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         related_name='buildings',
         verbose_name='Владелец',
         help_text='Выберите контактное лицо/владельца обьекта'
@@ -147,7 +152,7 @@ class BuildingImage(models.Model):
 
     def __str__(self):
         return self.building.title
-    
+
 
 class Status(models.Model):
     CHOICES = [
@@ -155,7 +160,7 @@ class Status(models.Model):
         ('Заблокировано', 'Заблокировано'),
         ('Снято с публикации', 'Снято с публикации'),
         ('На модерации', 'На модерации')
- ]
+    ]
     stat = models.CharField(
             verbose_name='Состояние',
             help_text='Выберите состояние добавленного обьекта',
@@ -179,3 +184,71 @@ class Status(models.Model):
 
     def __str__(self):
         return self.building.title
+    
+
+@receiver(post_save, sender=Building)
+def create_building_status(sender, instance, created, **kwargs):
+    if created:
+        Status.objects.create(stat='На модерации', building=instance)
+
+
+class Bookings(models.Model):
+    renter = models.ForeignKey(
+        Renter,
+        on_delete=models.DO_NOTHING,
+        related_name='bookings_renter',
+        verbose_name='Арендатор объекта',
+        help_text='Выберите арендатора обьекта'
+    ) 
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.DO_NOTHING,
+        related_name='bookings_object',
+        verbose_name='Объект',
+        help_text='Выберите обьект'
+    )
+    check_in = models.DateField(
+            verbose_name='Дата начала аренды',
+            help_text='Введите дату начала аренды'
+    )
+    check_out = models.DateField(
+            verbose_name='Дата окончания аренды',
+            help_text='Введите дату окончания аренды'
+    )
+    message = models.TextField(
+            verbose_name='Сообщение владельцу',
+            help_text='Введите текст сообщения',
+            blank=True,
+    )
+    approve = models.BooleanField(
+            default=False,
+            verbose_name='Подтверждение владельца',
+            help_text='Подтвердил или нет бронь владелец')
+    status = models.BooleanField(
+            default=False,
+            verbose_name='Рассмотрение владельцем',
+            help_text='Рассмотрел или нет заявку владелец')
+    
+    
+    class Meta:
+        verbose_name = "Бронирование"
+        verbose_name_plural = "Бронирования"
+
+
+@receiver(post_save, sender=Bookings)
+def send_confirmation_email(sender, instance, created, **kwargs):
+    if instance.approve is True:
+        email = get_object_or_404(
+            Renter, 
+            email=instance.renter.email).renterprofile.contact_email,
+        send_mail(
+            subject='Подтверждение бронирования',
+            message=f'Ваша заявка на бронирование объекта {instance.building.title} '
+                    f'в следующие даты: с {instance.check_in} по {instance.check_out} '
+                    f'одобрена. \n'
+                    f'Ознакомится с офертой можно по ссылке '
+                    f'http://valzet.beget.tech/oferta/{instance.building.id}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email, ],
+            fail_silently=False
+        )

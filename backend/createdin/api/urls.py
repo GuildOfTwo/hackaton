@@ -4,7 +4,8 @@ from rest_framework.routers import DefaultRouter
 from api.views import (CommentViewSet, BuildingViewSet,
                        RenterProfileViewSet,
                        LandlordProfileViewSet,
-                       StatusViewSet)
+                       StatusViewSet,
+                       BookingsViewSet)
 
 
 admin.site.site_header = "Добро пожаловать!"
@@ -27,6 +28,7 @@ router_v1.register(
 router_v1.register('comments', CommentViewSet, basename='comments')
 router_v1.register('buildings', BuildingViewSet, basename='buildings')
 router_v1.register('statuses', StatusViewSet, basename='statuses')
+router_v1.register('bookings', BookingsViewSet, basename='bookings')
 
 urlpatterns = [
     path('v1/', include(router_v1.urls))

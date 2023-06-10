@@ -6,15 +6,11 @@ from rest_framework.serializers import ModelSerializer
 from comments.models import Comment
 from buildings.models import Building, BuildingImage, Status
 from users.models import (Renter, RenterProfile, Landlord, LandlordProfile)
-from buildings.models import Building, BuildingImage
+from buildings.models import Building, BuildingImage, Bookings
 
 
 
 class RenterProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        slug_field='email',
-        read_only=True
-    )
 
     class Meta:
         model = RenterProfile
@@ -22,10 +18,6 @@ class RenterProfileSerializer(serializers.ModelSerializer):
 
 
 class LandlordProfileSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        slug_field='email',
-        read_only=True
-    )
 
     class Meta:
         model = LandlordProfile
@@ -105,7 +97,10 @@ class BuildingPostSerializer(ModelSerializer):
         source='buildingimage_set',
         many=True, read_only=True
     )
-    building_status = StatusSerializer(many=True, read_only=True)
+    building_status = StatusSerializer(
+        read_only=True,
+        source='status_set'
+    )
 
     
     class Meta:
@@ -135,11 +130,26 @@ class BuildingPostSerializer(ModelSerializer):
             'building_status'
         )
 
-
     def create(self, validated_data):
         images_data = self.context.get('view').request.FILES
         building = Building.objects.create(**validated_data)
         for image_data in images_data.values():
             BuildingImage.objects.create(building=building, image=image_data)
-        Status.objects.create(building=building, stat='На модерации')
         return building
+    
+
+class BookingsSerializer(serializers.ModelSerializer):
+    renter = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Bookings
+        fields = (
+            'id',
+            'renter',
+            'building',
+            'check_in',
+            'check_out',
+            'message',
+            'approve',
+            'status'
+        )
